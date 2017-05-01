@@ -1,8 +1,15 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using IntoTravel.Data;
+using IntoTravel.Data.Models;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+using IntoTravel.Data.DbContextInfo;
+using IntoTravel.Data.Repositories.Implementations;
+using IntoTravel.Data.Repositories.Interfaces;
 
 namespace IntoTravel.Web
 {
@@ -23,6 +30,18 @@ namespace IntoTravel.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+
+            services.AddTransient<IBlogEntryRepository, BlogEntryRepository>();
+
+            services.AddTransient<IApplicationDbContext, ApplicationDbContext>();
+
             // Add framework services.
             services.AddMvc();
         }
@@ -44,6 +63,8 @@ namespace IntoTravel.Web
             }
 
             app.UseStaticFiles();
+
+            app.UseIdentity();
 
             app.UseMvc(routes =>
             {

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using IntoTravel.Data;
+using IntoTravel.Data.DbContextInfo;
 
 namespace IntoTravel.Data.Migrations
 {
@@ -78,13 +78,84 @@ namespace IntoTravel.Data.Migrations
                     b.Property<int>("BlogEntryId")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTime>("BlogPublishDateTimeUtc");
+
                     b.Property<string>("Content");
 
-                    b.Property<string>("Title");
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Key")
+                        .HasMaxLength(255);
+
+                    b.Property<string>("Title")
+                        .HasMaxLength(255);
+
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("BlogEntryId");
 
-                    b.ToTable("Blogs");
+                    b.ToTable("BlogEntry");
+                });
+
+            modelBuilder.Entity("IntoTravel.Data.Models.BlogEntryPhoto", b =>
+                {
+                    b.Property<int>("BlogEntryPhotoId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("BlogEntryId");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PhotoUrl");
+
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("BlogEntryPhotoId");
+
+                    b.HasIndex("BlogEntryId");
+
+                    b.ToTable("BlogEntryPhoto");
+                });
+
+            modelBuilder.Entity("IntoTravel.Data.Models.BlogEntryTag", b =>
+                {
+                    b.Property<int>("BlogEntryId");
+
+                    b.Property<int>("TagId");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("BlogEntryId", "TagId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("BlogEntryTag");
+                });
+
+            modelBuilder.Entity("IntoTravel.Data.Models.Tag", b =>
+                {
+                    b.Property<int>("TagId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name");
+
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("TagId");
+
+                    b.ToTable("Tag");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
@@ -207,6 +278,27 @@ namespace IntoTravel.Data.Migrations
                     b.ToTable("ApplicationUserRole");
 
                     b.HasDiscriminator().HasValue("ApplicationUserRole");
+                });
+
+            modelBuilder.Entity("IntoTravel.Data.Models.BlogEntryPhoto", b =>
+                {
+                    b.HasOne("IntoTravel.Data.Models.BlogEntry", "BlogEntry")
+                        .WithMany("Photos")
+                        .HasForeignKey("BlogEntryId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("IntoTravel.Data.Models.BlogEntryTag", b =>
+                {
+                    b.HasOne("IntoTravel.Data.Models.BlogEntry")
+                        .WithMany("Tags")
+                        .HasForeignKey("BlogEntryId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("IntoTravel.Data.Models.Tag", "Tag")
+                        .WithMany()
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>

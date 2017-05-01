@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using System.IO;
 
 
-namespace IntoTravel.Data
+namespace IntoTravel.Data.DbContextInfo
 {
     public class ApplicationDbContextFactory : IDbContextFactory<ApplicationDbContext>
     {

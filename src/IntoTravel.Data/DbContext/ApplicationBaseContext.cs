@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace IntoTravel.Data
+namespace IntoTravel.Data.DbContextInfo
 {
     public class ApplicationBaseContext<TContext> : IdentityDbContext<ApplicationUser> where TContext : DbContext
     {

@@ -7,21 +7,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace IntoTravel.Data
+namespace IntoTravel.Data.DbContextInfo
 {
-    public interface IApplicationDbContext : IDisposable
-    {
-        DbSet<ApplicationUser> ApplicationUser { get; set; }
 
-        DbSet<ApplicationUserRole> ApplicationUserRole { get; set; }
-
-        DbSet<BlogEntry> Blogs { get; set; }
-
-       
-        int SaveChanges();
-
-        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken));
-    }
 
     public class ApplicationDbContext : ApplicationBaseContext<ApplicationDbContext>, IApplicationDbContext
     {
@@ -32,16 +20,24 @@ namespace IntoTravel.Data
 
         }
 
-        public DbSet<BlogEntry> Blogs { get; set; }
- 
+        public DbSet<BlogEntry> BlogEntry { get; set; }
+
+        public DbSet<BlogEntryPhoto> BlogEntryPhoto { get; set; }
+
+        public DbSet<BlogEntryTag> BlogEntryTag { get; set; }
+
+        public DbSet<Tag> Tag { get; set; }
+
         public DbSet<ApplicationUser> ApplicationUser { get; set; }
 
         public DbSet<ApplicationUserRole> ApplicationUserRole { get; set; }
  
         protected override void OnModelCreating(ModelBuilder builder)
         {
- 
- 
+
+            builder.Entity<BlogEntryTag>()
+                      .HasKey(c => new { c.BlogEntryId, c.TagId });
+
             base.OnModelCreating(builder);
             // Customize the ASP.NET Identity model and override the defaults if needed.
             // For example, you can rename the ASP.NET Identity table names and more.
