@@ -10,4 +10,3 @@ C:\repos\into.travel\src\IntoTravel.Core\bin\Debug\netcoreapp1.1\IntoTravel.Core
 C:\repos\into.travel\src\IntoTravel.Core\obj\Debug\netcoreapp1.1\IntoTravel.Core.AssemblyInfo.cs
 C:\repos\into.travel\src\IntoTravel.Core\obj\Debug\netcoreapp1.1\IntoTravel.Core.dll
 C:\repos\into.travel\src\IntoTravel.Core\obj\Debug\netcoreapp1.1\IntoTravel.Core.pdb
-C:\repos\into.travel\src\IntoTravel.Core\obj\Debug\netcoreapp1.1\IntoTravel.Core.csprojResolveAssemblyReference.cache

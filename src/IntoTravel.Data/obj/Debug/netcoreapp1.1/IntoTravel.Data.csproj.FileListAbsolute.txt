@@ -13,7 +13,6 @@ C:\repos\into.travel\src\IntoTravel.Data\bin\Debug\netcoreapp1.1\IntoTravel.Data
 C:\repos\into.travel\src\IntoTravel.Data\bin\Debug\netcoreapp1.1\IntoTravel.Data.runtimeconfig.dev.json
 C:\repos\into.travel\src\IntoTravel.Data\bin\Debug\netcoreapp1.1\IntoTravel.Data.dll
 C:\repos\into.travel\src\IntoTravel.Data\bin\Debug\netcoreapp1.1\IntoTravel.Data.pdb
-C:\repos\into.travel\src\IntoTravel.Data\obj\Debug\netcoreapp1.1\IntoTravel.Data.csprojResolveAssemblyReference.cache
 C:\repos\into.travel\src\IntoTravel.Data\obj\Debug\netcoreapp1.1\IntoTravel.Data.AssemblyInfo.cs
 C:\repos\into.travel\src\IntoTravel.Data\obj\Debug\netcoreapp1.1\IntoTravel.Data.dll
 C:\repos\into.travel\src\IntoTravel.Data\obj\Debug\netcoreapp1.1\IntoTravel.Data.pdb
