@@ -14,9 +14,9 @@ namespace IntoTravel.Web.Helpers
                 Key = blogEntry.Key,
                 Title = blogEntry.Title,
                 UrlPath = string.Format("/{0}/{1}/{2}/{3}", 
-                            blogEntry.BlogPublishDateTimeUtc.Year, 
-                            blogEntry.BlogPublishDateTimeUtc.Month, 
-                            blogEntry.BlogPublishDateTimeUtc.Day,  
+                            blogEntry.BlogPublishDateTimeUtc.Year.ToString("0000"), 
+                            blogEntry.BlogPublishDateTimeUtc.Month.ToString("00"), 
+                            blogEntry.BlogPublishDateTimeUtc.Day.ToString("00"),  
                             blogEntry.Key),
 
                 // todo: other props
