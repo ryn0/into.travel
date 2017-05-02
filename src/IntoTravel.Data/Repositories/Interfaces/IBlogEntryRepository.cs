@@ -19,6 +19,6 @@ namespace IntoTravel.Data.Repositories.Interfaces
 
         BlogEntry Get(string key);
 
-        List<BlogEntry> GetPage(int quantityPerPage, int pageNumber, out int total);
+        List<BlogEntry> GetPage(int pageNumber , int quantityPerPage, out int total);
     }
 }

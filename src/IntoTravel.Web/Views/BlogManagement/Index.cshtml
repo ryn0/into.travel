@@ -1,7 +1,12 @@
-﻿@{
-    ViewData["Title"] = "Home";
+﻿@model IntoTravel.Web.Models.BlogManagementListModel
+@{
+    ViewData["Title"] = "Blog Entries";
 }
  
+<a href="~/blogmanagement/create">Create new</a>
+
+@if (Model != null && Model.Items.Count() > 0)
+{
 <table>
     <thead>
         <tr>
@@ -11,12 +16,21 @@
         </tr>
     </thead>
     <tbody>
+        @foreach (var item in Model.Items)
+        {
         <tr>
             <td>
+                @item.Title
+            </td>
+            <td>
+                @item.CreateDate
+            </td>
+            <td>
+                <a href="~/blogmanagement/edit?blogentryid=@item.BlogEntryId">Edit</a>
 
             </td>
-            <td></td>
-            <td></td>
         </tr>
+        }
     </tbody>
 </table>
+}

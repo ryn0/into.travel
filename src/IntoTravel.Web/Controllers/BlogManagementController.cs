@@ -56,16 +56,27 @@ namespace IntoTravel.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Edit(int blogId)
+        public IActionResult Edit(int blogEntryId)
         {
+            var dbModel = _blogEntryRepository.Get(blogEntryId);
 
-            return View();
+            var model = ToUiModel(dbModel);
+
+            return View(model);
         }
 
+   
         [HttpPost]
         public IActionResult Edit(BlogManagementEntryModel model)
         {
-            return View();
+            var dbModel = ConvertToDbModel(model);
+
+            if (_blogEntryRepository.Update(dbModel))
+            {
+                return RedirectToAction("Index");
+            }
+
+            return View(model);
         }
 
         [HttpGet]
@@ -90,6 +101,29 @@ namespace IntoTravel.Web.Controllers
             }
 
             return model;
+        }
+
+
+        private BlogEntry ConvertToDbModel(BlogManagementEntryModel model)
+        {
+            return new BlogEntry()
+            {
+                 BlogEntryId = model.BlogEntryId,
+                BlogPublishDateTimeUtc = model.BlogPublishDateTimeUtc,
+                Content = model.Content,
+                Title = model.Title,
+            };
+        }
+
+        private static BlogManagementEntryModel ToUiModel(BlogEntry dbModel)
+        {
+            return new BlogManagementEntryModel()
+            {
+                Content = dbModel.Content,
+                Title = dbModel.Title,
+                BlogEntryId = dbModel.BlogEntryId,
+                BlogPublishDateTimeUtc = dbModel.BlogPublishDateTimeUtc
+            };
         }
 
     }

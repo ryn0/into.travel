@@ -33,7 +33,7 @@ namespace IntoTravel.Data.Repositories.Implementations
             }
         }
 
-        public List<BlogEntry> GetPage(int quantityPerPage, int pageNumber, out int total)
+        public List<BlogEntry> GetPage(int pageNumber , int quantityPerPage, out int total)
         {
             try
             {
