@@ -7,7 +7,20 @@
     <label asp-for="Title" class="col-md-2 control-label"></label>
     <div class="col-md-10">
         <input asp-for="Title" class="form-control" />
+    </div>
+</div>
 
+<div class="form-group">
+    <label asp-for="IsLive" class="col-md-2 control-label"></label>
+    <div class="col-md-10">
+      @Html.CheckBoxFor(x => x.IsLive)
+    </div>
+</div>
+
+<div class="form-group">
+    <label asp-for="IsLive" class="col-md-2 control-label"></label>
+    <div class="col-md-10">
+        <input type="date" asp-for="@Model.BlogPublishDateTimeUtc" />
     </div>
 </div>
 
@@ -16,8 +29,6 @@
 <div class="form-group">
     <label asp-for="Content" class="col-md-2 control-label"></label>
     <div class="col-md-10">
-        <input asp-for="Content" class="form-control" />
-
+    <textarea  name="Content">@Html.Raw(Model.Content)</textarea>
     </div>
 </div>
-

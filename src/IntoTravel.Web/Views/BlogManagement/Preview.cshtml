@@ -1,10 +1,8 @@
-﻿@{
-    ViewData["Title"] = "Home";
-}
- <p>Home @User.Identity.Name</p>
+﻿@model IntoTravel.Web.Models.BlogEntrytDisplay
 
-<ul>
-    <li>
-        <a href="~/blogmanagement">Blog Management</a>
-    </li>
-</ul>
+@{
+    ViewData["Title"] = "Preview";
+}
+
+
+@{ await Html.RenderPartialAsync("_blogEntryDisplay", Model); }

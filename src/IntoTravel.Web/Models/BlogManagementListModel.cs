@@ -17,5 +17,9 @@ namespace IntoTravel.Web.Models
         public DateTime CreateDate { get; set; }
 
         public string Title { get; set; }
+
+        public string Key { get; set; }
+
+        public bool IsLive { get;  set; }
     }
 }

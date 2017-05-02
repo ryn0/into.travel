@@ -114,6 +114,7 @@ namespace IntoTravel.Data.Repositories.Implementations
                               .FirstOrDefault(x => x.BlogEntryId == blogEntryId);
 
                 Context.BlogEntry.Remove(entry);
+                Context.SaveChanges();
 
                 return true;
             }

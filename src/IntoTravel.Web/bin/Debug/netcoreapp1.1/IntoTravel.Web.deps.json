@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v1.1",
-    "signature": "3154aae8c0e62529124d53ec782dc2986bc1d53d"
+    "signature": "6bcab3fad06319069c98a11f9ebae8fda8f4e202"
   },
   "compilationOptions": {
     "defines": [
@@ -31,8 +31,7 @@
           "Microsoft.AspNetCore.StaticFiles": "1.1.1",
           "Microsoft.Extensions.Logging.Debug": "1.1.1",
           "Microsoft.NETCore.App": "1.1.1",
-          "Microsoft.VisualStudio.Web.BrowserLink": "1.1.0",
-          "TinyMCE": "4.5.7"
+          "Microsoft.VisualStudio.Web.BrowserLink": "1.1.0"
         },
         "runtime": {
           "IntoTravel.Web.dll": {}
@@ -1675,7 +1674,6 @@
           "lib/netstandard1.0/System.Text.Encodings.Web.dll": {}
         }
       },
-      "tinymce/4.5.7": {},
       "intotravel.core/1.0.0": {
         "dependencies": {
           "Microsoft.NETCore.App": "1.1.1"
@@ -4104,13 +4102,6 @@
       "sha512": "sha512-ilLTKoirqw+Mbt+6x1MOxZKEwflasdP5WNuo5m5rKSXtAqazlEDqdyBH1XbvENuDQUtKNeP48CI1dyDNlEAeOA==",
       "path": "system.text.encodings.web/4.3.0",
       "hashPath": "system.text.encodings.web.4.3.0.nupkg.sha512"
-    },
-    "tinymce/4.5.7": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-t28KPLwDEMTbBRf6DJkfgwbCEPtjw6ONj2Dz3cbVLA751Lfs+PXfGLVitiywmfcV4Td2oG26J08EsXie+dvNIw==",
-      "path": "tinymce/4.5.7",
-      "hashPath": "tinymce.4.5.7.nupkg.sha512"
     },
     "intotravel.core/1.0.0": {
       "type": "project",

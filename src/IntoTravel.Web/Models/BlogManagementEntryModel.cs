@@ -8,7 +8,11 @@ namespace IntoTravel.Web.Models
 
 
         public string Content { get; set; }
-        public DateTime BlogPublishDateTimeUtc { get;   set; }
+
+        public DateTime BlogPublishDateTimeUtc { get; set; } = DateTime.UtcNow;
+
         public int BlogEntryId { get;  set; }
+
+        public bool IsLive { get;   set; }
     }
 }

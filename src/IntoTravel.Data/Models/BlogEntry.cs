@@ -19,6 +19,8 @@ namespace IntoTravel.Data.Models
 
         public string Content { get; set; }
 
+        public bool IsLive { get; set; }
+
         public DateTime BlogPublishDateTimeUtc { get; set; }
 
         public virtual List<BlogEntryTag> Tags { get; set; } = new List<BlogEntryTag>();

@@ -85,6 +85,8 @@ namespace IntoTravel.Data.Migrations
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsLive");
+
                     b.Property<string>("Key")
                         .HasMaxLength(255);
 
@@ -95,6 +97,9 @@ namespace IntoTravel.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("BlogEntryId");
+
+                    b.HasIndex("Key")
+                        .IsUnique();
 
                     b.ToTable("BlogEntry");
                 });

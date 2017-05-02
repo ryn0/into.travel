@@ -3,7 +3,7 @@
     ViewData["Title"] = "Edit Blog Entry";
 }
  
-
+<h2>@ViewData["Title"]</h2>
 
 <form asp-controller="BlogManagement" asp-action="Edit" method="post" class="form-horizontal">
 
@@ -18,3 +18,27 @@
 
 </form>
  
+
+
+@section ScriptsHeader {
+
+<script src="~/lib/ckeditor/ckeditor.js"></script> 
+  
+<script src="~/lib/ckeditor/config.js"></script>
+
+}
+
+ 
+
+
+@section ScriptsFooter {
+
+    
+<script>
+    CKEDITOR.replace('Content');
+</script>
+
+
+}
+
+

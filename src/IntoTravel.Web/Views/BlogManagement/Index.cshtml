@@ -3,15 +3,20 @@
     ViewData["Title"] = "Blog Entries";
 }
  
-<a href="~/blogmanagement/create">Create new</a>
+<a class="btn btn-success"  href="~/blogmanagement/create">Create new</a>
+<hr />
 
 @if (Model != null && Model.Items.Count() > 0)
 {
-<table>
+<table class="table">
     <thead>
         <tr>
             <th>Title</th>
             <th>Create Date</th>
+            <th>Is Live</th>
+            <th>Preview</th>
+            <th>Live</th>
+            <th></th>
             <th></th>
         </tr>
     </thead>
@@ -26,8 +31,32 @@
                 @item.CreateDate
             </td>
             <td>
-                <a href="~/blogmanagement/edit?blogentryid=@item.BlogEntryId">Edit</a>
+                @item.IsLive
+            </td>
+            <td>
+                <a href="~/blogmanagement/preview/@item.Key">Preview</a>
+                
+            </td>
+            <td>
+                @if (item.IsLive)
+                {
+                <span>TODO</span>
+                }
+            </td>
 
+            <td>
+                <a class="btn btn-sm btn-info" href="~/blogmanagement/edit?blogentryid=@item.BlogEntryId">Edit</a>
+
+            </td>
+            <td>
+
+                @using (Html.BeginForm("Delete", "BlogManagement", FormMethod.Post,
+                                        new { role = "form", onsubmit = string.Format(@"return confirm('Do you really want to delete this?');") }))
+                {
+                    <button type="submit" name="blogEntryId" value="@item.BlogEntryId" class="btn-danger btn-sm">Delete</button>
+
+
+                }
             </td>
         </tr>
         }

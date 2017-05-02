@@ -60,12 +60,21 @@ namespace IntoTravel.Web.Controllers
         {
             var dbModel = _blogEntryRepository.Get(blogEntryId);
 
-            var model = ToUiModel(dbModel);
+            var model = ToUiEditModel(dbModel);
 
             return View(model);
         }
 
-   
+       
+
+        [HttpPost]
+        public IActionResult Delete(int blogEntryId)
+        {
+            _blogEntryRepository.Delete(blogEntryId);
+
+            return RedirectToAction("Index");
+        }
+
         [HttpPost]
         public IActionResult Edit(BlogManagementEntryModel model)
         {
@@ -79,13 +88,16 @@ namespace IntoTravel.Web.Controllers
             return View(model);
         }
 
+        [Route("blogmanagement/preview/{key}")]
         [HttpGet]
-        public IActionResult Preview(int blogId)
+        public IActionResult Preview(string key)
         {
-            return View();
+            var model = _blogEntryRepository.Get(key);
+
+            return View(IntoTravel.Web.Helpers.ModelConverter.Convert(model));
         }
 
-
+ 
         private BlogManagementListModel ConvertToListModel(List<BlogEntry> blogEntries)
         {
             var model = new BlogManagementListModel();
@@ -96,7 +108,9 @@ namespace IntoTravel.Web.Controllers
                 {
                     BlogEntryId = entry.BlogEntryId,
                     CreateDate = entry.CreateDate,
-                    Title = entry.Title
+                    Title = entry.Title,
+                    IsLive = entry.IsLive,
+                    Key = entry.Key
                 });
             }
 
@@ -106,23 +120,25 @@ namespace IntoTravel.Web.Controllers
 
         private BlogEntry ConvertToDbModel(BlogManagementEntryModel model)
         {
-            return new BlogEntry()
-            {
-                 BlogEntryId = model.BlogEntryId,
-                BlogPublishDateTimeUtc = model.BlogPublishDateTimeUtc,
-                Content = model.Content,
-                Title = model.Title,
-            };
+            var dbModel = _blogEntryRepository.Get(model.BlogEntryId);
+            
+            dbModel.BlogPublishDateTimeUtc = model.BlogPublishDateTimeUtc;
+            dbModel.Content = model.Content;
+            dbModel.Title = model.Title;
+            dbModel.IsLive = model.IsLive;
+
+            return dbModel;
         }
 
-        private static BlogManagementEntryModel ToUiModel(BlogEntry dbModel)
+        private static BlogManagementEntryModel ToUiEditModel(BlogEntry dbModel)
         {
             return new BlogManagementEntryModel()
             {
                 Content = dbModel.Content,
                 Title = dbModel.Title,
                 BlogEntryId = dbModel.BlogEntryId,
-                BlogPublishDateTimeUtc = dbModel.BlogPublishDateTimeUtc
+                BlogPublishDateTimeUtc = dbModel.BlogPublishDateTimeUtc,
+                IsLive = dbModel.IsLive
             };
         }
 
