@@ -13,6 +13,7 @@
     <PackageReference Include="microsoft.extensions.configuration" Version="1.1.1" />
     <PackageReference Include="microsoft.extensions.configuration.fileextensions" Version="1.1.1" />
     <PackageReference Include="microsoft.extensions.configuration.json" Version="1.1.1" />
+    <PackageReference Include="WindowsAzure.Storage" Version="8.1.1" />
   </ItemGroup>
 
   <ItemGroup>
