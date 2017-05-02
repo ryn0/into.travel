@@ -4,9 +4,9 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1">
-                <h2>@Model.Title</h2>
-         <span>@Model.BlogPublishDateTimeUtc.ToString() </span>
-                <br />
+                <h1>@Model.Title</h1>
+         <i>@Model.FriendlyDateDisplay </i>
+                <hr />
                 @Html.Raw(Model.Content)
             </div>
         </div>

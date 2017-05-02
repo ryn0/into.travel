@@ -14,9 +14,7 @@ namespace IntoTravel.Web.Controllers
     {
         const int AmountPerPage = 10;
         private readonly IBlogEntryRepository _blogEntryRepository;
-
-        public DateTime BlogPublishDateTimeUtc { get; private set; }
-
+ 
         public BlogManagementController(IBlogEntryRepository blogEntryRepository)
         {
             _blogEntryRepository = blogEntryRepository;
@@ -48,7 +46,7 @@ namespace IntoTravel.Web.Controllers
             {
                 Content = model.Content,
                 Title = model.Title,
-                BlogPublishDateTimeUtc = BlogPublishDateTimeUtc,
+                BlogPublishDateTimeUtc = model.BlogPublishDateTimeUtc,
                 Key = model.Title.UrlKey()
             });
 
@@ -126,6 +124,7 @@ namespace IntoTravel.Web.Controllers
             dbModel.Content = model.Content;
             dbModel.Title = model.Title;
             dbModel.IsLive = model.IsLive;
+            dbModel.Key = model.Title.UrlKey();
 
             return dbModel;
         }
