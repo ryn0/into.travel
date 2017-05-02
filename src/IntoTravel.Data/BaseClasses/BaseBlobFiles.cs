@@ -1,5 +1,6 @@
 ﻿using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage.Shared.Protocol;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -7,7 +8,7 @@ namespace IntoTravel.Data.BaseClasses
 {
     public class BaseBlobFiles
     {
-        protected void SetProperties(CloudBlockBlob blockBlob, string extension)
+        protected async Task SetPropertiesAsync(CloudBlockBlob blockBlob, string extension)
         {
             switch (extension)
             {
@@ -129,7 +130,14 @@ namespace IntoTravel.Data.BaseClasses
 
             blockBlob.Properties.CacheControl = "max-age=604800"; // 1 week
 
-            blockBlob.SetPropertiesAsync();
+            try
+            {
+                await blockBlob.SetPropertiesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new System.Exception("async", ex.InnerException);
+            }
         }
 
         protected async Task SetCorsAsync(CloudBlobClient blobClient)

@@ -42,6 +42,11 @@ namespace IntoTravel.Web
 
             services.AddTransient<IApplicationDbContext, ApplicationDbContext>();
 
+            var connectionString = "STORAGEACCOUNT_CONNECTION_STRING";
+
+            services.AddTransient<ISiteFilesRepository>(provider => 
+                new SiteFilesRepository(connectionString));
+             
             // Add framework services.
             services.AddMvc();
         }

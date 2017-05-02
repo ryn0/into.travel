@@ -28,9 +28,11 @@ namespace IntoTravel.Data.Repositories.Implementations
             var blobClient = _storageAccount.CreateCloudBlobClient();
             var container = blobClient.GetContainerReference(ContainerName);
 
-            Task.Run(async () => { await CreateIfNotExists(container); });
-
-            SetCorsAsync(blobClient);
+            // todo: run async elsewhere
+            Task.Run(async () => {
+                await CreateIfNotExists(container);
+                await SetCorsAsync(blobClient);
+            });
         }
 
         private async Task CreateIfNotExists(CloudBlobContainer container)
@@ -54,7 +56,7 @@ namespace IntoTravel.Data.Repositories.Implementations
                     prefix = prefix.Remove(0, 1);
                 }
 
-                foreach (IListBlobItem item in container.ListBlobsSegmentedAsync(prefix, false, BlobListingDetails.All, int.MaxValue, null, null, null).Result.Results)
+                foreach (IListBlobItem item in container.ListBlobsSegmentedAsync(prefix, false, BlobListingDetails.None, int.MaxValue, null, null, null).Result.Results)
                 {
                     if (item.GetType() == typeof(CloudBlockBlob))
                     {
@@ -69,6 +71,10 @@ namespace IntoTravel.Data.Repositories.Implementations
                                 IsFolder = false
                             });
                         }
+                        else
+                        {
+                            AddDirectory(directory, item.Parent);
+                        }
                     }
                     else if (item.GetType() == typeof(CloudPageBlob))
                     {
@@ -79,17 +85,7 @@ namespace IntoTravel.Data.Repositories.Implementations
                     }
                     else if (item.GetType() == typeof(CloudBlobDirectory))
                     {
-                        var cloudBlobDirectory = (CloudBlobDirectory)item;
-                        var folderName = cloudBlobDirectory.Uri.ToString().Split('/')[cloudBlobDirectory.Uri.ToString().Split('/').Length - 2];
-                        var pathFromRoot = new Uri(cloudBlobDirectory.Uri.ToString()).LocalPath.Replace(string.Format("/{0}", ContainerName), string.Empty);
-
-                        directory.FileItems.Add(new SiteFileItem
-                        {
-                            FilePath = cloudBlobDirectory.Uri.ToString(),
-                            IsFolder = true,
-                            FolderName = folderName,
-                            FolderPathFromRoot = pathFromRoot
-                        });
+                        AddDirectory(directory, item);
                     }
                 }
 
@@ -101,7 +97,22 @@ namespace IntoTravel.Data.Repositories.Implementations
             }
         }
 
-        public void DeleteFile(string blobPath)
+        private static void AddDirectory(SiteFileDirectory directory, IListBlobItem item)
+        {
+            var cloudBlobDirectory = (CloudBlobDirectory)item;
+            var folderName = cloudBlobDirectory.Uri.ToString().Split('/')[cloudBlobDirectory.Uri.ToString().Split('/').Length - 2];
+            var pathFromRoot = new Uri(cloudBlobDirectory.Uri.ToString()).LocalPath.Replace(string.Format("/{0}", ContainerName), string.Empty);
+
+            directory.FileItems.Add(new SiteFileItem
+            {
+                FilePath = cloudBlobDirectory.Uri.ToString(),
+                IsFolder = true,
+                FolderName = folderName,
+                FolderPathFromRoot = pathFromRoot
+            });
+        }
+
+        public async Task DeleteFileAsync(string blobPath)
         {
             try
             {
@@ -116,9 +127,18 @@ namespace IntoTravel.Data.Repositories.Implementations
                         blobPath = blobPath.Remove(0, 1);
                 }
 
-                var blockBlob = container.GetBlockBlobReference(blobPath);
+                var splitToPath = blobPath.Split(new string[] { ContainerName }, StringSplitOptions.None);
 
-                blockBlob.DeleteAsync();
+                var path = splitToPath[1].TrimStart('/');
+
+                if (splitToPath.Count() > 2)
+                {
+                    throw new Exception("name in path");
+                }
+
+                var blockBlob = await container.GetBlobReferenceFromServerAsync(path);
+
+                await blockBlob.DeleteAsync();
             }
             catch (Exception ex)
             {
@@ -138,18 +158,18 @@ namespace IntoTravel.Data.Repositories.Implementations
             }
 
             
-            var allInDir = container.ListBlobsSegmentedAsync(prefix, true, BlobListingDetails.All, int.MaxValue, null, null, null).Result.Results;
+            var allInDir = container.ListBlobsSegmentedAsync(prefix, true, BlobListingDetails.None, int.MaxValue, null, null, null).Result.Results;
 
             return allInDir.ToList();
         }
 
-        public void DeleteFolder(string folderPath)
+        public async Task DeleteFolderAsync(string folderPath)
         {
             var allInDir = GetDirContents(folderPath);
 
             foreach (var item in allInDir)
             {
-                DeleteFile(item.Uri.ToString());
+                await DeleteFileAsync(item.Uri.ToString());
             }
         }
         static byte[] GetBytes(string str)
@@ -186,11 +206,13 @@ namespace IntoTravel.Data.Repositories.Implementations
 
                 var memoryStream = new MemoryStream();
                 await file.CopyToAsync(memoryStream);
+                memoryStream.Seek(0, SeekOrigin.Begin);
+
                 await blockBlob.UploadFromStreamAsync(memoryStream);
 
                 var extension = Path.GetExtension(file.FileName).ToLower().Replace(".", string.Empty);
 
-                SetProperties(blockBlob, extension);
+                await SetPropertiesAsync(blockBlob, extension);
             }
             catch (Exception ex)
             {
@@ -199,13 +221,14 @@ namespace IntoTravel.Data.Repositories.Implementations
         }
 
 
-        public void CreateFolder(string folderPath, string directory = null)
+        public async Task CreateFolderAsync(string folderPath, string directory = null)
         {
             try
             {
                 folderPath = folderPath.Replace("/", string.Empty);
 
                 var memoryStream = new MemoryStream();
+                memoryStream.Seek(0, SeekOrigin.Begin);
                 TextWriter tw = new StreamWriter(memoryStream);
 
                 tw.WriteLine(folderPath);
@@ -223,8 +246,8 @@ namespace IntoTravel.Data.Repositories.Implementations
                 }
 
                 var blockBlob = container.GetBlockBlobReference(path);
+                await blockBlob.UploadFromStreamAsync(memoryStream);
 
-                blockBlob.UploadFromStreamAsync(memoryStream);
             }
             catch (Exception ex)
             {

@@ -1,6 +1,5 @@
 ﻿using IntoTravel.Data.Models.AzureStorage.Blob;
 using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace IntoTravel.Data.Repositories.Interfaces
@@ -9,12 +8,12 @@ namespace IntoTravel.Data.Repositories.Interfaces
     {
         SiteFileDirectory ListFiles(string prefix = null);
 
-        void DeleteFile(string blobPath);
+        Task DeleteFileAsync(string blobPath);
 
         Task UploadAsync(IFormFile file, string directory = null);
 
-        void CreateFolder(string folderPath, string directory = null);
+        Task CreateFolderAsync(string folderPath, string directory = null);
 
-        void DeleteFolder(string folderPath);
+        Task DeleteFolderAsync(string folderPath);
     }
 }
