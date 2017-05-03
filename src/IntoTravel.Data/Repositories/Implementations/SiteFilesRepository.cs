@@ -177,9 +177,32 @@ namespace IntoTravel.Data.Repositories.Implementations
 
         public async Task<Uri> UploadAsync(IFormFile file, string directory = null)
         {
+            var memoryStream = new MemoryStream();
+
             try
             {
+                await file.CopyToAsync(memoryStream);
+
+                memoryStream.Seek(0, SeekOrigin.Begin);
                 var fileName = CleanFileName(file.FileName);
+                return await UploadAsync(memoryStream, fileName, directory);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                memoryStream.Dispose();
+            }
+        }
+
+        public async Task<Uri> UploadAsync(Stream stream, string fileName, string directory = null)
+        {
+           
+            try
+            {
+                fileName = CleanFileName(fileName);
 
                 if (fileName == FolderFileName)
                     return null;
@@ -200,13 +223,12 @@ namespace IntoTravel.Data.Repositories.Implementations
                 var container = blobClient.GetContainerReference(ContainerName);
                 var blockBlob = container.GetBlockBlobReference(filePath);
 
-                var memoryStream = new MemoryStream();
-                await file.CopyToAsync(memoryStream);
-                memoryStream.Seek(0, SeekOrigin.Begin);
 
-                await blockBlob.UploadFromStreamAsync(memoryStream);
+                stream.Seek(0, SeekOrigin.Begin);
 
-                var extension = Path.GetExtension(file.FileName).ToLower().Replace(".", string.Empty);
+                await blockBlob.UploadFromStreamAsync(stream);
+
+                var extension = Path.GetExtension(fileName).ToLower().Replace(".", string.Empty);
 
                 await SetPropertiesAsync(blockBlob, extension);
 
@@ -216,19 +238,24 @@ namespace IntoTravel.Data.Repositories.Implementations
             {
                 throw new Exception(ex.Message, ex);
             }
+            finally
+            {
+                stream.Dispose();
+            }
         }
-
 
         public async Task CreateFolderAsync(string folderPath, string directory = null)
         {
+            var memoryStream = new MemoryStream();
+
+            memoryStream.Seek(0, SeekOrigin.Begin);
+
+            var tw = new StreamWriter(memoryStream);
+ 
             try
             {
                 folderPath = folderPath.Replace("/", string.Empty);
-
-                var memoryStream = new MemoryStream();
-                memoryStream.Seek(0, SeekOrigin.Begin);
-                TextWriter tw = new StreamWriter(memoryStream);
-
+              
                 tw.WriteLine(folderPath);
 
                 var blobClient = _storageAccount.CreateCloudBlobClient();
@@ -254,13 +281,16 @@ namespace IntoTravel.Data.Repositories.Implementations
             {
                 throw new Exception(ex.Message, ex);
             }
+            finally
+            {
+                memoryStream.Dispose();
+                tw.Dispose();
+            }
         }
 
         private static bool IsFolderPath(string blobPath)
         {
             return blobPath.EndsWith("/");
         }
-
-
     }
 }

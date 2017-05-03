@@ -9,6 +9,10 @@ using IntoTravel.Core.Utilities;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 using System.Linq;
+using Microsoft.AspNetCore.Http.Internal;
+using System.IO;
+using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace IntoTravel.Web.Controllers
 {
@@ -108,7 +112,7 @@ namespace IntoTravel.Web.Controllers
         {
             try
             {
-                var folderPath = string.Format("/blogphotos/{0}/", blogEntryId);
+                var folderPath = GetBlogPhotoFolder(blogEntryId);
 
                 foreach (var file in files)
                 {
@@ -137,6 +141,11 @@ namespace IntoTravel.Web.Controllers
             }
         }
 
+        private string GetBlogPhotoFolder(int blogEntryId)
+        {
+            return string.Format("/blogphotos/{0}/", blogEntryId);
+        }
+
         [HttpGet]
         public IActionResult Edit(int blogEntryId)
         {
@@ -154,6 +163,35 @@ namespace IntoTravel.Web.Controllers
             _blogEntryRepository.Delete(blogEntryId);
 
             return RedirectToAction("Index");
+        }
+
+
+
+        [HttpPost]
+        public async Task<IActionResult> Rotate90DegreesAsync(int blogEntryPhotoId)
+        {
+            var entry = _blogEntryPhotoRepository.Get(blogEntryPhotoId);
+            var folderPath = GetBlogPhotoFolder(entry.BlogEntryId);
+            var stream = await ToStreamAsync(entry.PhotoUrl);
+            var imageHelper = new ImageUtilities();
+            const float angle = 90;
+            var rotatedBitmap = imageHelper.RotateImage(Image.FromStream(stream), angle);
+ 
+            Image fullPhoto = rotatedBitmap;
+
+            var streamRotated = ToAStream(fullPhoto, ImageFormat.Jpeg);
+
+            await _siteFilesRepository.UploadAsync(
+                                        streamRotated, 
+                                        entry.PhotoUrl.GetFileNameFromUrl(), 
+                                        folderPath);
+
+
+            fullPhoto.Dispose();
+            streamRotated.Dispose();
+            rotatedBitmap.Dispose();
+
+            return RedirectToAction("Edit", new { blogEntryId = entry.BlogEntryId });
         }
 
         [HttpPost]
@@ -178,7 +216,22 @@ namespace IntoTravel.Web.Controllers
             return View(IntoTravel.Web.Helpers.ModelConverter.Convert(model));
         }
 
- 
+
+        private async Task<MemoryStream> ToStreamAsync(string imageUrl)
+        {
+            var request = System.Net.WebRequest.Create(imageUrl);
+            var response = await request.GetResponseAsync();
+            var responseStream = response.GetResponseStream();
+            var ms = new MemoryStream();
+
+            await responseStream.CopyToAsync(ms);
+            
+            ms.Seek(0, SeekOrigin.Begin);
+
+            return ms;
+        }
+
+
         private BlogManagementListModel ConvertToListModel(List<BlogEntry> blogEntries)
         {
             var model = new BlogManagementListModel();
@@ -222,10 +275,8 @@ namespace IntoTravel.Web.Controllers
                 BlogPublishDateTimeUtc = dbModel.BlogPublishDateTimeUtc,
                 IsLive = dbModel.IsLive
             };
-
-            var photos = _blogEntryPhotoRepository.GetBlogPhotos(dbModel.BlogEntryId);
-
-            foreach(var photo in photos)
+        
+            foreach(var photo in dbModel.Photos)
             {
                 model.BlogPhotos.Add(new BlogPhotoModel
                 {
@@ -238,5 +289,12 @@ namespace IntoTravel.Web.Controllers
             return model;
         }
 
+        public   Stream ToAStream(Image image, ImageFormat formaw)
+        {
+            var stream = new MemoryStream();
+            image.Save(stream, formaw);
+            stream.Position = 0;
+            return stream;
+        }
     }
 }

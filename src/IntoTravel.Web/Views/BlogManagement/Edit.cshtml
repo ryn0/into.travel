@@ -69,7 +69,7 @@
                         <th>
                             Is Default
                         </th>
-                        
+                        <th></th>
                         <th></th>
                     </tr>
                 </thead>
@@ -108,9 +108,29 @@
 
                             </td>
                            
+                        
+                            <td>
+                                
+
+                                @using (Html.BeginForm("Rotate90DegreesAsync", "BlogManagement", FormMethod.Post,
+                new { onsubmit = string.Format(@"return confirm('Rotate?');") }))
+                                {
+
+                                    @Html.Hidden("blogEntryPhotoId", photo.BlogEntryPhotoId)
+
+                                    <fieldset>
+
+
+                                        <div class="editor-field">
+                                            <input class="btn btn-info btn-xs" type="submit" value="Rotate" />
+                                        </div>
+                                    </fieldset>
+                                }
+                            </td>
+
                             <td>
                                 @using (Html.BeginForm("DeleteBlogPhotoAsync", "BlogManagement", FormMethod.Post,
-                            new {  onsubmit = string.Format(@"return confirm('Do you really want to delete this?');") }))
+                new { onsubmit = string.Format(@"return confirm('Do you really want to delete this?');") }))
                                 {
 
                                     @Html.Hidden("blogEntryPhotoId", photo.BlogEntryPhotoId)
@@ -123,8 +143,9 @@
                                         </div>
                                     </fieldset>
                                 }
-                                
+
                             </td>
+
                         </tr>
                        
                     }

@@ -1,5 +1,6 @@
 ﻿using IntoTravel.Data.Models;
 using IntoTravel.Web.Models;
+using System.Linq;
 
 namespace IntoTravel.Web.Helpers
 {
@@ -7,7 +8,9 @@ namespace IntoTravel.Web.Helpers
     {
         public static BlogEntryDisplayModel Convert(BlogEntry blogEntry)
         {
-            return new BlogEntryDisplayModel()
+      
+          
+            var model =  new BlogEntryDisplayModel()
             {
                 BlogPublishDateTimeUtc = blogEntry.BlogPublishDateTimeUtc,
                 Content = blogEntry.Content,
@@ -18,9 +21,13 @@ namespace IntoTravel.Web.Helpers
                             blogEntry.BlogPublishDateTimeUtc.Month.ToString("00"), 
                             blogEntry.BlogPublishDateTimeUtc.Day.ToString("00"),  
                             blogEntry.Key),
-
+                DefaulPhotoUrl = blogEntry.Photos.FirstOrDefault(x => x.IsDefault == true).PhotoUrl
                 // todo: other props
             };
+
+            return model;
+            
+
         }
     }
 }

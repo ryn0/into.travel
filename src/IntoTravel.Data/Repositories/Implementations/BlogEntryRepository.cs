@@ -4,6 +4,7 @@ using IntoTravel.Data.Models;
 using IntoTravel.Data.DbContextInfo;
 using System.Linq;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace IntoTravel.Data.Repositories.Implementations
 {
@@ -65,6 +66,7 @@ namespace IntoTravel.Data.Repositories.Implementations
             try
             {
                 return Context.BlogEntry
+                              .Include(x => x.Photos)
                               .FirstOrDefault(x => x.BlogEntryId == blogEntryId);
             }
             catch (Exception ex)
@@ -78,6 +80,7 @@ namespace IntoTravel.Data.Repositories.Implementations
             try
             {
                 return Context.BlogEntry
+                              .Include(x => x.Photos)
                               .FirstOrDefault(x => x.Key == key);
             }
             catch (Exception ex)
