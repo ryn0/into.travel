@@ -56,7 +56,8 @@ namespace IntoTravel.Data.Repositories.Implementations
                     prefix = prefix.Remove(0, 1);
                 }
 
-                foreach (IListBlobItem item in container.ListBlobsSegmentedAsync(prefix, false, BlobListingDetails.None, int.MaxValue, null, null, null).Result.Results)
+                foreach (IListBlobItem item in container.ListBlobsSegmentedAsync(
+                                                            prefix, false, BlobListingDetails.None, int.MaxValue, null, null, null).Result.Results)
                 {
                     if (item.GetType() == typeof(CloudBlockBlob))
                     {
@@ -71,7 +72,7 @@ namespace IntoTravel.Data.Repositories.Implementations
                                 IsFolder = false
                             });
                         }
-                        else
+                        else if (item.Parent.Prefix != prefix)
                         {
                             AddDirectory(directory, item.Parent);
                         }
