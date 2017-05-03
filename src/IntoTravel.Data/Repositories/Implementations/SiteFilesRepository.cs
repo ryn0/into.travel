@@ -128,14 +128,9 @@ namespace IntoTravel.Data.Repositories.Implementations
                         blobPath = blobPath.Remove(0, 1);
                 }
 
-                var splitToPath = blobPath.Split(new string[] { ContainerName }, StringSplitOptions.None);
+                var endIndexOfCotainerName = blobPath.IndexOf(ContainerName) + ContainerName.Length;
 
-                var path = splitToPath[1].TrimStart('/');
-
-                if (splitToPath.Count() > 2)
-                {
-                    throw new Exception("name in path");
-                }
+                var path = blobPath.Substring(endIndexOfCotainerName, blobPath.Length - endIndexOfCotainerName).TrimStart('/');
 
                 var blockBlob = await container.GetBlobReferenceFromServerAsync(path);
 
