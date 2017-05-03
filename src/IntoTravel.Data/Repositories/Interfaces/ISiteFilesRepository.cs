@@ -1,5 +1,6 @@
 ﻿using IntoTravel.Data.Models.AzureStorage.Blob;
 using Microsoft.AspNetCore.Http;
+using System;
 using System.Threading.Tasks;
 
 namespace IntoTravel.Data.Repositories.Interfaces
@@ -10,7 +11,7 @@ namespace IntoTravel.Data.Repositories.Interfaces
 
         Task DeleteFileAsync(string blobPath);
 
-        Task UploadAsync(IFormFile file, string directory = null);
+        Task<Uri> UploadAsync(IFormFile file, string directory = null);
 
         Task CreateFolderAsync(string folderPath, string directory = null);
 

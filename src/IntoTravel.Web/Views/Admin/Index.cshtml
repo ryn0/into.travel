@@ -1,8 +1,8 @@
 ﻿@{
     ViewData["Title"] = "Home";
 }
- <p>Home @User.Identity.Name</p>
-
+ 
+@{ await Html.RenderPartialAsync("_LoginPartial"); }
 <ul>
     <li>
         <a href="~/blogmanagement">Blog Management</a>

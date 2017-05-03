@@ -8,7 +8,7 @@
         <div class="container">
  
             <h3>@ViewBag.Title</h3>
-           
+           @{ await Html.RenderPartialAsync("_LoginPartial"); }
             @if (!string.IsNullOrWhiteSpace(Model.ParentDirectory))
             {
                 <a href="~/SiteFilesManagement?folderPath=@Model.ParentDirectory">...</a>

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace IntoTravel.Web.Models
 {
-    public class BlogEntrytDisplay
+    public class BlogEntryDisplayModel
     {
         public string Title { get; set; }
 

@@ -1,14 +1,49 @@
-﻿@model IntoTravel.Web.Models.BlogManagementEntryModel
+﻿@model IntoTravel.Web.Models.BlogManagementEditModel
 @{
     ViewData["Title"] = "Edit Blog Entry";
 }
  
+
+
 <h2>@ViewData["Title"]</h2>
+
+@{ await Html.RenderPartialAsync("_LoginPartial"); }
+
 
 <form asp-controller="BlogManagement" asp-action="Edit" method="post" class="form-horizontal">
 
-    @{ await Html.RenderPartialAsync("_blogEntry", Model); }
 
+    @Html.HiddenFor(x => x.BlogEntryId)
+
+    <div class="form-group">
+        <label asp-for="Title" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="Title" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="IsLive" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            @Html.CheckBoxFor(x => x.IsLive)
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="IsLive" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input type="date" asp-for="@Model.BlogPublishDateTimeUtc" />
+        </div>
+    </div>
+
+
+
+    <div class="form-group">
+        <label asp-for="Content" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <textarea name="Content">@Html.Raw(Model.Content)</textarea>
+        </div>
+    </div>
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
@@ -17,6 +52,90 @@
     </div>
 
 </form>
+<hr />
+    <a href="~/blogmanagement/uploadphotos/@Model.BlogEntryId">Upload Photos</a>
+
+    @if (Model.BlogPhotos.Count() > 0)
+    {
+    <div class="form-group">
+        <label class="col-md-2 control-label">Photos</label>
+        <div class="col-md-10">
+            <table>
+                <thead>
+                    <tr>
+                        <th>
+                            URL
+                        </th>
+                        <th>
+                            Is Default
+                        </th>
+                        
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var photo in Model.BlogPhotos)
+                {
+                        <tr>
+                            <td>
+                                <a href="@photo.PhotoUrl">
+                                    <img style="width:200px;" class="img-responsive" src="@photo.PhotoUrl" />
+                                </a>
+                                </td>
+                            <td>
+                                @if (photo.IsDefault)
+                                {
+                                  <span>@photo.IsDefault</span>
+                                }
+                                else
+                                {
+
+                                    @using (Html.BeginForm("SetDefaultPhoto", "BlogManagement", FormMethod.Post ))
+                                    {
+
+    @Html.Hidden("blogEntryPhotoId", photo.BlogEntryPhotoId)
+
+    <fieldset>
+
+
+        <div class="editor-field">
+            <input class="btn btn-info btn-xs" type="submit" value="Set Default" />
+        </div>
+    </fieldset>
+                                    }
+                                }
+
+
+                            </td>
+                           
+                            <td>
+                                @using (Html.BeginForm("DeleteBlogPhotoAsync", "BlogManagement", FormMethod.Post,
+                            new {  onsubmit = string.Format(@"return confirm('Do you really want to delete this?');") }))
+                                {
+
+                                    @Html.Hidden("blogEntryPhotoId", photo.BlogEntryPhotoId)
+
+                                    <fieldset>
+
+
+                                        <div class="editor-field">
+                                            <input class="btn btn-danger btn-xs" type="submit" value="Delete" />
+                                        </div>
+                                    </fieldset>
+                                }
+                                
+                            </td>
+                        </tr>
+                       
+                    }
+                </tbody>
+            </table>
+ 
+        </div>
+    </div>
+
+    }
+
  
 
 

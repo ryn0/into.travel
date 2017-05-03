@@ -12,7 +12,7 @@ namespace IntoTravel.Web.Controllers
     [Authorize(Roles = IntoTravel.Data.Constants.StringConstants.AdminRole)]
     public class SiteFilesManagementController : Controller
     {
-        private ISiteFilesRepository _siteFilesRepository;
+        private readonly ISiteFilesRepository _siteFilesRepository;
 
         public SiteFilesManagementController(ISiteFilesRepository siteFilesRepository)
         {

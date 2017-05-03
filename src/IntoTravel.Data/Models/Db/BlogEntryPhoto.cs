@@ -1,4 +1,5 @@
 ﻿using IntoTravel.Data.DbModels.BaseDbModels;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IntoTravel.Data.Models
@@ -8,11 +9,14 @@ namespace IntoTravel.Data.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int BlogEntryPhotoId { get; set; }
 
-        public int BlogEntryId { get; set; }
-
+        [Required]
+        [StringLength(255)]
         public string PhotoUrl { get; set; }
 
-        public virtual BlogEntry  BlogEntry  { get; set; }
+        public bool IsDefault { get; set; }
 
+        public int BlogEntryId { get; set; }
+
+        public virtual BlogEntry BlogEntry  { get; set; }
     }
 }

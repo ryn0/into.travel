@@ -175,14 +175,14 @@ namespace IntoTravel.Data.Repositories.Implementations
             return bytes;
         }
 
-        public async Task UploadAsync(IFormFile file, string directory = null)
+        public async Task<Uri> UploadAsync(IFormFile file, string directory = null)
         {
             try
             {
                 var fileName = CleanFileName(file.FileName);
 
                 if (fileName == FolderFileName)
-                    return;
+                    return null;
 
                 var filePath = fileName;
 
@@ -209,6 +209,8 @@ namespace IntoTravel.Data.Repositories.Implementations
                 var extension = Path.GetExtension(file.FileName).ToLower().Replace(".", string.Empty);
 
                 await SetPropertiesAsync(blockBlob, extension);
+
+                return blockBlob.Uri;
             }
             catch (Exception ex)
             {
@@ -242,8 +244,11 @@ namespace IntoTravel.Data.Repositories.Implementations
                 }
 
                 var blockBlob = container.GetBlockBlobReference(path);
-                await blockBlob.UploadFromStreamAsync(memoryStream);
 
+                if (await blockBlob.ExistsAsync())
+                    return;
+
+                await blockBlob.UploadFromStreamAsync(memoryStream);
             }
             catch (Exception ex)
             {

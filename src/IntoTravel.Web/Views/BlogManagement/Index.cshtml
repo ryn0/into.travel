@@ -2,7 +2,8 @@
 @{
     ViewData["Title"] = "Blog Entries";
 }
- 
+ <h2>@ViewData["Title"]</h2>
+@{ await Html.RenderPartialAsync("_LoginPartial"); }
 <a class="btn btn-success"  href="~/blogmanagement/create">Create new</a>
 <hr />
 

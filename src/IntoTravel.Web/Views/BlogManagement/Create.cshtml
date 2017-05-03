@@ -1,14 +1,19 @@
-﻿@model IntoTravel.Web.Models.BlogManagementEntryModel
+﻿@model IntoTravel.Web.Models.BlogManagementCreateModel
 @{
     ViewData["Title"] = "Create New";
 }
 
 <h2>@ViewData["Title"]</h2>
- 
+ @{ await Html.RenderPartialAsync("_LoginPartial"); }
 <form asp-controller="BlogManagement" asp-action="Create" method="post" class="form-horizontal">
     
-    @{ await Html.RenderPartialAsync("_blogEntry", Model); }
-
+   
+    <div class="form-group">
+        <label asp-for="Title" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="Title" class="form-control" />
+        </div>
+    </div>
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
@@ -17,30 +22,4 @@
     </div>
 
 </form>
-
-
-@section ScriptsHeader {
-
-    <script src="~/lib/ckeditor/ckeditor.js"></script>
-
-    <script src="~/lib/ckeditor/config.js"></script>
-
-}
-
-
-
-
-
-
-
-@section ScriptsFooter {
-
-
-    <script>
-        CKEDITOR.replace('Content');
-    </script>
-
-
-}
-
-
+ 

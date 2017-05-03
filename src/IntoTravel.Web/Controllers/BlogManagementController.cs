@@ -6,6 +6,9 @@ using IntoTravel.Data.Models;
 using System;
 using System.Collections.Generic;
 using IntoTravel.Core.Utilities;
+using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
+using System.Linq;
 
 namespace IntoTravel.Web.Controllers
 {
@@ -13,11 +16,18 @@ namespace IntoTravel.Web.Controllers
     public class BlogManagementController : Controller
     {
         const int AmountPerPage = 10;
+        private readonly IBlogEntryPhotoRepository _blogEntryPhotoRepository;
         private readonly IBlogEntryRepository _blogEntryRepository;
- 
-        public BlogManagementController(IBlogEntryRepository blogEntryRepository)
+        private readonly ISiteFilesRepository _siteFilesRepository;
+
+        public BlogManagementController(
+            IBlogEntryPhotoRepository blogEntryPhotoRepository,
+            IBlogEntryRepository blogEntryRepository, 
+            ISiteFilesRepository siteFilesRepository)
         {
+            _blogEntryPhotoRepository = blogEntryPhotoRepository;
             _blogEntryRepository = blogEntryRepository;
+            _siteFilesRepository = siteFilesRepository;
         }
 
         public IActionResult Index(int pageNumber = 1)
@@ -34,23 +44,97 @@ namespace IntoTravel.Web.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            var model = new BlogManagementEntryModel();
+            var model = new BlogManagementCreateModel();
 
             return View(model);
         }
 
         [HttpPost]
-        public IActionResult Create(BlogManagementEntryModel model)
+        public IActionResult Create(BlogManagementCreateModel model)
         {
-            _blogEntryRepository.Create(new BlogEntry()
+            var entry = _blogEntryRepository.Create(new BlogEntry()
             {
-                Content = model.Content,
                 Title = model.Title,
-                BlogPublishDateTimeUtc = model.BlogPublishDateTimeUtc,
-                Key = model.Title.UrlKey()
+                Key = model.Title.UrlKey(),
+                BlogPublishDateTimeUtc = DateTime.UtcNow
             });
 
-            return RedirectToAction("Index");
+            if (entry.BlogEntryId > 0)
+            {
+                return RedirectToAction("Edit", new { blogEntryId = entry.BlogEntryId });
+            }
+            else
+            {
+                return View(entry);
+            }
+        }
+
+        [HttpPost]
+        public IActionResult SetDefaultPhoto(int blogEntryPhotoId)
+        {
+            var entry = _blogEntryPhotoRepository.Get(blogEntryPhotoId);
+
+            _blogEntryPhotoRepository.SetDefaultPhoto(blogEntryPhotoId);
+
+            return RedirectToAction("Edit", new { blogEntryId = entry.BlogEntryId });
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteBlogPhotoAsync(int blogEntryPhotoId)
+        {
+            var entry = _blogEntryPhotoRepository.Get(blogEntryPhotoId);
+
+            await _siteFilesRepository.DeleteFileAsync(entry.PhotoUrl);
+            _blogEntryPhotoRepository.Delete(blogEntryPhotoId);
+
+            return RedirectToAction("Edit", new { blogEntryId = entry.BlogEntryId });
+        }
+
+        [Route("blogmanagement/uploadphotos/{blogEntryId}")]
+        [HttpGet]
+        public IActionResult UploadPhotos(int blogEntryId)
+        {
+            var model = new BlogPhotoUploadModel()
+            {
+                BlogEntryId = blogEntryId
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> UploadPhotosAsync(IEnumerable<IFormFile> files, int blogEntryId)
+        {
+            try
+            {
+                var folderPath = string.Format("/blogphotos/{0}/", blogEntryId);
+
+                foreach (var file in files)
+                {
+                    if (file != null && file.Length > 0)
+                    {
+                        var photoUrl = await _siteFilesRepository.UploadAsync(file, folderPath);
+
+                        var allBlogPhotos = _blogEntryPhotoRepository.GetBlogPhotos(blogEntryId);
+
+                        if (allBlogPhotos.FirstOrDefault(x => x.PhotoUrl == photoUrl.ToString()) == null)
+                        {
+                            _blogEntryPhotoRepository.Create(new BlogEntryPhoto()
+                            {
+                                BlogEntryId = blogEntryId,
+                                PhotoUrl = photoUrl.ToString()
+                            });
+                        }
+                    }
+                }
+
+                return RedirectToAction("Edit", new { blogEntryId = blogEntryId });
+            }
+            catch
+            {
+                return RedirectToAction("Upload");
+            }
         }
 
         [HttpGet]
@@ -62,7 +146,6 @@ namespace IntoTravel.Web.Controllers
 
             return View(model);
         }
-
        
 
         [HttpPost]
@@ -74,7 +157,7 @@ namespace IntoTravel.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(BlogManagementEntryModel model)
+        public IActionResult Edit(BlogManagementEditModel model)
         {
             var dbModel = ConvertToDbModel(model);
 
@@ -116,7 +199,7 @@ namespace IntoTravel.Web.Controllers
         }
 
 
-        private BlogEntry ConvertToDbModel(BlogManagementEntryModel model)
+        private BlogEntry ConvertToDbModel(BlogManagementEditModel model)
         {
             var dbModel = _blogEntryRepository.Get(model.BlogEntryId);
             
@@ -129,9 +212,9 @@ namespace IntoTravel.Web.Controllers
             return dbModel;
         }
 
-        private static BlogManagementEntryModel ToUiEditModel(BlogEntry dbModel)
+        private BlogManagementEditModel ToUiEditModel(BlogEntry dbModel)
         {
-            return new BlogManagementEntryModel()
+            var  model = new BlogManagementEditModel()
             {
                 Content = dbModel.Content,
                 Title = dbModel.Title,
@@ -139,6 +222,20 @@ namespace IntoTravel.Web.Controllers
                 BlogPublishDateTimeUtc = dbModel.BlogPublishDateTimeUtc,
                 IsLive = dbModel.IsLive
             };
+
+            var photos = _blogEntryPhotoRepository.GetBlogPhotos(dbModel.BlogEntryId);
+
+            foreach(var photo in photos)
+            {
+                model.BlogPhotos.Add(new BlogPhotoModel
+                {
+                    BlogEntryPhotoId = photo.BlogEntryPhotoId,
+                    IsDefault = photo.IsDefault,
+                    PhotoUrl = photo.PhotoUrl
+                });
+            }
+
+            return model;
         }
 
     }

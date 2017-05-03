@@ -11,9 +11,11 @@ namespace IntoTravel.Data.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int BlogEntryId { get; set; }
 
+        [Required]
         [StringLength(255)]
         public string Title { get; set; }
 
+        [Required]
         [StringLength(255)]
         public string Key { get; set; }
 
@@ -26,6 +28,5 @@ namespace IntoTravel.Data.Models
         public virtual List<BlogEntryTag> Tags { get; set; } = new List<BlogEntryTag>();
 
         public virtual List<BlogEntryPhoto> Photos { get; set; } = new List<BlogEntryPhoto>();
-
     }
 }

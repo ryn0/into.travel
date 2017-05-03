@@ -39,10 +39,10 @@ namespace IntoTravel.Web
                 .AddDefaultTokenProviders();
 
             services.AddTransient<IBlogEntryRepository, BlogEntryRepository>();
-
+            services.AddTransient<IBlogEntryPhotoRepository, BlogEntryPhotoRepository>();
             services.AddTransient<IApplicationDbContext, ApplicationDbContext>();
 
-            var connectionString = "STORAGEACCOUNT_CONNECTION_STRING";
+            var connectionString = "CONNECTION_STRING";
 
             services.AddTransient<ISiteFilesRepository>(provider => 
                 new SiteFilesRepository(connectionString));

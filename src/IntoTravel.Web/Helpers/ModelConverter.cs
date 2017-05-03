@@ -5,9 +5,9 @@ namespace IntoTravel.Web.Helpers
 {
     public class ModelConverter
     {
-        public static BlogEntrytDisplay Convert(BlogEntry blogEntry)
+        public static BlogEntryDisplayModel Convert(BlogEntry blogEntry)
         {
-            return new BlogEntrytDisplay()
+            return new BlogEntryDisplayModel()
             {
                 BlogPublishDateTimeUtc = blogEntry.BlogPublishDateTimeUtc,
                 Content = blogEntry.Content,
