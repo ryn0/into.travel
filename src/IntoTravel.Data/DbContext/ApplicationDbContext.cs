@@ -30,12 +30,22 @@ namespace IntoTravel.Data.DbContextInfo
  
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<BlogEntryTag>()
-                      .HasKey(c => new { c.BlogEntryId, c.TagId });
-
             builder.Entity<BlogEntry>()
                     .HasIndex(b => b.Key)
                     .IsUnique();
+
+            builder.Entity<BlogEntryTag>()
+                .HasKey(c => new { c.BlogEntryId, c.TagId });
+
+            builder.Entity<BlogEntryTag>()
+                .HasOne(bc => bc.BlogEntry)
+                .WithMany(b => b.BlogEntryTags)
+                .HasForeignKey(bc => bc.BlogEntryId);
+
+            builder.Entity<BlogEntryTag>()
+                .HasOne(bc => bc.Tag)
+                .WithMany(c => c.BlogEntryTags)
+                .HasForeignKey(bc => bc.TagId);
 
             base.OnModelCreating(builder);
         }

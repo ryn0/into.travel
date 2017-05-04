@@ -13,6 +13,8 @@ using System.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
 using IntoTravel.Web.Helpers;
+using IntoTravel.Data.Repositories.Implementations;
+using System.Collections;
 
 namespace IntoTravel.Web.Controllers
 {
@@ -21,15 +23,21 @@ namespace IntoTravel.Web.Controllers
     {
         const int AmountPerPage = 10;
         private readonly IBlogEntryPhotoRepository _blogEntryPhotoRepository;
+        private readonly IBlogEntryTagRepository _blogEntryTagRepository;
+        private readonly ITagRepository _tagRepository;
         private readonly IBlogEntryRepository _blogEntryRepository;
         private readonly ISiteFilesRepository _siteFilesRepository;
 
         public BlogManagementController(
             IBlogEntryPhotoRepository blogEntryPhotoRepository,
+            IBlogEntryTagRepository blogEntryTagRepository,
+            ITagRepository tagRepository,
             IBlogEntryRepository blogEntryRepository, 
             ISiteFilesRepository siteFilesRepository)
         {
             _blogEntryPhotoRepository = blogEntryPhotoRepository;
+            _blogEntryTagRepository = blogEntryTagRepository;
+            _tagRepository = tagRepository;
             _blogEntryRepository = blogEntryRepository;
             _siteFilesRepository = siteFilesRepository;
         }
@@ -261,7 +269,6 @@ namespace IntoTravel.Web.Controllers
                                         entry.PhotoUrl.GetFileNameFromUrl(), 
                                         folderPath);
 
-
             fullPhoto.Dispose();
             streamRotated.Dispose();
             rotatedBitmap.Dispose();
@@ -288,7 +295,49 @@ namespace IntoTravel.Web.Controllers
 
                     _blogEntryPhotoRepository.Update(photo);
                 }
-               
+
+                //var currentTags = model.Tags.Replace(" ", string.Empty).Split(',');
+                //var previousTags = new ArrayList();
+
+                //foreach(var tag in dbModel.BlogEntryTags)
+                //{
+                //    previousTags.Add(tag.Tag.Name);
+                //}
+
+                //var tagsToAdd = currentTags.Except(previousTags.ToArray());
+                //var tagsToRemove = previousTags.ToArray().Except(currentTags);
+
+                //foreach (var tag in tagsToAdd)
+                //{
+                //    if (dbModel.BlogEntryTags.FirstOrDefault(x => x.Tag.Name == tag.ToString()) == null)
+                //    {
+                //        var tagDb = _tagRepository.Get(tag.ToString());
+
+                //        if (tagDb == null  || tagDb.TagId == 0)
+                //        {
+                //            _tagRepository.Create(new Tag
+                //            {
+                //                Name = tag.ToString()
+                //            });
+
+                //            tagDb = _tagRepository.Get(tag.ToString());
+                //        }
+
+                //        _blogEntryTagRepository.Create(new BlogEntryTag()
+                //        {
+                //            BlogEntryId = model.BlogEntryId,
+                //            TagId = tagDb.TagId,
+                //        });
+                //    }
+                //}
+
+                //foreach (var tag in tagsToRemove)
+                //{
+                //    var tagDb = _tagRepository.Get(tag.ToString());
+
+                //    _blogEntryTagRepository.Delete(model.BlogEntryId, tagDb.TagId);
+                //}
+
                 return RedirectToAction("Index");
             }
 
@@ -369,7 +418,7 @@ namespace IntoTravel.Web.Controllers
 
         private BlogManagementEditModel ToUiEditModel(BlogEntry dbModel)
         {
-            var  model = new BlogManagementEditModel()
+            var model = new BlogManagementEditModel()
             {
                 Content = dbModel.Content,
                 Title = dbModel.Title,
@@ -379,8 +428,8 @@ namespace IntoTravel.Web.Controllers
                 LiveUrlPath = UrlBuilder.BlogUrlPath(dbModel.Key, dbModel.BlogPublishDateTimeUtc),
                 PreviewUrlPath = UrlBuilder.BlogPreviewUrlPath(dbModel.Key)
             };
-        
-            foreach(var photo in dbModel.Photos.OrderBy(x => x.Rank))
+
+            foreach (var photo in dbModel.Photos.OrderBy(x => x.Rank))
             {
                 model.BlogPhotos.Add(new BlogPhotoModel
                 {
@@ -391,6 +440,16 @@ namespace IntoTravel.Web.Controllers
                     Description = photo.Description
                 });
             }
+
+            //foreach (var tagItem in dbModel.BlogEntryTags.OrderBy(x => x.Tag.Name))
+            //{
+            //    model.BlogTags.Add(new BlogEntryTagModel
+            //    {
+            //        Name = tagItem.Tag.Name
+            //    });
+            //}
+
+            //model.Tags = string.Join(", ", model.BlogTags.SelectMany(x => x.Name).ToArray());
 
             return model;
         }

@@ -1,5 +1,4 @@
-﻿using IntoTravel.Data;
-using IntoTravel.Data.Models;
+﻿using IntoTravel.Data.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -10,7 +9,6 @@ using Microsoft.EntityFrameworkCore;
 using IntoTravel.Data.DbContextInfo;
 using IntoTravel.Data.Repositories.Implementations;
 using IntoTravel.Data.Repositories.Interfaces;
-using Microsoft.AspNetCore.Http.Features;
 
 namespace IntoTravel.Web
 {
@@ -42,6 +40,8 @@ namespace IntoTravel.Web
 
             services.AddTransient<IBlogEntryRepository, BlogEntryRepository>();
             services.AddTransient<IBlogEntryPhotoRepository, BlogEntryPhotoRepository>();
+            services.AddTransient<ITagRepository, TagRepository>();
+            services.AddTransient<IBlogEntryTagRepository, BlogEntryTagRepository>();
             services.AddTransient<IApplicationDbContext, ApplicationDbContext>();
 
             var connectionString = "CONNECTION_STRING";

@@ -19,6 +19,10 @@ namespace IntoTravel.Web.Models
         public string PreviewUrlPath { get; set; }
 
         public List<BlogPhotoModel> BlogPhotos { get; set; } = new List<BlogPhotoModel>();
+
+        public List<BlogEntryTagModel> BlogTags { get; set; } = new List<BlogEntryTagModel>();
+
+        public string Tags { get; set; }
     }
 
 }

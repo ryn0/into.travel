@@ -13,5 +13,6 @@ namespace IntoTravel.Data.Models
 
         public string Name { get; set; }
 
+        public virtual ICollection<BlogEntryTag> BlogEntryTags { get; set; }
     }
 }
