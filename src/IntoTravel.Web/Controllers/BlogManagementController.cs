@@ -13,7 +13,6 @@ using System.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
 using IntoTravel.Web.Helpers;
-using IntoTravel.Data.Repositories.Implementations;
 using System.Collections;
 
 namespace IntoTravel.Web.Controllers
@@ -280,7 +279,7 @@ namespace IntoTravel.Web.Controllers
         public IActionResult Edit(BlogManagementEditModel model)
         {
             if (!ModelState.IsValid)
-                throw new Exception();
+                return View(model);
 
             var dbModel = ConvertToDbModel(model);
 
@@ -373,6 +372,7 @@ namespace IntoTravel.Web.Controllers
             dbModel.Title = title;
             dbModel.IsLive = model.IsLive;
             dbModel.Key = title.UrlKey();
+            dbModel.MetaDescription = (model.MetaDescription != null) ? model.MetaDescription.Trim() : string.Empty;
 
             return dbModel;
         }
@@ -387,7 +387,8 @@ namespace IntoTravel.Web.Controllers
                 BlogPublishDateTimeUtc = dbModel.BlogPublishDateTimeUtc,
                 IsLive = dbModel.IsLive,
                 LiveUrlPath = UrlBuilder.BlogUrlPath(dbModel.Key, dbModel.BlogPublishDateTimeUtc),
-                PreviewUrlPath = UrlBuilder.BlogPreviewUrlPath(dbModel.Key)
+                PreviewUrlPath = UrlBuilder.BlogPreviewUrlPath(dbModel.Key),
+                MetaDescription = dbModel.MetaDescription
             };
 
             foreach (var photo in dbModel.Photos.OrderBy(x => x.Rank))
@@ -423,9 +424,17 @@ namespace IntoTravel.Web.Controllers
 
         private void SetBlogTags(BlogManagementEditModel model, BlogEntry dbModel)
         {
-            var currentTags = model.Tags.Replace(" ", string.Empty).Split(',');
-            var previousTags = new ArrayList();
+            if (model.Tags == null)
+                return;
 
+            var currentTags = model.Tags.Split(',');
+            var currentTagsFormatted = new ArrayList();
+            foreach(var tag in currentTags)
+            {
+                currentTagsFormatted.Add(tag.Replace("-", " ").Trim());
+            }
+
+            var previousTags = new ArrayList();
             foreach (var tag in dbModel.BlogEntryTags)
             {
                 previousTags.Add(tag.Tag.Name);

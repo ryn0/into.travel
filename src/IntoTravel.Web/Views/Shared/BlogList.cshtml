@@ -1,0 +1,122 @@
+﻿@model IntoTravel.Web.Models.BlogEntryDisplayListModel
+@using IntoTravel.Core.Utilities
+@{
+    ViewData["Title"] = "Travel Photos and Information";
+}
+
+
+@section StylesHeader {
+
+ 
+    <style>
+        .post-preview a:hover {
+            text-decoration: underline;
+        }
+
+        .post-subtitle {
+            margin: 0;
+            font-weight: 300;
+            margin-bottom: 10px;
+        }
+
+        .post-preview img {
+            border: 5px solid #FFF;
+        }
+
+        .post-preview a:hover img {
+            border: 5px solid #0085a1;
+            cursor: pointer;
+        }
+    </style>
+}
+
+
+
+
+<div class="row">
+    <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1">
+        @if (ViewBag.TagKeyword == null)
+        {
+        <h1>Blog</h1>
+        }
+        else
+        {
+            <h1>Tag: @ViewBag.TagKeyword</h1>
+
+        }
+
+        @foreach (var blog in Model.Items)
+        {
+            var blogUrlPath = blog.UrlPath.TrimStart('/');
+            <div class="post-preview">
+
+                <a href="~/@blogUrlPath">
+                    <h2 class="post-title">
+                        @blog.Title
+                    </h2>
+
+                </a>
+                <a href="~/@blogUrlPath">
+                    <img class="img-responsive" style="width:25%;float:left;margin:10px;" src="@blog.DefaultPhotoUrl" />
+                </a>
+                <h3 class="post-subtitle">
+                    @blog.MetaDescription
+                </h3>
+
+                <p class="post-meta">Posted on @blog.FriendlyDateDisplay</p>
+
+                @if (blog.Tags.Count > 0)
+                {
+                    var current = 1;
+                    <b>Tags:</b>
+                        @foreach (var tag in blog.Tags)
+                    {
+                            <a href="~/tag/@tag.UrlKey()">@tag</a>if (current != blog.Tags.Count)
+                        {<text>, </text>
+                                current++;
+                            }
+                        }
+
+                }
+            </div>
+        }
+
+
+        <!-- Pager -->
+        <div style="clear:both"></div>
+        <hr />
+        @{
+            var pagePathPrefix = "blog/page";
+
+            if (ViewBag.TagKeyword != null)
+            {
+                pagePathPrefix = "tag/" + ViewBag.TagKeyword + "/page";
+            }
+
+            if (Model.PageCount > 1 && Model.CurrentPageNumber == 1)
+            {
+                <div class="clearfix">
+                    <a class="btn btn-secondary float-right" href="~/@pagePathPrefix/@(Model.CurrentPageNumber + 1)">Older Posts &rarr;</a>
+                </div>
+
+            }
+            else if (Model.PageCount > 1 && Model.PageCount == Model.CurrentPageNumber)
+            {
+                <div class="clearfix">
+                    <a class="btn btn-secondary float-left" href="~/@pagePathPrefix/@(Model.CurrentPageNumber - 1)">&larr; Newer Posts</a>
+                </div>
+            }
+            else if (Model.PageCount > 1 && Model.CurrentPageNumber < 1 && Model.CurrentPageNumber < Model.PageCount)
+            {
+                <div class="clearfix">
+                    <a class="btn btn-secondary float-left" href="~/@pagePathPrefix/@(Model.CurrentPageNumber - 1)">&larr; Newer Posts</a>
+                </div>
+
+                <div class="clearfix">
+                    <a class="btn btn-secondary float-right" href="~/@pagePathPrefix/@(Model.CurrentPageNumber + 1)">Older Posts &rarr;</a>
+                </div>
+            }
+        }
+
+    </div>
+</div>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace IntoTravel.Web.Models
 {
@@ -23,6 +24,8 @@ namespace IntoTravel.Web.Models
         public List<string> BlogTags { get; set; } = new List<string>();
 
         public string Tags { get; set; }
-    }
 
+        [StringLength(160)]
+        public string MetaDescription { get; set; }
+    }
 }

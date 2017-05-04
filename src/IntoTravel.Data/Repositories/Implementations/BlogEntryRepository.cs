@@ -39,10 +39,10 @@ namespace IntoTravel.Data.Repositories.Implementations
             try
             {
                 var model = Context.BlogEntry
-                    .OrderByDescending(blog => blog.CreateDate)
-                    .Skip(quantityPerPage * (pageNumber - 1))
-                    .Take(quantityPerPage)
-                    .ToList();
+                                   .OrderByDescending(blog => blog.CreateDate)
+                                   .Skip(quantityPerPage * (pageNumber - 1))
+                                   .Take(quantityPerPage)
+                                   .ToList();
 
                 total = Context.BlogEntry.Count();
              
@@ -53,7 +53,65 @@ namespace IntoTravel.Data.Repositories.Implementations
                 //Log.Error(ex);
                 throw new Exception("DB error", ex.InnerException);
             }
-  
+        }
+
+        public List<BlogEntry> GetLivePage(int pageNumber, int quantityPerPage, out int total)
+        {
+            var now = DateTime.UtcNow;
+            try
+            {
+                var model = Context.BlogEntry
+                                   .Where(x => x.IsLive == true && x.BlogPublishDateTimeUtc < now)
+                                   .Include(x => x.Photos)
+                                   .Include(x => x.BlogEntryTags)
+                                   .Include("BlogEntryTags.Tag")
+                                   .OrderByDescending(blog => blog.CreateDate)
+                                   .Skip(quantityPerPage * (pageNumber - 1))
+                                   .Take(quantityPerPage)
+                                   .ToList();
+
+                total = Context.BlogEntry.Where(x => x.IsLive == true && x.BlogPublishDateTimeUtc < now).Count();
+
+                return model;
+            }
+            catch (Exception ex)
+            {
+                //Log.Error(ex);
+                throw new Exception("DB error", ex.InnerException);
+            }
+
+        }
+
+
+        public List<BlogEntry> GetLivePageByTag(string tag, int pageNumber, int quantityPerPage, out int total)
+        {
+            var now = DateTime.UtcNow;
+            try
+            {
+                var model = Context.BlogEntry
+                                   .Where(x => x.IsLive == true && 
+                                               x.BlogPublishDateTimeUtc < now && 
+                                               (x.BlogEntryTags.FirstOrDefault(y => y.Tag.Name == tag) != null))
+                                   .Include(x => x.Photos)
+                                   .Include(x => x.BlogEntryTags)
+                                   .Include("BlogEntryTags.Tag")
+                                   .OrderByDescending(blog => blog.CreateDate)
+                                   .Skip(quantityPerPage * (pageNumber - 1))
+                                   .Take(quantityPerPage)
+                                   .ToList();
+
+                total = Context.BlogEntry.Where(x => x.IsLive == true &&
+                                               x.BlogPublishDateTimeUtc < now &&
+                                               (x.BlogEntryTags.FirstOrDefault(y => y.Tag.Name == tag) != null)).Count();
+
+                return model;
+            }
+            catch (Exception ex)
+            {
+                //Log.Error(ex);
+                throw new Exception("DB error", ex.InnerException);
+            }
+
         }
 
         public void Dispose()

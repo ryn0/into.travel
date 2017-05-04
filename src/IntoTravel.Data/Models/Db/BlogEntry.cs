@@ -25,7 +25,8 @@ namespace IntoTravel.Data.Models
 
         public DateTime BlogPublishDateTimeUtc { get; set; }
 
-       // public virtual List<BlogEntryTag> BlogEntryTags { get; set; } = new List<BlogEntryTag>();
+        [StringLength(160)]
+        public string MetaDescription { get; set; }
 
         public virtual ICollection<BlogEntryTag> BlogEntryTags { get; set; }
 

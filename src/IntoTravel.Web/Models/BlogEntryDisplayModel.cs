@@ -12,7 +12,9 @@ namespace IntoTravel.Web.Models
         public string UrlPath { get; set; }
 
         public string Content { get; set; }
- 
+
+        public string MetaDescription { get; set; }
+
         public DateTime BlogPublishDateTimeUtc { get; set; }
 
         public string FriendlyDateDisplay
@@ -53,5 +55,18 @@ namespace IntoTravel.Web.Models
 
         public List<BlogPhotoModel> Photos { get; set; } = new List<BlogPhotoModel>();
     }
- 
+
+    public class BlogEntryDisplayListModel
+    {
+        public int PageCount { get; set; }
+
+        public int Total { get; set; }
+
+        public int CurrentPageNumber { get; set; }
+
+        public int QuantityPerPage { get; set; }
+
+        public List<BlogEntryDisplayModel> Items { get; set; } = new List<BlogEntryDisplayModel>();
+    }
+
 }

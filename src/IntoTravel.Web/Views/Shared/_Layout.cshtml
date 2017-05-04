@@ -8,12 +8,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
+    <meta name="description" content="@ViewData["MetaDescription"] " />
     <meta name="author" content="">
     <title>@ViewData["Title"] | Into Travel</title>
     <!-- Bootstrap core CSS -->
     <link href="~/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://intotravel.blob.core.windows.net/sitecontent/css/bootstrap.min.css" />
 
     <!-- Custom fonts for this template -->
     <link href="~/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -22,6 +22,8 @@
     <!-- Custom styles for this template -->
     <link href="~/css/clean-blog.min.css" rel="stylesheet">
     <link href="~/css/site.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://intotravel.blob.core.windows.net/sitecontent/css/baguetteBox.css" />
+
     <!-- Temporary navbar container fix -->
     <style>
     .navbar-toggler {
@@ -50,15 +52,14 @@
                     aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 Menu <i class="fa fa-bars"></i>
             </button>
-            <a class="navbar-brand" href="index.html">Into.Travel</a>
+            <a class="navbar-brand" href="~/">Into.Travel</a>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
+                    
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html">Home</a>
+                        <a class="nav-link" href="~/">Blog</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="post.html">Blog</a>
-                    </li>
+                  
                    
                     @*<li class="nav-item">
                         <a class="nav-link" href="about.html">Photos</a>
@@ -79,6 +80,8 @@
                     <li class="nav-item">
                         <a class="nav-link" href="contact.html">Contact</a>
                     </li>
+
+                  
                 </ul>
             </div>
         </div>
@@ -90,7 +93,7 @@
                 <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1">
                     <div class="site-heading">
                         <h1>Into Travel</h1>
-                        <span class="subheading">Travel photos, videos and information</span>
+                        <span class="subheading">Travel photos and information</span>
                     </div>
                 </div>
             </div>

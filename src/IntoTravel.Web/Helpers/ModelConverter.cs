@@ -1,8 +1,8 @@
 ﻿using IntoTravel.Data.Models;
 using IntoTravel.Web.Models;
 using System.Linq;
-using System;
 using System.Collections.Generic;
+using System;
 
 namespace IntoTravel.Web.Helpers
 {
@@ -13,7 +13,7 @@ namespace IntoTravel.Web.Helpers
 
         public static BlogEntryDisplayModel Convert(BlogEntry blogEntry)
         {
-            var defaultPhotoUrl = blogEntry.Photos.FirstOrDefault(x => x.IsDefault == true);
+            var defaultPhotoUrl = blogEntry.Photos.FirstOrDefault(x => x.IsDefault == true);            
 
             var model = new BlogEntryDisplayModel()
             {
@@ -21,17 +21,37 @@ namespace IntoTravel.Web.Helpers
                 Content = blogEntry.Content,
                 Key = blogEntry.Key,
                 Title = blogEntry.Title,
-                UrlPath = string.Format("/{0}/{1}/{2}/{3}",
-                            blogEntry.BlogPublishDateTimeUtc.Year.ToString("0000"),
-                            blogEntry.BlogPublishDateTimeUtc.Month.ToString("00"),
-                            blogEntry.BlogPublishDateTimeUtc.Day.ToString("00"),
-                            blogEntry.Key),
+                UrlPath = UrlBuilder.BlogUrlPath(blogEntry.Key, blogEntry.BlogPublishDateTimeUtc),
                 Photos = AddBlogPhotos(blogEntry.Photos),
-                DefaultPhotoUrl = (defaultPhotoUrl != null) ? defaultPhotoUrl.PhotoUrl : null
+                DefaultPhotoUrl = (defaultPhotoUrl != null) ? defaultPhotoUrl.PhotoUrl : null,
+                MetaDescription = blogEntry.MetaDescription
             };
+
+            if (blogEntry.BlogEntryTags != null)
+            {
+                foreach (var blogEntryTag in blogEntry.BlogEntryTags)
+                {
+                    model.Tags.Add(blogEntryTag.Tag.Name);
+                }
+            }
 
             return model;
         }
+
+
+
+        private static BlogEntryDisplayListModel ConvertToListModel(List<BlogEntry> blogEntries)
+        {
+            var model = new BlogEntryDisplayListModel();
+
+            foreach (var blog in blogEntries)
+            {
+                model.Items.Add(ModelConverter.Convert(blog));
+            }
+
+            return model;
+        }
+
 
         private static List<BlogPhotoModel> AddBlogPhotos(List<BlogEntryPhoto> photos)
         {
@@ -54,5 +74,19 @@ namespace IntoTravel.Web.Helpers
 
             return photoList;
         }
+
+
+        public static BlogEntryDisplayListModel BlogPage(List<BlogEntry> blogEntries, int pageNumber, int amountPerPage, int total)
+        {
+            var model = ConvertToListModel(blogEntries);
+            model.Total = total;
+            model.CurrentPageNumber = pageNumber;
+            model.QuantityPerPage = amountPerPage;
+            var pageCount = (double)model.Total / model.QuantityPerPage;
+            model.PageCount = (int)Math.Ceiling(pageCount);
+
+            return model;
+        }
+
     }
 }

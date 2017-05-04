@@ -20,5 +20,9 @@ namespace IntoTravel.Data.Repositories.Interfaces
         BlogEntry Get(string key);
 
         List<BlogEntry> GetPage(int pageNumber , int quantityPerPage, out int total);
+
+        List<BlogEntry> GetLivePage(int pageNumber, int quantityPerPage, out int total);
+
+        List<BlogEntry> GetLivePageByTag(string tag, int pageNumber, int quantityPerPage, out int total);
     }
 }

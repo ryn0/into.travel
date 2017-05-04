@@ -1,8 +1,11 @@
 ﻿@model IntoTravel.Web.Models.BlogEntryDisplayModel
+@using IntoTravel.Core.Utilities
+
 
 @{
     ViewData["Title"] = Model.Title;
     ViewData["HeaderPhotoUrl"] = Model.DefaultPhotoUrl;
+    ViewData["MetaDescription"] = Model.MetaDescription;
 }
 
 
@@ -22,6 +25,73 @@
        baguetteBox.run('.gallery');
 </script>
 }
+<article>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1">
+                <h1>@Model.Title</h1>
+                <i>@Model.FriendlyDateDisplay </i>
+                <hr />
 
 
-@{ await Html.RenderPartialAsync("_blogEntryDisplay", Model); }
+                @if (Model.Photos != null && Model.Photos.Count > 1)
+                {
+                    <h3>Photos</h3>
+                    <div class="gallery">
+                        <div class="row">
+                            @foreach (var photo in Model.Photos)
+                            {
+
+                                <div class="col-md-12">
+                                    <div class="thumbnail">
+
+                                        <a href="@photo.PhotoCdnUrl" data-caption="@photo.Title">
+                                            <img src="@photo.PhotoCdnUrl" alt="@photo.Title" title="@photo.Title" style="width:100%" />
+                                        </a>
+                                        <div class="caption">
+                                            @if (!string.IsNullOrWhiteSpace(photo.Description))
+                                            {
+
+                                                @Html.Raw(photo.Description)
+
+                                            }
+                                            else
+                                            {
+
+                                                <br />
+
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+
+                            }
+                        </div>
+
+                    </div>
+                }
+
+                @Html.Raw(Model.Content)
+                <hr />
+                @if (Model.Tags.Count > 0)
+                {
+                    var current = 1;
+                    <b>Tags:</b>
+                        @foreach (var tag in Model.Tags)
+                        {
+                            <a href="~/tag/@tag.UrlKey()">@tag</a>if (current != Model.Tags.Count)
+                            {<text>, </text>
+                                current++;
+                            }
+                        }
+
+                }
+            </div>
+        </div>
+    </div>
+
+
+
+
+</article>
+<hr />

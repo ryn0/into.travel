@@ -7,6 +7,7 @@ namespace IntoTravel.Web.Controllers
 {
     public class BlogController : Controller
     {
+        const int AmountPerPage = 10;
         private readonly IBlogEntryRepository _blogEntryRepository;
 
         public BlogController(IBlogEntryRepository blogEntryRepository)
@@ -23,6 +24,17 @@ namespace IntoTravel.Web.Controllers
             ValidateRequest(year, month, day, model);
 
             return View("DisplayBlog", ModelConverter.Convert(model));
+        }
+
+        [Route("blog/page/{pageNumber}")]
+        [HttpGet]
+        public IActionResult Page(int pageNumber = 1)
+        {
+            int total;
+
+            var model = ModelConverter.BlogPage(_blogEntryRepository.GetLivePage(pageNumber, AmountPerPage, out total), pageNumber, AmountPerPage, total);
+
+            return View("BlogList", model);
         }
 
         private static void ValidateRequest(string year, string month, string day, Data.Models.BlogEntry model)
