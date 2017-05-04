@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace IntoTravel.Web.Models
 {
@@ -52,6 +51,7 @@ namespace IntoTravel.Web.Models
 
         public List<string> Tags { get; set; } = new List<string>();
 
-        public List<string> PhotoUrls { get; set; } = new List<string>();
+        public List<BlogPhotoModel> Photos { get; set; } = new List<BlogPhotoModel>();
     }
+ 
 }

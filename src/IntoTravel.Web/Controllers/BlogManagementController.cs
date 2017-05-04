@@ -78,7 +78,7 @@ namespace IntoTravel.Web.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpGet]
         public IActionResult SetDefaultPhoto(int blogEntryPhotoId)
         {
             var entry = _blogEntryPhotoRepository.Get(blogEntryPhotoId);
@@ -89,13 +89,51 @@ namespace IntoTravel.Web.Controllers
         }
 
 
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> DeleteBlogPhotoAsync(int blogEntryPhotoId)
+        {
+            var entry = await DeleteBlogPhoto(blogEntryPhotoId);
+
+            return RedirectToAction("Edit", new { blogEntryId = entry.BlogEntryId });
+        }
+
+        [HttpGet]
+        public  IActionResult RankPhotoUp(int blogEntryPhotoId)
         {
             var entry = _blogEntryPhotoRepository.Get(blogEntryPhotoId);
 
-            await _siteFilesRepository.DeleteFileAsync(entry.PhotoUrl);
-            _blogEntryPhotoRepository.Delete(blogEntryPhotoId);
+            if (entry.Rank == 1)
+                return RedirectToAction("Edit", new { blogEntryId = entry.BlogEntryId});
+
+            var allBlogPhotos = _blogEntryPhotoRepository.GetBlogPhotos(entry.BlogEntryId);
+
+            var rankedHigher = allBlogPhotos.First(x => x.Rank == entry.Rank - 1);
+            var higherRankValue = rankedHigher.Rank;
+            rankedHigher.Rank = higherRankValue + 1;
+            _blogEntryPhotoRepository.Update(rankedHigher);
+
+            entry.Rank = higherRankValue;
+            _blogEntryPhotoRepository.Update(entry);
+
+            return RedirectToAction("Edit", new { blogEntryId = entry.BlogEntryId });
+        }
+
+        [HttpGet]
+        public IActionResult RankPhotoDown(int blogEntryPhotoId)
+        {
+            var entry = _blogEntryPhotoRepository.Get(blogEntryPhotoId);
+            var allBlogPhotos = _blogEntryPhotoRepository.GetBlogPhotos(entry.BlogEntryId);
+
+            if (entry.Rank == allBlogPhotos.Count())
+                return RedirectToAction("Edit", new { blogEntryId = entry.BlogEntryId });
+
+            var rankedLower = allBlogPhotos.First(x => x.Rank == entry.Rank + 1);
+            var lowerRankValue = rankedLower.Rank;
+            rankedLower.Rank = lowerRankValue - 1;
+            _blogEntryPhotoRepository.Update(rankedLower);
+
+            entry.Rank = lowerRankValue;
+            _blogEntryPhotoRepository.Update(entry);
 
             return RedirectToAction("Edit", new { blogEntryId = entry.BlogEntryId });
         }
@@ -115,6 +153,10 @@ namespace IntoTravel.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> UploadPhotosAsync(IEnumerable<IFormFile> files, int blogEntryId)
         {
+            var allBlogPhotos = _blogEntryPhotoRepository.GetBlogPhotos(blogEntryId);
+            var highestRank = allBlogPhotos.Count();
+            int currentRank = highestRank;
+
             try
             {
                 var folderPath = GetBlogPhotoFolder(blogEntryId);
@@ -125,24 +167,25 @@ namespace IntoTravel.Web.Controllers
                     {
                         var photoUrl = await _siteFilesRepository.UploadAsync(file, folderPath);
 
-                        var allBlogPhotos = _blogEntryPhotoRepository.GetBlogPhotos(blogEntryId);
-
                         if (allBlogPhotos.FirstOrDefault(x => x.PhotoUrl == photoUrl.ToString()) == null)
                         {
                             _blogEntryPhotoRepository.Create(new BlogEntryPhoto()
                             {
                                 BlogEntryId = blogEntryId,
-                                PhotoUrl = photoUrl.ToString()
+                                PhotoUrl = photoUrl.ToString(),
+                                Rank = currentRank + 1
                             });
+
+                            currentRank++;
                         }
                     }
                 }
 
                 return RedirectToAction("Edit", new { blogEntryId = blogEntryId });
             }
-            catch
+            catch (Exception ex)
             {
-                return RedirectToAction("Upload");
+                throw new Exception("Upload failed", ex.InnerException);
             }
         }
 
@@ -160,11 +203,18 @@ namespace IntoTravel.Web.Controllers
 
             return View(model);
         }
-       
+
 
         [HttpPost]
-        public IActionResult Delete(int blogEntryId)
+        public async Task<IActionResult> DeleteAsync(int blogEntryId)
         {
+            var blogEntry = _blogEntryRepository.Get(blogEntryId);
+
+            foreach (var photo in blogEntry.Photos)
+            {
+                await DeleteBlogPhoto(photo.BlogEntryPhotoId);
+            }
+
             _blogEntryRepository.Delete(blogEntryId);
 
             return RedirectToAction("Index");
@@ -209,6 +259,16 @@ namespace IntoTravel.Web.Controllers
 
             if (_blogEntryRepository.Update(dbModel))
             {
+                var allPhotos = _blogEntryPhotoRepository.GetBlogPhotos(model.BlogEntryId);
+
+                foreach (var photo in allPhotos)
+                {
+                    photo.Title = Request.Form["PhotoTitle_" + photo.BlogEntryPhotoId];
+                    photo.Description = Request.Form["PhotoDescription_" + photo.BlogEntryPhotoId];
+
+                    _blogEntryPhotoRepository.Update(photo);
+                }
+               
                 return RedirectToAction("Index");
             }
 
@@ -237,6 +297,16 @@ namespace IntoTravel.Web.Controllers
             ms.Seek(0, SeekOrigin.Begin);
 
             return ms;
+        }
+
+        private async Task<BlogEntryPhoto> DeleteBlogPhoto(int blogEntryPhotoId)
+        {
+            var entry = _blogEntryPhotoRepository.Get(blogEntryPhotoId);
+
+            await _siteFilesRepository.DeleteFileAsync(entry.PhotoUrl);
+            _blogEntryPhotoRepository.Delete(blogEntryPhotoId);
+
+            return entry;
         }
 
 
@@ -288,13 +358,15 @@ namespace IntoTravel.Web.Controllers
                 IsLive = dbModel.IsLive,
             };
         
-            foreach(var photo in dbModel.Photos)
+            foreach(var photo in dbModel.Photos.OrderBy(x => x.Rank))
             {
                 model.BlogPhotos.Add(new BlogPhotoModel
                 {
                     BlogEntryPhotoId = photo.BlogEntryPhotoId,
                     IsDefault = photo.IsDefault,
-                    PhotoUrl = photo.PhotoUrl
+                    PhotoUrl = photo.PhotoUrl,
+                    Title = photo.Title,
+                    Description = photo.Description
                 });
             }
 

@@ -9,24 +9,28 @@
                 <hr />
 
 
-               @if (Model.PhotoUrls != null && Model.PhotoUrls.Count > 1)
+               @if (Model.Photos != null && Model.Photos.Count > 1)
                {
                     <h3>Photos</h3>
                     <div class="gallery">
                         <div class="row">
-                            @foreach (var url in Model.PhotoUrls)
+                            @foreach (var photo in Model.Photos)
                             {
 
                                 <div class="col-md-12">
                                     <div class="thumbnail">
 
-                                        <a href="@url" data-caption="Image caption">
-                                            <img src="@url" alt="First image" style="width:100%" />
-                                            <div class="caption">
-                                                <p>Lorem ipsum...</p>
-                                            </div>
+                                        <a href="@photo.PhotoCdnUrl" data-caption="    @photo.Description ">
+                                            <img src="@photo.PhotoCdnUrl" alt="@photo.Title" longdesc="@photo.Title" style="width:100%" />
+                                        
                                         </a>
+                                        @if (!string.IsNullOrWhiteSpace(photo.Description))
+                                        {
+                                            <div class="caption">
 
+                                                @Html.Raw(photo.Description)
+                                            </div>
+                                        }
                                     </div>
                                 </div>
 

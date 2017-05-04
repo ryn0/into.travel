@@ -18,13 +18,4 @@ namespace IntoTravel.Web.Models
         public List<BlogPhotoModel> BlogPhotos { get; set; } = new List<BlogPhotoModel>();
     }
 
-    public class BlogPhotoModel
-    {
-
-        public int BlogEntryPhotoId { get; set; }
-
-        public string PhotoUrl { get; set; }
-
-        public bool IsDefault { get; set; }
-    }
 }

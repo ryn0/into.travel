@@ -116,8 +116,7 @@ namespace IntoTravel.Data.Migrations
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Description")
-                        .IsRequired();
+                    b.Property<string>("Description");
 
                     b.Property<bool>("IsDefault");
 
@@ -128,7 +127,6 @@ namespace IntoTravel.Data.Migrations
                     b.Property<int>("Rank");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasMaxLength(100);
 
                     b.Property<DateTime?>("UpdateDate")

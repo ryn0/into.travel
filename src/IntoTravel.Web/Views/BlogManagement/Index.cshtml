@@ -52,7 +52,7 @@
             </td>
             <td>
 
-                @using (Html.BeginForm("Delete", "BlogManagement", FormMethod.Post,
+                @using (Html.BeginForm("DeleteAsync", "BlogManagement", FormMethod.Post,
                                         new { role = "form", onsubmit = string.Format(@"return confirm('Do you really want to delete this?');") }))
                 {
                     <button type="submit" name="blogEntryId" value="@item.BlogEntryId" class="btn-danger btn-sm">Delete</button>
