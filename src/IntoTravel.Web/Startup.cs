@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using IntoTravel.Data.DbContextInfo;
 using IntoTravel.Data.Repositories.Implementations;
 using IntoTravel.Data.Repositories.Interfaces;
+using Microsoft.AspNetCore.Http.Features;
 
 namespace IntoTravel.Web
 {
@@ -30,6 +31,7 @@ namespace IntoTravel.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));

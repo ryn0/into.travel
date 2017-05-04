@@ -21,5 +21,7 @@ namespace IntoTravel.Web.Models
         public string Key { get; set; }
 
         public bool IsLive { get;  set; }
+        public string LiveUrlPath { get; set; }
+        public string PreviewUrlPath { get; set; }
     }
 }

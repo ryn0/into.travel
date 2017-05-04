@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Http.Internal;
 using System.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
+using IntoTravel.Web.Helpers;
 
 namespace IntoTravel.Web.Controllers
 {
@@ -56,10 +57,14 @@ namespace IntoTravel.Web.Controllers
         [HttpPost]
         public IActionResult Create(BlogManagementCreateModel model)
         {
+            if (!ModelState.IsValid)
+                throw new Exception();
+
+            var title = model.Title.Trim();
             var entry = _blogEntryRepository.Create(new BlogEntry()
             {
-                Title = model.Title,
-                Key = model.Title.UrlKey(),
+                Title = title,
+                Key = title.UrlKey(),
                 BlogPublishDateTimeUtc = DateTime.UtcNow
             });
 
@@ -197,6 +202,9 @@ namespace IntoTravel.Web.Controllers
         [HttpPost]
         public IActionResult Edit(BlogManagementEditModel model)
         {
+            if (!ModelState.IsValid)
+                throw new Exception();
+
             var dbModel = ConvertToDbModel(model);
 
             if (_blogEntryRepository.Update(dbModel))
@@ -213,7 +221,7 @@ namespace IntoTravel.Web.Controllers
         {
             var model = _blogEntryRepository.Get(key);
 
-            return View(IntoTravel.Web.Helpers.ModelConverter.Convert(model));
+            return View("DisplayBlog", ModelConverter.Convert(model));
         }
 
 
@@ -244,7 +252,9 @@ namespace IntoTravel.Web.Controllers
                     CreateDate = entry.CreateDate,
                     Title = entry.Title,
                     IsLive = entry.IsLive,
-                    Key = entry.Key
+                    Key = entry.Key,
+                    LiveUrlPath = UrlBuilder.BlogUrlPath(entry.Key, entry.BlogPublishDateTimeUtc),
+                    PreviewUrlPath = UrlBuilder.BlogPreviewUrlPath(entry.Key)
                 });
             }
 
@@ -254,13 +264,15 @@ namespace IntoTravel.Web.Controllers
 
         private BlogEntry ConvertToDbModel(BlogManagementEditModel model)
         {
+            var title = model.Title.Trim();
+
             var dbModel = _blogEntryRepository.Get(model.BlogEntryId);
             
             dbModel.BlogPublishDateTimeUtc = model.BlogPublishDateTimeUtc;
             dbModel.Content = model.Content;
-            dbModel.Title = model.Title;
+            dbModel.Title = title;
             dbModel.IsLive = model.IsLive;
-            dbModel.Key = model.Title.UrlKey();
+            dbModel.Key = title.UrlKey();
 
             return dbModel;
         }
@@ -273,7 +285,7 @@ namespace IntoTravel.Web.Controllers
                 Title = dbModel.Title,
                 BlogEntryId = dbModel.BlogEntryId,
                 BlogPublishDateTimeUtc = dbModel.BlogPublishDateTimeUtc,
-                IsLive = dbModel.IsLive
+                IsLive = dbModel.IsLive,
             };
         
             foreach(var photo in dbModel.Photos)
@@ -289,7 +301,7 @@ namespace IntoTravel.Web.Controllers
             return model;
         }
 
-        public   Stream ToAStream(Image image, ImageFormat formaw)
+        public Stream ToAStream(Image image, ImageFormat formaw)
         {
             var stream = new MemoryStream();
             image.Save(stream, formaw);

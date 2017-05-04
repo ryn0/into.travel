@@ -1,0 +1,24 @@
+﻿@model IntoTravel.Web.Models.BlogEntryDisplayModel
+
+@{
+    ViewData["Title"] = Model.Title;
+    ViewData["HeaderPhotoUrl"] = Model.DefaultPhotoUrl;
+}
+
+
+@section StylesHeader {
+ 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.8.2/baguetteBox.css"  />
+    }
+
+
+@section ScriptsFooter{
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.8.2/baguetteBox.min.js" ></script>
+   <script>
+       baguetteBox.run('.gallery');
+</script>
+}
+
+
+@{ await Html.RenderPartialAsync("_blogEntryDisplay", Model); }

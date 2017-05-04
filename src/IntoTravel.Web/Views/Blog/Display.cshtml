@@ -1,9 +1,0 @@
-﻿@model IntoTravel.Web.Models.BlogEntryDisplayModel
-
-@{
-    ViewData["Title"] = Model.Title;
-    ViewData["HeaderPhotoUrl"] = Model.DefaulPhotoUrl;
-}
-
-
-@{ await Html.RenderPartialAsync("_blogEntryDisplay", Model); }

@@ -9,6 +9,125 @@
 
 @{ await Html.RenderPartialAsync("_LoginPartial"); }
 
+ 
+<h4>@Model.Title</h4>
+
+@if (Model.BlogPhotos.Count() > 0)
+{
+    <div class="form-group">
+        <label class="col-md-2 control-label">Photos</label>
+
+        <a class="btn btn-info" href="~/blogmanagement/uploadphotos/@Model.BlogEntryId">Upload Photos</a>
+
+
+
+        <div class="col-md-10">
+            <table>
+                <thead>
+                    <tr>
+                        <th>
+                            URL
+                        </th>
+                        <th>
+                         
+                        </th><th>
+
+</th><th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var photo in Model.BlogPhotos)
+                {
+                        <tr>
+                            <td>
+                                <a href="@photo.PhotoUrl">
+                                    <img style="width:200px;" class="img-responsive" src="@photo.PhotoUrl" />
+                                </a>
+                            </td>
+                            <td>
+                                &#x2191;  &#x2193;
+                            </td>
+                            <td>
+                                <a href="#">Edit Description</a>
+                            </td>
+                            <td>
+                                @if (photo.IsDefault)
+                                {
+                                    <i>Current Thumbnail</i>
+                                }
+                                else
+                                {
+
+                                    @using (Html.BeginForm("SetDefaultPhoto", "BlogManagement", FormMethod.Post))
+                                    {
+
+                                        @Html.Hidden("blogEntryPhotoId", photo.BlogEntryPhotoId)
+
+                                        <fieldset>
+
+
+                                            <div class="editor-field">
+                                                <input class="btn btn-info btn-xs" type="submit" value="Set as thumbnail" />
+                                            </div>
+                                        </fieldset>
+                                    }
+                                }
+
+
+                            </td>
+
+
+                            <td>
+
+
+                                @using (Html.BeginForm("Rotate90DegreesAsync", "BlogManagement", FormMethod.Post,
+    new { onsubmit = string.Format(@"return confirm('Rotate?');") }))
+                                {
+
+                                    @Html.Hidden("blogEntryPhotoId", photo.BlogEntryPhotoId)
+
+                                    <fieldset>
+
+
+                                        <div class="editor-field">
+                                            <input class="btn btn-info btn-xs" type="submit" value="Rotate" />
+                                        </div>
+                                    </fieldset>
+                                }
+                            </td>
+
+                            <td>
+                                @using (Html.BeginForm("DeleteBlogPhotoAsync", "BlogManagement", FormMethod.Post,
+    new { onsubmit = string.Format(@"return confirm('Do you really want to delete this?');") }))
+                                {
+
+                                    @Html.Hidden("blogEntryPhotoId", photo.BlogEntryPhotoId)
+
+                                    <fieldset>
+
+
+                                        <div class="editor-field">
+                                            <input class="btn btn-danger btn-xs" type="submit" value="Delete" />
+                                        </div>
+                                    </fieldset>
+                                }
+
+                            </td>
+
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+}
+
+<hr />
 
 <form asp-controller="BlogManagement" asp-action="Edit" method="post" class="form-horizontal">
 
@@ -52,110 +171,6 @@
     </div>
 
 </form>
-<hr />
-    <a href="~/blogmanagement/uploadphotos/@Model.BlogEntryId">Upload Photos</a>
-
-    @if (Model.BlogPhotos.Count() > 0)
-    {
-    <div class="form-group">
-        <label class="col-md-2 control-label">Photos</label>
-        <div class="col-md-10">
-            <table>
-                <thead>
-                    <tr>
-                        <th>
-                            URL
-                        </th>
-                        <th>
-                            Is Default
-                        </th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var photo in Model.BlogPhotos)
-                {
-                        <tr>
-                            <td>
-                                <a href="@photo.PhotoUrl">
-                                    <img style="width:200px;" class="img-responsive" src="@photo.PhotoUrl" />
-                                </a>
-                                </td>
-                            <td>
-                                @if (photo.IsDefault)
-                                {
-                                  <span>@photo.IsDefault</span>
-                                }
-                                else
-                                {
-
-                                    @using (Html.BeginForm("SetDefaultPhoto", "BlogManagement", FormMethod.Post ))
-                                    {
-
-    @Html.Hidden("blogEntryPhotoId", photo.BlogEntryPhotoId)
-
-    <fieldset>
-
-
-        <div class="editor-field">
-            <input class="btn btn-info btn-xs" type="submit" value="Set Default" />
-        </div>
-    </fieldset>
-                                    }
-                                }
-
-
-                            </td>
-                           
-                        
-                            <td>
-                                
-
-                                @using (Html.BeginForm("Rotate90DegreesAsync", "BlogManagement", FormMethod.Post,
-                new { onsubmit = string.Format(@"return confirm('Rotate?');") }))
-                                {
-
-                                    @Html.Hidden("blogEntryPhotoId", photo.BlogEntryPhotoId)
-
-                                    <fieldset>
-
-
-                                        <div class="editor-field">
-                                            <input class="btn btn-info btn-xs" type="submit" value="Rotate" />
-                                        </div>
-                                    </fieldset>
-                                }
-                            </td>
-
-                            <td>
-                                @using (Html.BeginForm("DeleteBlogPhotoAsync", "BlogManagement", FormMethod.Post,
-                new { onsubmit = string.Format(@"return confirm('Do you really want to delete this?');") }))
-                                {
-
-                                    @Html.Hidden("blogEntryPhotoId", photo.BlogEntryPhotoId)
-
-                                    <fieldset>
-
-
-                                        <div class="editor-field">
-                                            <input class="btn btn-danger btn-xs" type="submit" value="Delete" />
-                                        </div>
-                                    </fieldset>
-                                }
-
-                            </td>
-
-                        </tr>
-                       
-                    }
-                </tbody>
-            </table>
- 
-        </div>
-    </div>
-
-    }
 
  
 

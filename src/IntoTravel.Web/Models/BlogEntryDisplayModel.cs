@@ -48,7 +48,7 @@ namespace IntoTravel.Web.Models
             }
         }
 
-        public string DefaulPhotoUrl { get; set; }
+        public string DefaultPhotoUrl { get; set; }
 
         public List<string> Tags { get; set; } = new List<string>();
 

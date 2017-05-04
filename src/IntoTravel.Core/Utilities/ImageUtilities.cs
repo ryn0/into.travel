@@ -1,19 +1,10 @@
-﻿
- 
-using System;
+﻿using System;
 using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IntoTravel.Core.Utilities
 {
     public class ImageUtilities
     {
-       
-
         public Bitmap RotateImage(Image image, float angle)
         {
             if (image == null)

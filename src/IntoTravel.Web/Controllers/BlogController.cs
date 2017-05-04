@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
 using IntoTravel.Data.Repositories.Interfaces;
+using IntoTravel.Web.Helpers;
 
 namespace IntoTravel.Web.Controllers
 {
@@ -21,7 +22,7 @@ namespace IntoTravel.Web.Controllers
 
             ValidateRequest(year, month, day, model);
 
-            return View(Helpers.ModelConverter.Convert(model));
+            return View("DisplayBlog", ModelConverter.Convert(model));
         }
 
         private static void ValidateRequest(string year, string month, string day, Data.Models.BlogEntry model)

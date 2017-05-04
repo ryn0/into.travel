@@ -15,6 +15,15 @@ namespace IntoTravel.Data.Models
 
         public bool IsDefault { get; set; }
 
+        public int Rank { get; set; }
+
+        [Required]
+        [StringLength(100)]
+        public string Title { get; set; }
+
+        [Required]
+        public string Description { get; set; }
+
         public int BlogEntryId { get; set; }
 
         public virtual BlogEntry BlogEntry  { get; set; }

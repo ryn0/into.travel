@@ -35,13 +35,14 @@
                 @item.IsLive
             </td>
             <td>
-                <a href="~/blogmanagement/preview/@item.Key">Preview</a>
-                
+                <a href="@item.PreviewUrlPath">Preview</a>
             </td>
             <td>
                 @if (item.IsLive)
                 {
-                <span>TODO</span>
+                <span>
+                    <a href="@item.LiveUrlPath">Live</a>
+                </span>
                 }
             </td>
 

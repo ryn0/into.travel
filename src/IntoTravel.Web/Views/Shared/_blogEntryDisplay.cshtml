@@ -7,9 +7,42 @@
                 <h1>@Model.Title</h1>
          <i>@Model.FriendlyDateDisplay </i>
                 <hr />
+
+
+               @if (Model.PhotoUrls != null && Model.PhotoUrls.Count > 1)
+               {
+                    <h3>Photos</h3>
+                    <div class="gallery">
+                        <div class="row">
+                            @foreach (var url in Model.PhotoUrls)
+                            {
+
+                                <div class="col-md-12">
+                                    <div class="thumbnail">
+
+                                        <a href="@url" data-caption="Image caption">
+                                            <img src="@url" alt="First image" style="width:100%" />
+                                            <div class="caption">
+                                                <p>Lorem ipsum...</p>
+                                            </div>
+                                        </a>
+
+                                    </div>
+                                </div>
+
+                            }
+                        </div>
+
+                    </div>
+               }
+
                 @Html.Raw(Model.Content)
             </div>
         </div>
     </div>
+
+
+
+
 </article>
-<hr />
+<hr /> 

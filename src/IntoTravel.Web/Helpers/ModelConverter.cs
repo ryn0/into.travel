@@ -8,26 +8,24 @@ namespace IntoTravel.Web.Helpers
     {
         public static BlogEntryDisplayModel Convert(BlogEntry blogEntry)
         {
-      
-          
-            var model =  new BlogEntryDisplayModel()
+            var defaultPhotoUrl = blogEntry.Photos.FirstOrDefault(x => x.IsDefault == true);
+
+            var model = new BlogEntryDisplayModel()
             {
                 BlogPublishDateTimeUtc = blogEntry.BlogPublishDateTimeUtc,
                 Content = blogEntry.Content,
                 Key = blogEntry.Key,
                 Title = blogEntry.Title,
-                UrlPath = string.Format("/{0}/{1}/{2}/{3}", 
-                            blogEntry.BlogPublishDateTimeUtc.Year.ToString("0000"), 
-                            blogEntry.BlogPublishDateTimeUtc.Month.ToString("00"), 
-                            blogEntry.BlogPublishDateTimeUtc.Day.ToString("00"),  
+                UrlPath = string.Format("/{0}/{1}/{2}/{3}",
+                            blogEntry.BlogPublishDateTimeUtc.Year.ToString("0000"),
+                            blogEntry.BlogPublishDateTimeUtc.Month.ToString("00"),
+                            blogEntry.BlogPublishDateTimeUtc.Day.ToString("00"),
                             blogEntry.Key),
-                DefaulPhotoUrl = blogEntry.Photos.FirstOrDefault(x => x.IsDefault == true).PhotoUrl
-                // todo: other props
+                PhotoUrls = blogEntry.Photos.Select(x => x.PhotoUrl).ToList(),
+                DefaultPhotoUrl = (defaultPhotoUrl != null) ? defaultPhotoUrl.PhotoUrl : null
             };
 
             return model;
-            
-
         }
     }
 }
