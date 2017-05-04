@@ -1,4 +1,6 @@
 ﻿@model IntoTravel.Web.Models.BlogManagementListModel
+ 
+ 
 @{
     ViewData["Title"] = "Blog Entries";
 }
@@ -64,4 +66,20 @@
         }
     </tbody>
 </table>
+}
+@{
+    int pageCount = Model.PageCount;
+
+    for (int pageNumber = 1; pageNumber <= pageCount; pageNumber++)
+    {
+        if (ViewBag.CurrentPage == pageNumber)
+        {
+            @pageNumber
+        }
+        else
+        {
+            <a href="@Url.Content("~/BlogManagement?pageNumber=" + pageNumber.ToString())">@pageNumber.ToString()</a>
+        }
+    }
+
 }

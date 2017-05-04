@@ -1,12 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace IntoTravel.Web.Models
 {
     public class BlogManagementListModel
     {
+        public int PageCount { get; set; }
+
+        public int Total { get; set; }
+
+        public int CurrentPageNumber { get; set; }
+
+        public int QuantityPerPage { get; set; }
+
         public List<BlogManagementEntryItemModel> Items { get; set; } = new List<BlogManagementEntryItemModel>();
     }
 

@@ -8,8 +8,8 @@ namespace IntoTravel.Web.Helpers
 {
     public class ModelConverter
     {
-        const string CdnPrefix = "cdn.into.travel";
-        const string BlobPreix = "cdn.into.travel";
+        const string BlobPreix = "https://intotravel.blob.core.windows.net";
+        const string CdnPrefix = "http://cdn.into.travel";
 
         public static BlogEntryDisplayModel Convert(BlogEntry blogEntry)
         {

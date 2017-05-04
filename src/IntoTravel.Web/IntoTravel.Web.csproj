@@ -111,9 +111,6 @@
     <Content Include="wwwroot\lib\bootstrap\LICENSE">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-    <Content Include="wwwroot\lib\ckeditor\ckeditor - Copy.js">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
     <Content Include="wwwroot\lib\ckeditor\contents.css">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
@@ -124,9 +121,7 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
     <Content Include="wwwroot\lib\ckeditor\config.js" />
-    <Content Include="wwwroot\lib\ckeditor\en.js" />
     <Content Include="wwwroot\lib\ckeditor\lang\en.js" />
-    <Content Include="wwwroot\lib\ckeditor\sample.js" />
     <Content Include="wwwroot\lib\jquery-validation-unobtrusive\.bower.json">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>

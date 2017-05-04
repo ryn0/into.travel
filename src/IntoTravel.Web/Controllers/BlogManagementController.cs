@@ -9,7 +9,6 @@ using IntoTravel.Core.Utilities;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 using System.Linq;
-using Microsoft.AspNetCore.Http.Internal;
 using System.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -42,6 +41,11 @@ namespace IntoTravel.Web.Controllers
             var blogEntries = _blogEntryRepository.GetPage(pageNumber, AmountPerPage, out total);
 
             var model = ConvertToListModel(blogEntries);
+            model.Total = total;
+            model.CurrentPageNumber = pageNumber;
+            model.QuantityPerPage = AmountPerPage;
+            var pageCount = (double)model.Total / model.QuantityPerPage;
+            model.PageCount = (int)Math.Ceiling(pageCount);
 
             return View(model);
         }
@@ -92,7 +96,22 @@ namespace IntoTravel.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> DeleteBlogPhotoAsync(int blogEntryPhotoId)
         {
-            var entry = await DeleteBlogPhoto(blogEntryPhotoId);
+            var entry = _blogEntryPhotoRepository.Get(blogEntryPhotoId);
+
+            var allBlogPhotos = _blogEntryPhotoRepository.GetBlogPhotos(entry.BlogEntryId)
+                                                         .Where(x => x.BlogEntryPhotoId != blogEntryPhotoId)
+                                                         .OrderBy(x => x.Rank);
+
+            await DeleteBlogPhoto(blogEntryPhotoId);
+            int newRank = 1;
+
+            foreach(var photo in allBlogPhotos)
+            {
+                photo.Rank = newRank;
+                _blogEntryPhotoRepository.Update(photo);
+
+                newRank++;
+            }
 
             return RedirectToAction("Edit", new { blogEntryId = entry.BlogEntryId });
         }
@@ -215,14 +234,15 @@ namespace IntoTravel.Web.Controllers
                 await DeleteBlogPhoto(photo.BlogEntryPhotoId);
             }
 
-            _blogEntryRepository.Delete(blogEntryId);
+            var task = Task.Run(() => _blogEntryRepository.Delete(blogEntryId));
+            var myOutput = await task; 
 
             return RedirectToAction("Index");
         }
 
 
 
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> Rotate90DegreesAsync(int blogEntryPhotoId)
         {
             var entry = _blogEntryPhotoRepository.Get(blogEntryPhotoId);
@@ -234,7 +254,7 @@ namespace IntoTravel.Web.Controllers
  
             Image fullPhoto = rotatedBitmap;
 
-            var streamRotated = ToAStream(fullPhoto, ImageFormat.Jpeg);
+            var streamRotated = ToAStream(fullPhoto, SetImageFormat(entry.PhotoUrl));
 
             await _siteFilesRepository.UploadAsync(
                                         streamRotated, 
@@ -379,6 +399,25 @@ namespace IntoTravel.Web.Controllers
             image.Save(stream, formaw);
             stream.Position = 0;
             return stream;
+        }
+
+
+        private ImageFormat SetImageFormat(string photoUrl)
+        {
+            var extension = photoUrl.GetFileExtension();
+
+            switch(extension)
+            {
+                case "jpg":
+                case "jpeg":
+                    return ImageFormat.Jpeg;
+                case "png":
+                    return ImageFormat.Png;
+                case "gif":
+                    return ImageFormat.Gif;
+                default:
+                    return ImageFormat.Jpeg;
+            }
         }
     }
 }

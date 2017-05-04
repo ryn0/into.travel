@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -24,5 +25,12 @@ namespace IntoTravel.Core.Utilities
 
             return filename;
         }
+
+
+        public static string GetFileExtension(this string fileName)
+        {
+            return Path.GetExtension(fileName).ToLower().Replace(".", string.Empty);
+        }
+
     }
 }

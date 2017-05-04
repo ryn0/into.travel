@@ -20,17 +20,23 @@
                                 <div class="col-md-12">
                                     <div class="thumbnail">
 
-                                        <a href="@photo.PhotoCdnUrl" data-caption="    @photo.Description ">
-                                            <img src="@photo.PhotoCdnUrl" alt="@photo.Title" longdesc="@photo.Title" style="width:100%" />
-                                        
+                                        <a href="@photo.PhotoCdnUrl" data-caption="@photo.Title">
+                                            <img src="@photo.PhotoCdnUrl" alt="@photo.Title" title="@photo.Title" style="width:100%" />
                                         </a>
-                                        @if (!string.IsNullOrWhiteSpace(photo.Description))
-                                        {
-                                            <div class="caption">
+                                        <div class="caption">
+                                            @if (!string.IsNullOrWhiteSpace(photo.Description))
+                                            {
+                                                 
+                                                    @Html.Raw(photo.Description)
+                                                
+                                            }
+                                            else
+                                            {
 
-                                                @Html.Raw(photo.Description)
-                                            </div>
-                                        }
+                                                <br />
+
+                                            }
+                                        </div>
                                     </div>
                                 </div>
 
