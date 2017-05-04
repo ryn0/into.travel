@@ -20,7 +20,7 @@ namespace IntoTravel.Web.Models
 
         public List<BlogPhotoModel> BlogPhotos { get; set; } = new List<BlogPhotoModel>();
 
-        public List<BlogEntryTagModel> BlogTags { get; set; } = new List<BlogEntryTagModel>();
+        public List<string> BlogTags { get; set; } = new List<string>();
 
         public string Tags { get; set; }
     }

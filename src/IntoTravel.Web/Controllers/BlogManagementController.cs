@@ -296,53 +296,14 @@ namespace IntoTravel.Web.Controllers
                     _blogEntryPhotoRepository.Update(photo);
                 }
 
-                //var currentTags = model.Tags.Replace(" ", string.Empty).Split(',');
-                //var previousTags = new ArrayList();
-
-                //foreach(var tag in dbModel.BlogEntryTags)
-                //{
-                //    previousTags.Add(tag.Tag.Name);
-                //}
-
-                //var tagsToAdd = currentTags.Except(previousTags.ToArray());
-                //var tagsToRemove = previousTags.ToArray().Except(currentTags);
-
-                //foreach (var tag in tagsToAdd)
-                //{
-                //    if (dbModel.BlogEntryTags.FirstOrDefault(x => x.Tag.Name == tag.ToString()) == null)
-                //    {
-                //        var tagDb = _tagRepository.Get(tag.ToString());
-
-                //        if (tagDb == null  || tagDb.TagId == 0)
-                //        {
-                //            _tagRepository.Create(new Tag
-                //            {
-                //                Name = tag.ToString()
-                //            });
-
-                //            tagDb = _tagRepository.Get(tag.ToString());
-                //        }
-
-                //        _blogEntryTagRepository.Create(new BlogEntryTag()
-                //        {
-                //            BlogEntryId = model.BlogEntryId,
-                //            TagId = tagDb.TagId,
-                //        });
-                //    }
-                //}
-
-                //foreach (var tag in tagsToRemove)
-                //{
-                //    var tagDb = _tagRepository.Get(tag.ToString());
-
-                //    _blogEntryTagRepository.Delete(model.BlogEntryId, tagDb.TagId);
-                //}
+                SetBlogTags(model, dbModel);
 
                 return RedirectToAction("Index");
             }
 
             return View(model);
         }
+
 
         [Route("blogmanagement/preview/{key}")]
         [HttpGet]
@@ -441,15 +402,12 @@ namespace IntoTravel.Web.Controllers
                 });
             }
 
-            //foreach (var tagItem in dbModel.BlogEntryTags.OrderBy(x => x.Tag.Name))
-            //{
-            //    model.BlogTags.Add(new BlogEntryTagModel
-            //    {
-            //        Name = tagItem.Tag.Name
-            //    });
-            //}
-
-            //model.Tags = string.Join(", ", model.BlogTags.SelectMany(x => x.Name).ToArray());
+            foreach (var tagItem in dbModel.BlogEntryTags.OrderBy(x => x.Tag.Name))
+            {
+                model.BlogTags.Add(tagItem.Tag.Name);
+            }
+ 
+            model.Tags = string.Join(", ", model.BlogTags);
 
             return model;
         }
@@ -462,6 +420,58 @@ namespace IntoTravel.Web.Controllers
             return stream;
         }
 
+
+        private void SetBlogTags(BlogManagementEditModel model, BlogEntry dbModel)
+        {
+            var currentTags = model.Tags.Replace(" ", string.Empty).Split(',');
+            var previousTags = new ArrayList();
+
+            foreach (var tag in dbModel.BlogEntryTags)
+            {
+                previousTags.Add(tag.Tag.Name);
+            }
+
+            var tagsToAdd = currentTags.Except(previousTags.ToArray());
+            var tagsToRemove = previousTags.ToArray().Except(currentTags);
+
+            foreach (var tag in tagsToAdd)
+            {
+                var tagName = tag.ToString().Trim();
+
+                if (string.IsNullOrWhiteSpace(tagName))
+                    continue;
+
+                if (dbModel.BlogEntryTags.FirstOrDefault(x => x.Tag.Name == tagName) == null)
+                {
+                    var tagDb = _tagRepository.Get(tagName);
+
+                    if (tagDb == null || tagDb.TagId == 0)
+                    {
+                        _tagRepository.Create(new Tag
+                        {
+                            Name = tagName
+                        });
+
+                        tagDb = _tagRepository.Get(tagName);
+                    }
+
+                    _blogEntryTagRepository.Create(new BlogEntryTag()
+                    {
+                        BlogEntryId = model.BlogEntryId,
+                        TagId = tagDb.TagId,
+                    });
+                }
+            }
+
+            foreach (var tag in tagsToRemove)
+            {
+                var tagName = tag.ToString().Trim();
+
+                var tagDb = _tagRepository.Get(tagName);
+
+                _blogEntryTagRepository.Delete(tagDb.TagId, model.BlogEntryId);
+            }
+        }
 
         private ImageFormat SetImageFormat(string photoUrl)
         {
