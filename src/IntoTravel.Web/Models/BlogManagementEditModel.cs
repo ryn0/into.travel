@@ -15,6 +15,9 @@ namespace IntoTravel.Web.Models
 
         public bool IsLive { get;   set; }
 
+        public string LiveUrlPath { get; set; }
+        public string PreviewUrlPath { get; set; }
+
         public List<BlogPhotoModel> BlogPhotos { get; set; } = new List<BlogPhotoModel>();
     }
 

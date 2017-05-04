@@ -9,8 +9,12 @@
 
 @{ await Html.RenderPartialAsync("_LoginPartial"); }
 
+
+<a href="@Model.PreviewUrlPath">Preview</a>
  
 <h4>@Model.Title</h4>
+ 
+
 
 <form asp-controller="BlogManagement" asp-action="Edit" method="post" class="form-horizontal">
 

@@ -376,6 +376,8 @@ namespace IntoTravel.Web.Controllers
                 BlogEntryId = dbModel.BlogEntryId,
                 BlogPublishDateTimeUtc = dbModel.BlogPublishDateTimeUtc,
                 IsLive = dbModel.IsLive,
+                LiveUrlPath = UrlBuilder.BlogUrlPath(dbModel.Key, dbModel.BlogPublishDateTimeUtc),
+                PreviewUrlPath = UrlBuilder.BlogPreviewUrlPath(dbModel.Key)
             };
         
             foreach(var photo in dbModel.Photos.OrderBy(x => x.Rank))
