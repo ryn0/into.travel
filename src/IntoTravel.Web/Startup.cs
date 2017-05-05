@@ -29,10 +29,11 @@ namespace IntoTravel.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
+            services.AddMemoryCache();
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                    Configuration.GetConnectionString("SqlServerConnection")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -44,10 +45,8 @@ namespace IntoTravel.Web
             services.AddTransient<IBlogEntryTagRepository, BlogEntryTagRepository>();
             services.AddTransient<IApplicationDbContext, ApplicationDbContext>();
 
-            var connectionString = "CONNECTION_STRING";
-
             services.AddTransient<ISiteFilesRepository>(provider => 
-                new SiteFilesRepository(connectionString));
+                new SiteFilesRepository(Configuration.GetConnectionString("AzureStorageConnection")));
              
             // Add framework services.
             services.AddMvc();

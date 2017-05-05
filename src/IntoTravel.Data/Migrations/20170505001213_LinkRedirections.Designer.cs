@@ -8,9 +8,10 @@ using IntoTravel.Data.DbContextInfo;
 namespace IntoTravel.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170505001213_LinkRedirections")]
+    partial class LinkRedirections
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1")
@@ -159,27 +160,6 @@ namespace IntoTravel.Data.Migrations
                     b.HasIndex("TagId");
 
                     b.ToTable("BlogEntryTag");
-                });
-
-            modelBuilder.Entity("IntoTravel.Data.Models.Db.EmailSubscription", b =>
-                {
-                    b.Property<int>("EmailSubscriptionId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(100);
-
-                    b.Property<bool>("IsSubscribed");
-
-                    b.Property<DateTime?>("UpdateDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("EmailSubscriptionId");
-
-                    b.ToTable("EmailSubscription");
                 });
 
             modelBuilder.Entity("IntoTravel.Data.Models.Db.LinkRedirection", b =>

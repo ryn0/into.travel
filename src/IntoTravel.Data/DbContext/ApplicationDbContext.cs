@@ -6,6 +6,8 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using IntoTravel.Data.Models.Db;
+using System.Collections.Generic;
 
 namespace IntoTravel.Data.DbContextInfo
 {
@@ -27,7 +29,12 @@ namespace IntoTravel.Data.DbContextInfo
         public DbSet<ApplicationUser> ApplicationUser { get; set; }
 
         public DbSet<ApplicationUserRole> ApplicationUserRole { get; set; }
- 
+
+        public DbSet<LinkRedirection> LinkRedirection { get; set; }
+
+        public DbSet<EmailSubscription> EmailSubscription { get; set; }
+
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<BlogEntry>()

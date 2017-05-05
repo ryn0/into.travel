@@ -21,7 +21,7 @@ namespace IntoTravel.Data.DbContextInfo
 
             Configuration = builderConfigs.Build();
 
-            var connectionString = Configuration["ConnectionStrings:DefaultConnection"];
+            var connectionString = Configuration["ConnectionStrings:SqlServerConnection"];
 
             builder.UseSqlServer(connectionString);
 

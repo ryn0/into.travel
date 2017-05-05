@@ -1,4 +1,5 @@
 ﻿using IntoTravel.Data.Models;
+using IntoTravel.Data.Models.Db;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading;
@@ -19,6 +20,8 @@ namespace IntoTravel.Data.DbContextInfo
         DbSet<ApplicationUser> ApplicationUser { get; set; }
 
         DbSet<ApplicationUserRole> ApplicationUserRole { get; set; }
+
+        DbSet<LinkRedirection> LinkRedirection { get; set; }
 
 
         int SaveChanges();
