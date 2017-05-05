@@ -1,30 +1,28 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using IntoTravel.Data.Repositories.Interfaces;
 using IntoTravel.Data.Enums;
-using IntoTravel.Web.Models;
+using IntoTravel.Web.Helpers;
 
 namespace IntoTravel.Web.Controllers
 {
     public class ContactController : Controller
     {
         private readonly IContentSnippetRepository _contentSnippetRepository;
+        private readonly IContentSnippetHelper _contentSnippetHelper;
 
-        public ContactController(IContentSnippetRepository contentSnippetRepository)
+        public ContactController(
+            IContentSnippetRepository contentSnippetRepository,
+            IContentSnippetHelper contentSnippetHelper)
         {
             _contentSnippetRepository = contentSnippetRepository;
+            _contentSnippetHelper = contentSnippetHelper;
         }
 
         public IActionResult Index()
         {
-            var dbModel = _contentSnippetRepository.Get(SnippetType.Contact);
-            var model = new ContentSnippetDisplayModel()
-            {
-                Content = dbModel.Content,
-                SnippetType = dbModel.SnippetType
-            };
+            var model = _contentSnippetHelper.GetSnippet(SnippetType.Contact);
 
             return View(model);
         }
-
     }
 }

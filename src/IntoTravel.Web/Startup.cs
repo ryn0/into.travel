@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using IntoTravel.Data.DbContextInfo;
 using IntoTravel.Data.Repositories.Implementations;
 using IntoTravel.Data.Repositories.Interfaces;
+using IntoTravel.Web.Helpers;
 
 namespace IntoTravel.Web
 {
@@ -50,6 +51,9 @@ namespace IntoTravel.Web
 
             // db context
             services.AddTransient<IApplicationDbContext, ApplicationDbContext>();
+
+            // other
+            services.AddSingleton<IContentSnippetHelper, ContentSnippetHelper>();
 
             services.AddTransient<ISiteFilesRepository>(provider => 
                 new SiteFilesRepository(Configuration.GetConnectionString("AzureStorageConnection")));
