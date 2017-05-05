@@ -37,17 +37,86 @@ namespace IntoTravel.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Blogs",
+                name: "BlogEntry",
                 columns: table => new
                 {
                     BlogEntryId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    BlogPublishDateTimeUtc = table.Column<DateTime>(nullable: false),
                     Content = table.Column<string>(nullable: true),
-                    Title = table.Column<string>(nullable: true)
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsLive = table.Column<bool>(nullable: false),
+                    Key = table.Column<string>(maxLength: 255, nullable: false),
+                    MetaDescription = table.Column<string>(maxLength: 160, nullable: true),
+                    Title = table.Column<string>(maxLength: 255, nullable: false),
+                    UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Blogs", x => x.BlogEntryId);
+                    table.PrimaryKey("PK_BlogEntry", x => x.BlogEntryId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ContentSnippet",
+                columns: table => new
+                {
+                    ContentSnippetId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Content = table.Column<string>(nullable: true),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    SnippetType = table.Column<int>(nullable: false),
+                    UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ContentSnippet", x => x.ContentSnippetId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EmailSubscription",
+                columns: table => new
+                {
+                    EmailSubscriptionId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Email = table.Column<string>(maxLength: 100, nullable: true),
+                    IsSubscribed = table.Column<bool>(nullable: false),
+                    UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EmailSubscription", x => x.EmailSubscriptionId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "LinkRedirection",
+                columns: table => new
+                {
+                    LinkRedirectionId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LinkKey = table.Column<string>(maxLength: 75, nullable: true),
+                    UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UrlDestination = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LinkRedirection", x => x.LinkRedirectionId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tag",
+                columns: table => new
+                {
+                    TagId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tag", x => x.TagId);
                 });
 
             migrationBuilder.CreateTable(
@@ -120,6 +189,58 @@ namespace IntoTravel.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "BlogEntryPhoto",
+                columns: table => new
+                {
+                    BlogEntryPhotoId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    BlogEntryId = table.Column<int>(nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Description = table.Column<string>(nullable: true),
+                    IsDefault = table.Column<bool>(nullable: false),
+                    PhotoUrl = table.Column<string>(maxLength: 255, nullable: false),
+                    Rank = table.Column<int>(nullable: false),
+                    Title = table.Column<string>(maxLength: 100, nullable: true),
+                    UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BlogEntryPhoto", x => x.BlogEntryPhotoId);
+                    table.ForeignKey(
+                        name: "FK_BlogEntryPhoto_BlogEntry_BlogEntryId",
+                        column: x => x.BlogEntryId,
+                        principalTable: "BlogEntry",
+                        principalColumn: "BlogEntryId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BlogEntryTag",
+                columns: table => new
+                {
+                    BlogEntryId = table.Column<int>(nullable: false),
+                    TagId = table.Column<int>(nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BlogEntryTag", x => new { x.BlogEntryId, x.TagId });
+                    table.ForeignKey(
+                        name: "FK_BlogEntryTag_BlogEntry_BlogEntryId",
+                        column: x => x.BlogEntryId,
+                        principalTable: "BlogEntry",
+                        principalColumn: "BlogEntryId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BlogEntryTag_Tag_TagId",
+                        column: x => x.TagId,
+                        principalTable: "Tag",
+                        principalColumn: "TagId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -177,6 +298,28 @@ namespace IntoTravel.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_BlogEntry_Key",
+                table: "BlogEntry",
+                column: "Key",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BlogEntryPhoto_BlogEntryId",
+                table: "BlogEntryPhoto",
+                column: "BlogEntryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BlogEntryTag_TagId",
+                table: "BlogEntryTag",
+                column: "TagId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ContentSnippet_SnippetType",
+                table: "ContentSnippet",
+                column: "SnippetType",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
                 table: "AspNetRoles",
                 column: "NormalizedName",
@@ -206,7 +349,19 @@ namespace IntoTravel.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Blogs");
+                name: "BlogEntryPhoto");
+
+            migrationBuilder.DropTable(
+                name: "BlogEntryTag");
+
+            migrationBuilder.DropTable(
+                name: "ContentSnippet");
+
+            migrationBuilder.DropTable(
+                name: "EmailSubscription");
+
+            migrationBuilder.DropTable(
+                name: "LinkRedirection");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
@@ -222,6 +377,12 @@ namespace IntoTravel.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "BlogEntry");
+
+            migrationBuilder.DropTable(
+                name: "Tag");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

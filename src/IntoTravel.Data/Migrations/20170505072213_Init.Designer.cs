@@ -4,12 +4,13 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using IntoTravel.Data.DbContextInfo;
+using IntoTravel.Data.Enums;
 
 namespace IntoTravel.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170501195428_BlogProperties")]
-    partial class BlogProperties
+    [Migration("20170505072213_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -86,16 +87,26 @@ namespace IntoTravel.Data.Migrations
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsLive");
+
                     b.Property<string>("Key")
+                        .IsRequired()
                         .HasMaxLength(255);
 
+                    b.Property<string>("MetaDescription")
+                        .HasMaxLength(160);
+
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasMaxLength(255);
 
                     b.Property<DateTime?>("UpdateDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("BlogEntryId");
+
+                    b.HasIndex("Key")
+                        .IsUnique();
 
                     b.ToTable("BlogEntry");
                 });
@@ -110,7 +121,18 @@ namespace IntoTravel.Data.Migrations
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("PhotoUrl");
+                    b.Property<string>("Description");
+
+                    b.Property<bool>("IsDefault");
+
+                    b.Property<string>("PhotoUrl")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<int>("Rank");
+
+                    b.Property<string>("Title")
+                        .HasMaxLength(100);
 
                     b.Property<DateTime?>("UpdateDate")
                         .HasColumnType("datetime2");
@@ -139,6 +161,71 @@ namespace IntoTravel.Data.Migrations
                     b.HasIndex("TagId");
 
                     b.ToTable("BlogEntryTag");
+                });
+
+            modelBuilder.Entity("IntoTravel.Data.Models.Db.ContentSnippet", b =>
+                {
+                    b.Property<int>("ContentSnippetId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Content");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("SnippetType");
+
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ContentSnippetId");
+
+                    b.HasIndex("SnippetType")
+                        .IsUnique();
+
+                    b.ToTable("ContentSnippet");
+                });
+
+            modelBuilder.Entity("IntoTravel.Data.Models.Db.EmailSubscription", b =>
+                {
+                    b.Property<int>("EmailSubscriptionId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(100);
+
+                    b.Property<bool>("IsSubscribed");
+
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("EmailSubscriptionId");
+
+                    b.ToTable("EmailSubscription");
+                });
+
+            modelBuilder.Entity("IntoTravel.Data.Models.Db.LinkRedirection", b =>
+                {
+                    b.Property<int>("LinkRedirectionId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LinkKey")
+                        .HasMaxLength(75);
+
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UrlDestination");
+
+                    b.HasKey("LinkRedirectionId");
+
+                    b.ToTable("LinkRedirection");
                 });
 
             modelBuilder.Entity("IntoTravel.Data.Models.Tag", b =>
@@ -291,13 +378,13 @@ namespace IntoTravel.Data.Migrations
 
             modelBuilder.Entity("IntoTravel.Data.Models.BlogEntryTag", b =>
                 {
-                    b.HasOne("IntoTravel.Data.Models.BlogEntry")
-                        .WithMany("Tags")
+                    b.HasOne("IntoTravel.Data.Models.BlogEntry", "BlogEntry")
+                        .WithMany("BlogEntryTags")
                         .HasForeignKey("BlogEntryId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("IntoTravel.Data.Models.Tag", "Tag")
-                        .WithMany()
+                        .WithMany("BlogEntryTags")
                         .HasForeignKey("TagId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
