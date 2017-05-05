@@ -10,20 +10,23 @@
 
 
 @section StylesHeader {
- 
-<link rel="stylesheet" href="https://intotravel.blob.core.windows.net/sitecontent/css/baguetteBox.css"  />
+
+    <link rel="stylesheet" href="https://intotravel.blob.core.windows.net/sitecontent/css/baguetteBox.css" />
     <style>
-        .caption p {margin-bottom: 30px; margin-top: 5px;}
+        .caption p {
+            margin-bottom: 30px;
+            margin-top: 5px;
+        }
     </style>
-    }
+}
 
 
 @section ScriptsFooter{
 
-<script src="https://intotravel.blob.core.windows.net/sitecontent/scripts/baguetteBox.min.js" ></script>
-   <script>
-       baguetteBox.run('.gallery');
-</script>
+    <script src="https://intotravel.blob.core.windows.net/sitecontent/scripts/baguetteBox.min.js"></script>
+    <script>
+        baguetteBox.run('.gallery');
+    </script>
 }
 <article>
     <div class="container">
@@ -36,39 +39,39 @@
 
                 @if (Model.Photos != null && Model.Photos.Count > 1)
                 {
-                    <h3>Photos</h3>
-                    <div class="gallery">
-                        <div class="row">
-                            @foreach (var photo in Model.Photos)
+                <h3>Photos</h3>
+                <div class="gallery">
+                    <div class="row">
+                        @foreach (var photo in Model.Photos)
                             {
 
-                                <div class="col-md-12">
-                                    <div class="thumbnail">
+                            <div class="col-md-12">
+                                <div class="thumbnail">
 
-                                        <a href="@photo.PhotoCdnUrl" data-caption="@photo.Title">
-                                            <img src="@photo.PhotoCdnUrl" alt="@photo.Title" title="@photo.Title" style="width:100%" />
-                                        </a>
-                                        <div class="caption">
-                                            @if (!string.IsNullOrWhiteSpace(photo.Description))
+                                    <a href="@photo.PhotoCdnUrl" data-caption="@photo.Title">
+                                        <img src="@photo.PhotoCdnUrl" alt="@photo.Title" title="@photo.Title" style="width:100%" />
+                                    </a>
+                                    <div class="caption">
+                                        @if (!string.IsNullOrWhiteSpace(photo.Description))
                                             {
 
-                                                @Html.Raw(photo.Description)
+                                            @Html.Raw(photo.Description)
 
                                             }
                                             else
                                             {
 
-                                                <br />
+                                            <br />
 
                                             }
-                                        </div>
                                     </div>
                                 </div>
+                            </div>
 
                             }
-                        </div>
-
                     </div>
+
+                </div>
                 }
 
                 @Html.Raw(Model.Content)
@@ -76,10 +79,10 @@
                 @if (Model.Tags.Count > 0)
                 {
                     var current = 1;
-                    <b>Tags:</b>
-                        @foreach (var tag in Model.Tags)
+                <b>Tags:</b>
+                @foreach (var tag in Model.Tags)
                         {
-                            <a href="~/tag/@tag.UrlKey()">@tag</a>if (current != Model.Tags.Count)
+                <a href="~/tag/@tag.UrlKey()">@tag</a>if (current != Model.Tags.Count)
                             {<text>, </text>
                                 current++;
                             }
@@ -92,6 +95,16 @@
 
 
 
-
 </article>
 <hr />
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1">
+            <i>Subscribe to the email list for updates!</i>
+            @{ await Html.RenderPartialAsync("_EmailSubscribePartial"); }
+
+            </div>
+        </div>
+    </div>
+
+

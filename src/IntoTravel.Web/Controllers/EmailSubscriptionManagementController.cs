@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using IntoTravel.Web.Models;
 using IntoTravel.Data.Repositories.Interfaces;
-using IntoTravel.Data.Models.Db;
 
 namespace IntoTravel.Web.Controllers
 {
@@ -14,23 +13,54 @@ namespace IntoTravel.Web.Controllers
             _emailSubscriptionRepository = emailSubscriptionRepository;
         }
 
-        public IActionResult Subscribe(EmailSubscribeModel model)
+        public IActionResult Index()
         {
-            if (!ModelState.IsValid)
-                throw new System.Exception();
+            var allEmail = _emailSubscriptionRepository.GetAll();
+            var model = new EmailSubscribeEditListModel();
 
-            var existingEmail = _emailSubscriptionRepository.Get(model.Email);
-
-            if (existingEmail == null || existingEmail.EmailSubscriptionId == 0)
+            foreach (var sub in allEmail)
             {
-                _emailSubscriptionRepository.Create(new EmailSubscription()
+                model.Items.Add(new EmailSubscribeEditModel()
                 {
-                    Email = model.Email,
-                    IsSubscribed = true
+                    Email = sub.Email,
+                    IsSubscribed = sub.IsSubscribed,
+                    EmailSubscriptionId = sub.EmailSubscriptionId
                 });
             }
 
-            return View();
+            return View(model);
+        }
+
+
+        [HttpPost]
+        public IActionResult Edit(EmailSubscribeEditModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var dbModel = _emailSubscriptionRepository.Get(model.EmailSubscriptionId);
+
+            dbModel.Email = model.Email;
+            dbModel.IsSubscribed = model.IsSubscribed;
+
+            _emailSubscriptionRepository.Update(dbModel);
+
+            return RedirectToAction("index");
+        }
+
+        [HttpGet]
+        public IActionResult Edit(int emailSubscriptionId)
+        {
+            var dbModel = _emailSubscriptionRepository.Get(emailSubscriptionId);
+
+            var model = new EmailSubscribeEditModel()
+            {
+                Email = dbModel.Email,
+                IsSubscribed = dbModel.IsSubscribed,
+                EmailSubscriptionId = dbModel.EmailSubscriptionId
+            };
+
+            return View(model);
         }
     }
 }

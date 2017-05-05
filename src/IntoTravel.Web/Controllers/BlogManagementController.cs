@@ -450,7 +450,7 @@ namespace IntoTravel.Web.Controllers
                 if (string.IsNullOrWhiteSpace(tagName))
                     continue;
 
-                if (dbModel.BlogEntryTags.FirstOrDefault(x => x.Tag.Name == tagName) == null)
+                if (dbModel.BlogEntryTags.FirstOrDefault(x => x.Tag.Name.ToLower() == tagName.ToLower()) == null)
                 {
                     var tagDb = _tagRepository.Get(tagName);
 

@@ -1,0 +1,58 @@
+﻿@model IntoTravel.Web.Models.EmailSubscribeEditListModel
+ 
+ 
+@{
+    ViewData["Title"] = "Emails";
+}
+ <h2>@ViewData["Title"]</h2>
+@{ await Html.RenderPartialAsync("_LoginPartial"); }
+<a class="btn btn-success"  href="~/LinkManagement/create">Create new</a>
+<hr />
+
+@if (Model != null && Model.Items.Count() > 0)
+{
+<table class="table">
+    <thead>
+        <tr>
+            <th>Email</th>
+             
+            <th>Is Subscribed</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+        <tr>
+            <td>
+               @item.Email
+            </td>
+          
+            <td>
+                <a class="btn btn-sm btn-info" href="~/EmailSubscriptionManagement/edit?EmailSubscriptionId=@item.EmailSubscriptionId">Edit</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+}
+else
+{
+    <i>No emails</i>
+}
+@*@{
+    int pageCount = Model.PageCount;
+
+    for (int pageNumber = 1; pageNumber <= pageCount; pageNumber++)
+    {
+        if (Model.CurrentPageNumber == pageNumber)
+        {
+            @pageNumber
+        }
+        else
+        {
+            <a href="@Url.Content("~/BlogManagement?pageNumber=" + pageNumber.ToString())">@pageNumber.ToString()</a>
+        }
+    }
+
+}*@
