@@ -6,3 +6,7 @@
 .navbar-brand, .nav-item, .subheading {
     text-shadow: 1px 1px #000;
 }
+
+.post-preview > a > .post-title {
+    font-size: 32px;
+}

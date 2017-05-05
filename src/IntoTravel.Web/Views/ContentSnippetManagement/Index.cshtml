@@ -5,7 +5,7 @@
     ViewData["Title"] = "Content Snippets";
 }
  <h2>@ViewData["Title"]</h2>
-@{ await Html.RenderPartialAsync("_LoginPartial"); }
+ 
 <a class="btn btn-success"  href="~/ContentSnippetManagement/create">Create new</a>
 <hr />
 
@@ -37,7 +37,7 @@
                 @using (Html.BeginForm("Delete", "ContentSnippetManagement", FormMethod.Post,
                                         new { role = "form", onsubmit = string.Format(@"return confirm('Do you really want to delete this?');") }))
                 {
-                    <button type="submit" name="ContentSnippetId" value="@item.ContentSnippetId" class="btn-danger btn-sm">Delete</button>
+                    <button type="submit" name="ContentSnippetId" value="@item.ContentSnippetId" class="btn-danger btn-sm"> &#x1F5D1;</button>
 
 
                 }

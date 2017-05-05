@@ -4,9 +4,7 @@
 }
 
 <h2>@ViewData["Title"]</h2>
-
-@{ await Html.RenderPartialAsync("_LoginPartial"); }
-   
+ 
 <form asp-controller="LinkManagement" asp-action="Edit" method="post" class="form-horizontal">
 
     @Html.HiddenFor(x => x.LinkRedirectionId)

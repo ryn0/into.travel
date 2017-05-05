@@ -82,41 +82,43 @@
         }
 
 
-        <!-- Pager -->
-        <div style="clear:both"></div>
-        <hr />
-        @{
-            var pagePathPrefix = "blog/page";
+    </div>
+</div>
 
-            if (ViewBag.TagKeyword != null)
-            {
-                pagePathPrefix = "tag/" + ViewBag.TagKeyword + "/page";
-            }
+<div class="row">
+    <!-- Pager -->
+    <div style="clear:both"></div>
 
-            if (Model.PageCount > 1 && Model.CurrentPageNumber == 1)
-            {
-                <div class="clearfix">
-                    <a class="btn btn-secondary float-right" href="~/@pagePathPrefix/@(Model.CurrentPageNumber + 1)">Older Posts &rarr;</a>
-                </div>
+    @{
+        var pagePathPrefix = "blog/page";
 
-            }
-            else if (Model.PageCount > 1 && Model.PageCount == Model.CurrentPageNumber)
-            {
-                <div class="clearfix">
-                    <a class="btn btn-secondary float-left" href="~/@pagePathPrefix/@(Model.CurrentPageNumber - 1)">&larr; Newer Posts</a>
-                </div>
-            }
-            else if (Model.PageCount > 1 && Model.CurrentPageNumber < 1 && Model.CurrentPageNumber < Model.PageCount)
-            {
-                <div class="clearfix">
-                    <a class="btn btn-secondary float-left" href="~/@pagePathPrefix/@(Model.CurrentPageNumber - 1)">&larr; Newer Posts</a>
-                </div>
-
-                <div class="clearfix">
-                    <a class="btn btn-secondary float-right" href="~/@pagePathPrefix/@(Model.CurrentPageNumber + 1)">Older Posts &rarr;</a>
-                </div>
-            }
+        if (ViewBag.TagKeyword != null)
+        {
+            pagePathPrefix = "tag/" + ViewBag.TagKeyword + "/page";
         }
 
-    </div>
+        if (Model.PageCount > 1 && Model.CurrentPageNumber == 1)
+        {
+            <div class="clearfix">
+                <a class="btn btn-secondary float-right" href="~/@pagePathPrefix/@(Model.CurrentPageNumber + 1)">Older Posts &rarr;</a>
+            </div>
+
+        }
+        else if (Model.PageCount > 1 && Model.PageCount == Model.CurrentPageNumber)
+        {
+            <div class="clearfix">
+                <a class="btn btn-secondary float-left" href="~/@pagePathPrefix/@(Model.CurrentPageNumber - 1)">&larr; Newer Posts</a>
+            </div>
+        }
+        else if (Model.PageCount > 1 && Model.CurrentPageNumber < 1 && Model.CurrentPageNumber < Model.PageCount)
+        {
+            <div class="clearfix">
+                <a class="btn btn-secondary float-left" href="~/@pagePathPrefix/@(Model.CurrentPageNumber - 1)">&larr; Newer Posts</a>
+            </div>
+
+                <div class="clearfix">
+                    <a class="btn btn-secondary float-right" href="~/@pagePathPrefix/@(Model.CurrentPageNumber + 1)">Older Posts &rarr;</a>
+                </div>
+        }
+    }
 </div>

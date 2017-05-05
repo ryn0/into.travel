@@ -10,10 +10,13 @@ namespace IntoTravel.Web.Controllers
     {
         const int AmountPerPage = 10;
         private readonly IBlogEntryRepository _blogEntryRepository;
+        private readonly ITagRepository _tagRepository;
 
-        public TagController(IBlogEntryRepository blogEntryRepository)
+
+        public TagController(IBlogEntryRepository blogEntryRepository, ITagRepository tagRepository)
         {
             _blogEntryRepository = blogEntryRepository;
+            _tagRepository = tagRepository;
         }
 
         [Route("tag/{keyword}")]
@@ -40,9 +43,13 @@ namespace IntoTravel.Web.Controllers
 
             int total;
 
-            var model = ModelConverter.BlogPage(_blogEntryRepository.GetLivePageByTag(keyword, pageNumber, AmountPerPage, out total), pageNumber, AmountPerPage, total);
+            var model = ModelConverter.BlogPage(_blogEntryRepository.GetLivePageByTag(keyword, pageNumber, AmountPerPage, out total), 
+                                                pageNumber, 
+                                                AmountPerPage, 
+                                                total);
 
-            ViewBag.TagKeyword = keyword;
+            ViewBag.TagKeyword = _tagRepository.Get(keyword).Name;
+
             return model;
         }
     }

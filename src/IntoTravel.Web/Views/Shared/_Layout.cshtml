@@ -68,9 +68,9 @@
                     @*<li class="nav-item">
                         <a class="nav-link" href="about.html">Videos</a>
                     </li>*@
-                    <li class="nav-item">
+                    @*<li class="nav-item">
                         <a class="nav-link" href="~/shop">Shop</a>
-                    </li>
+                    </li>*@
                     @*<li class="nav-item">
                         <a class="nav-link" href="about.html">Reviews</a>
                     </li>*@
@@ -93,7 +93,7 @@
                 <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1">
                     <div class="site-heading">
                         <h1>Into Travel</h1>
-                        <span class="subheading">Travel photos and information</span>
+                        <i class="subheading">Ryan is into travel, follow his journeys here</i>
                     </div>
                 </div>
             </div>
@@ -112,6 +112,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1">
+                    @{ await Html.RenderPartialAsync("_LoginPartial"); }
                     <ul class="list-inline text-center">
                         <li class="list-inline-item">
                             <a href="#">
@@ -125,7 +126,7 @@
                             <a href="#">
                                 <span class="fa-stack fa-lg">
                                     <i class="fa fa-circle fa-stack-2x"></i>
-                                    <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                                    <i class="fa fa-youtube fa-stack-1x fa-inverse"></i>
                                 </span>
                             </a>
                         </li>
@@ -143,6 +144,7 @@
             </div>
         </div>
     </footer>
+
     <!-- Bootstrap core JavaScript -->
     <script src="~/vendor/jquery/jquery.min.js"></script>
     <script src="~/vendor/tether/tether.min.js"></script>

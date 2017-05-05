@@ -37,6 +37,9 @@ namespace IntoTravel.Web.Helpers
             {
                 var dbModel = _contentSnippetRepository.Get(snippetType);
 
+                if (dbModel == null)
+                    return new ContentSnippetDisplayModel();
+
                 var model = new ContentSnippetDisplayModel()
                 {
                     Content = dbModel.Content,

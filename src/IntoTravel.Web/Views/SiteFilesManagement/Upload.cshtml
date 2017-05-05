@@ -6,7 +6,7 @@
     <div class="container">
  
         <h3>@ViewBag.Title</h3>
-        @{ await Html.RenderPartialAsync("_LoginPartial"); }
+        
 
 
 @using (Html.BeginForm( "UploadAsync", "SiteFilesManagement", FormMethod.Post,
@@ -24,7 +24,7 @@
         <div class="editor-field">
      
             <input type="file" class="multiple" name="files" multiple />
-            <br />
+            <br /><br />
         </div>
         <div class="editor-field">
             <input class="btn btn-success btn-xs" type="submit" value="Upload" />

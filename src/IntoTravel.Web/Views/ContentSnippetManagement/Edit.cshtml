@@ -5,7 +5,7 @@
 
 <h2>@ViewData["Title"]</h2>
 
-@{ await Html.RenderPartialAsync("_LoginPartial"); }
+ 
 
 <form asp-controller="ContentSnippetManagement" asp-action="Edit" method="post" class="form-horizontal">
 
@@ -34,5 +34,32 @@
     </div>
 
 </form>
+
+
+
+
+
+@section ScriptsHeader {
+
+    <script src="~/lib/ckeditor/ckeditor.js"></script>
+
+    <script src="~/lib/ckeditor/config.js"></script>
+
+}
+
+
+
+
+@section ScriptsFooter {
+
+
+    <script>
+    CKEDITOR.replace('Content') 
+    </script>
+
+
+}
+
+
 
 
