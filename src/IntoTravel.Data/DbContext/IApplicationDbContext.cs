@@ -23,6 +23,7 @@ namespace IntoTravel.Data.DbContextInfo
 
         DbSet<LinkRedirection> LinkRedirection { get; set; }
 
+        DbSet<EmailSubscription> EmailSubscription { get; set; }
 
         int SaveChanges();
 

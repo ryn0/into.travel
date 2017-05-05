@@ -34,7 +34,6 @@ namespace IntoTravel.Data.DbContextInfo
 
         public DbSet<EmailSubscription> EmailSubscription { get; set; }
 
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<BlogEntry>()

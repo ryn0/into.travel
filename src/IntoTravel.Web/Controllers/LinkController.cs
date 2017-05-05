@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using IntoTravel.Data.Repositories.Interfaces;
 
 namespace IntoTravel.Web.Controllers
 {
@@ -12,10 +9,14 @@ namespace IntoTravel.Web.Controllers
         public const string CachePrefix = "link-";
 
         IMemoryCache _memoryCache;
+        private readonly ILinkRedirectionRepository _linkRedirectionRepository;
 
-        public LinkController(IMemoryCache memoryCache)
+        public LinkController(
+            IMemoryCache memoryCache, 
+            ILinkRedirectionRepository linkRedirectionRepository)
         {
             _memoryCache = memoryCache;
+            _linkRedirectionRepository = linkRedirectionRepository;
         }
 
         [Route("/go/{key}")]
@@ -29,23 +30,24 @@ namespace IntoTravel.Web.Controllers
             return Redirect(url);
         }
 
-
         private string GetLinkForKey(string key)
         {
-            throw new Exception();
+            string destination;
+            var cacheKey = CachePrefix + key;
 
-            //var cacheKey = CachePrefix + key;
+            if (_memoryCache.TryGetValue(cacheKey, out destination))
+            {
+                return destination;
+            }
+            else
+            {
+                var link = _linkRedirectionRepository.Get(key);
 
+                _memoryCache.Set(cacheKey, link.UrlDestination);
 
-            //if (_memoryCache.TryGetValue(cacheKey, out existingBadUsers))
-            //{
-            //    var cachedUserIds = existingBadUsers;
-            //}
-            //else
-            //{
-            //    _memoryCache.Set(cacheKey, badUserIds);
-            //}
-           
+                return link.UrlDestination;
+            }
+
         }
     }
 }

@@ -39,10 +39,15 @@ namespace IntoTravel.Web
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            // db repos
             services.AddTransient<IBlogEntryRepository, BlogEntryRepository>();
             services.AddTransient<IBlogEntryPhotoRepository, BlogEntryPhotoRepository>();
             services.AddTransient<ITagRepository, TagRepository>();
             services.AddTransient<IBlogEntryTagRepository, BlogEntryTagRepository>();
+            services.AddTransient<ILinkRedirectionRepository, LinkRedirectionRepository>();
+            services.AddTransient<IEmailSubscriptionRepository, EmailSubscriptionRepository>();
+
+            // db context
             services.AddTransient<IApplicationDbContext, ApplicationDbContext>();
 
             services.AddTransient<ISiteFilesRepository>(provider => 
