@@ -5,18 +5,18 @@ using IntoTravel.Web.Models;
 
 namespace IntoTravel.Web.Controllers
 {
-    public class AboutController : Controller
+    public class ShopController : Controller
     {
         private readonly IContentSnippetRepository _contentSnippetRepository;
 
-        public AboutController(IContentSnippetRepository contentSnippetRepository)
+        public ShopController(IContentSnippetRepository contentSnippetRepository)
         {
             _contentSnippetRepository = contentSnippetRepository;
         }
 
         public IActionResult Index()
         {
-            var dbModel = _contentSnippetRepository.Get(SnippetType.About);
+            var dbModel = _contentSnippetRepository.Get(SnippetType.Shop);
             var model = new ContentSnippetDisplayModel()
             {
                 Content = dbModel.Content,
@@ -25,6 +25,5 @@ namespace IntoTravel.Web.Controllers
 
             return View(model);
         }
-
     }
 }

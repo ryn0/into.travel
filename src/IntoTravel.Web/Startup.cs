@@ -46,6 +46,7 @@ namespace IntoTravel.Web
             services.AddTransient<IBlogEntryTagRepository, BlogEntryTagRepository>();
             services.AddTransient<ILinkRedirectionRepository, LinkRedirectionRepository>();
             services.AddTransient<IEmailSubscriptionRepository, EmailSubscriptionRepository>();
+            services.AddTransient<IContentSnippetRepository, ContentSnippetRepository>();
 
             // db context
             services.AddTransient<IApplicationDbContext, ApplicationDbContext>();

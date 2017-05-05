@@ -24,7 +24,8 @@ namespace IntoTravel.Data.DbContextInfo
         DbSet<LinkRedirection> LinkRedirection { get; set; }
 
         DbSet<EmailSubscription> EmailSubscription { get; set; }
-
+        DbSet<ContentSnippet> ContentSnippet { get; set; }
+        
         int SaveChanges();
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken));

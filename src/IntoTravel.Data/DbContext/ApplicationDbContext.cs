@@ -34,8 +34,14 @@ namespace IntoTravel.Data.DbContextInfo
 
         public DbSet<EmailSubscription> EmailSubscription { get; set; }
 
+        public DbSet<ContentSnippet> ContentSnippet { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<ContentSnippet>()
+                    .HasIndex(b => b.SnippetType)
+                    .IsUnique();
+
             builder.Entity<BlogEntry>()
                     .HasIndex(b => b.Key)
                     .IsUnique();

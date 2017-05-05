@@ -10,8 +10,6 @@ namespace IntoTravel.Data
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                     options.UseSqlServer(connectionString));
-
-
         }
     }
 }

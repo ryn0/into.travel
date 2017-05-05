@@ -9,9 +9,10 @@ using IntoTravel.Data.Enums;
 namespace IntoTravel.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170505025008_ContentSnippets")]
+    partial class ContentSnippets
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1")

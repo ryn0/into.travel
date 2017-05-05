@@ -431,7 +431,7 @@ namespace IntoTravel.Web.Controllers
             var currentTagsFormatted = new ArrayList();
             foreach(var tag in currentTags)
             {
-                currentTagsFormatted.Add(tag.Replace("-", " ").Trim());
+                currentTagsFormatted.Add(tag.Replace("-", " ").Trim().ToLower());
             }
 
             var previousTags = new ArrayList();
@@ -441,7 +441,7 @@ namespace IntoTravel.Web.Controllers
             }
 
             var tagsToAdd = currentTags.Except(previousTags.ToArray());
-            var tagsToRemove = previousTags.ToArray().Except(currentTags);
+            var tagsToRemove = previousTags.ToArray().Except(currentTagsFormatted.ToArray());
 
             foreach (var tag in tagsToAdd)
             {
