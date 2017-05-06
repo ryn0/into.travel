@@ -357,5 +357,10 @@
     <ProjectReference Include="..\IntoTravel.Core\IntoTravel.Core.csproj" />
     <ProjectReference Include="..\IntoTravel.Data\IntoTravel.Data.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 
 </Project>
