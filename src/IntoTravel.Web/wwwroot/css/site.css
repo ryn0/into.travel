@@ -1,6 +1,6 @@
 ﻿
 .site-heading  h1 {
-    text-shadow: 3px 2px #000;
+    text-shadow: 3px 3px #000;
 }
 
 .navbar-brand, .nav-item, .subheading {
@@ -10,3 +10,11 @@
 .post-preview > a > .post-title {
     font-size: 32px;
 }
+
+li a {text-decoration: underline;}
+
+a.nav-link {
+    text-decoration: none;
+}
+
+h3 {padding-top:15px;}

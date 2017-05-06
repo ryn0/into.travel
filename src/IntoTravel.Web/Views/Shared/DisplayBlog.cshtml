@@ -81,7 +81,7 @@
                 @if (Model.Tags.Count > 0)
                 {
                     var current = 1;
-                <b>Tags:</b>
+                <b>Tagged:</b>
                 @foreach (var tag in Model.Tags)
                         {
                 <a href="~/tag/@tag.UrlKey()">@tag</a>if (current != Model.Tags.Count)
