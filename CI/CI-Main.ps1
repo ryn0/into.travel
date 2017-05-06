@@ -125,6 +125,13 @@ task -name MigrateDB -description "Runs migration of database"  -action {
     }
 }
 
+task -name Push -depends "Pushes source" -action {
+
+    exec {
+        git push origin master
+    }
+}
+
 ################
 # Psake Helpers
 ################
