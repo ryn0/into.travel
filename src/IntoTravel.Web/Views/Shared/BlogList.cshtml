@@ -41,7 +41,7 @@
         }
         else
         {
-            <h1>Tag: @ViewBag.TagKeyword</h1>
+            <h1>Tagged &quot;@ViewBag.TagKeyword&quot;</h1>
 
         }
 
@@ -56,9 +56,13 @@
                     </h2>
 
                 </a>
+                @if (!string.IsNullOrWhiteSpace(blog.DefaultPhotoUrl))
+                {
                 <a href="~/@blogUrlPath">
-                    <img class="img-responsive" style="width:25%;float:left;margin:10px;" src="@blog.DefaultPhotoUrl" />
+                    <img class="img-responsive" 
+                         style="width:25%;float:left;margin:10px;" src="@blog.DefaultPhotoUrl" />
                 </a>
+                }
                 <h3 class="post-subtitle">
                     @blog.MetaDescription
                 </h3>
@@ -78,10 +82,12 @@
                         }
 
                 }
+
+                <div style="clear:both"></div>
             </div>
         }
 
-
+   
     </div>
 </div>
 
