@@ -437,7 +437,7 @@ namespace IntoTravel.Web.Controllers
             var previousTags = new ArrayList();
             foreach (var tag in dbModel.BlogEntryTags)
             {
-                previousTags.Add(tag.Tag.Name);
+                previousTags.Add(tag.Tag.Name.ToLower());
             }
 
             var tagsToAdd = currentTags.Except(previousTags.ToArray());
