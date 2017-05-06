@@ -92,8 +92,35 @@
             <div class="row">
                 <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1">
                     <div class="site-heading">
-                        <h1>Into Travel</h1>
-                        <i class="subheading">Ryan is into travel, follow his journeys here</i>
+
+                        @if (ViewData["SiteHeading"] == null)
+                        {
+                            <h1>Into Travel</h1>
+                        }
+                        else
+                        {
+                            <h1>@ViewData["SiteHeading"]</h1>
+                        }
+
+
+
+                        @if (ViewData["SiteSubHeading"] == null)
+                        {
+                            <i class="subheading">Ryan is into travel, follow his journeys here</i>
+                        }
+                        else if (ViewData["SiteSubHeading"].ToString() == string.Empty)
+                        {
+
+                        }
+                        else
+                        {
+                            <i class="subheading">@ViewData["SiteSubHeading"]</i>
+                        }
+
+
+
+
+
                     </div>
                 </div>
             </div>

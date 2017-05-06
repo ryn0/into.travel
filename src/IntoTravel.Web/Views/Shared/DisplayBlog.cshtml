@@ -6,6 +6,8 @@
     ViewData["Title"] = Model.Title;
     ViewData["HeaderPhotoUrl"] = Model.DefaultPhotoUrl;
     ViewData["MetaDescription"] = Model.MetaDescription;
+    ViewData["SiteHeading"] = Model.Title;
+    ViewData["SiteSubHeading"] = string.Empty;
 }
 
 
@@ -32,8 +34,8 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1">
-                <h1>@Model.Title</h1>
-                <i>@Model.FriendlyDateDisplay </i>
+
+                <i>Posted: @Model.FriendlyDateDisplay </i>
                 <hr />
 
 
