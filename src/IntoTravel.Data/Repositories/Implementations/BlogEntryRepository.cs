@@ -65,7 +65,7 @@ namespace IntoTravel.Data.Repositories.Implementations
                                    .Include(x => x.Photos)
                                    .Include(x => x.BlogEntryTags)
                                    .Include("BlogEntryTags.Tag")
-                                   .OrderByDescending(blog => blog.CreateDate)
+                                   .OrderByDescending(blog => blog.BlogPublishDateTimeUtc)
                                    .Skip(quantityPerPage * (pageNumber - 1))
                                    .Take(quantityPerPage)
                                    .ToList();
@@ -95,7 +95,7 @@ namespace IntoTravel.Data.Repositories.Implementations
                                    .Include(x => x.Photos)
                                    .Include(x => x.BlogEntryTags)
                                    .Include("BlogEntryTags.Tag")
-                                   .OrderByDescending(blog => blog.CreateDate)
+                                   .OrderByDescending(blog => blog.BlogPublishDateTimeUtc)
                                    .Skip(quantityPerPage * (pageNumber - 1))
                                    .Take(quantityPerPage)
                                    .ToList();
