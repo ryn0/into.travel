@@ -58,6 +58,7 @@
                     </h2>
 
                 </a>
+               
                 @if (!string.IsNullOrWhiteSpace(blog.DefaultPhotoUrl))
                 {
                 <a href="~/@blogUrlPath">
@@ -65,17 +66,18 @@
                          style="width:25%;float:left;margin:10px;" src="@blog.DefaultPhotoUrl" />
                 </a>
                 }
-                <h3 class="post-subtitle">
+              
+                <h4 class="post-subtitle">
                     @blog.MetaDescription
-                </h3>
-
+                </h4>
+               
                 <p class="post-meta">Posted on @blog.FriendlyDateDisplay</p>
 
                 @if (blog.Tags.Count > 0)
                 {
                     <div style="clear:both"></div>
                     var current = 1;
-                    <b>Tags:</b>
+                    <b>Tagged:</b>
                         @foreach (var tag in blog.Tags)
                     {
                             <a href="~/tag/@tag.UrlKey()">@tag</a>if (current != blog.Tags.Count)

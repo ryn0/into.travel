@@ -18,3 +18,11 @@ a.nav-link {
 }
 
 h3 {padding-top:15px;}
+ 
+.post-subtitle { 
+    font-size: 20px;
+}
+
+.post-preview a, .post-preview b {font-size: 18px;}
+
+h4 { padding-top: 10px;}
