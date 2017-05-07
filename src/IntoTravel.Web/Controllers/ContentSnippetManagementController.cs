@@ -3,9 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using IntoTravel.Data.Repositories.Interfaces;
 using IntoTravel.Web.Models;
 using IntoTravel.Data.Models.Db;
-using System;
-using IntoTravel.Data.Enums;
 using System.Linq;
+using IntoTravel.Web.Helpers;
 
 namespace IntoTravel.Web.Controllers
 {
@@ -13,10 +12,14 @@ namespace IntoTravel.Web.Controllers
     public class ContentSnippetManagementController : Controller
     {
         private readonly IContentSnippetRepository _contentSnippetRepository;
+        private readonly IContentSnippetHelper _contentSnippetHelper;
 
-        public ContentSnippetManagementController(IContentSnippetRepository contentSnippetRepository)
+        public ContentSnippetManagementController(
+            IContentSnippetRepository contentSnippetRepository, 
+            IContentSnippetHelper contentSnippetHelper)
         {
             _contentSnippetRepository = contentSnippetRepository;
+            _contentSnippetHelper = contentSnippetHelper;
         }
 
         public IActionResult Index()
@@ -77,6 +80,8 @@ namespace IntoTravel.Web.Controllers
             dbModel.SnippetType = model.SnippetType;
 
             _contentSnippetRepository.Update(dbModel);
+
+            _contentSnippetHelper.ClearCache(model.SnippetType);
 
             return RedirectToAction("index");
         }

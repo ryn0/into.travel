@@ -20,7 +20,13 @@ namespace IntoTravel.Web.Helpers
             _contentSnippetRepository = contentSnippetRepository;
         }
 
- 
+        public void ClearCache(SnippetType snippetType)
+        {
+            var cacheKey = CachePrefix + snippetType.ToString();
+
+            _memoryCache.Remove(cacheKey);
+        }
+
         public ContentSnippetDisplayModel GetSnippet(SnippetType snippetType)
         {
             var cacheKey = CachePrefix + snippetType.ToString();
@@ -56,5 +62,7 @@ namespace IntoTravel.Web.Helpers
     public interface IContentSnippetHelper
     {
         ContentSnippetDisplayModel GetSnippet(SnippetType snippetType);
+
+        void ClearCache(SnippetType snippetType);
     }
 }
