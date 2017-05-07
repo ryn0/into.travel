@@ -1,35 +1,36 @@
 ﻿using IntoTravel.Data.Enums;
 using IntoTravel.Data.Repositories.Interfaces;
 using IntoTravel.Web.Models;
+using IntoTravel.Web.Services.Interfaces;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace IntoTravel.Web.Helpers
+namespace IntoTravel.Web.Services.Implementations
 {
-    public class ContentSnippetHelper : IContentSnippetHelper
+    public class CacheService : ICacheService
     {
-        const string CachePrefix = "snippet";
+        const string SnippetCachePrefix = "snippet";
         IMemoryCache _memoryCache;
 
         private readonly IContentSnippetRepository _contentSnippetRepository;
 
-        public ContentSnippetHelper(
-            IMemoryCache memoryCache, 
+        public CacheService(
+            IMemoryCache memoryCache,
             IContentSnippetRepository contentSnippetRepository)
         {
             _memoryCache = memoryCache;
             _contentSnippetRepository = contentSnippetRepository;
         }
 
-        public void ClearCache(SnippetType snippetType)
+        public void ClearSnippetCache(SnippetType snippetType)
         {
-            var cacheKey = CachePrefix + snippetType.ToString();
+            var cacheKey = SnippetCachePrefix + snippetType.ToString();
 
             _memoryCache.Remove(cacheKey);
         }
 
         public ContentSnippetDisplayModel GetSnippet(SnippetType snippetType)
         {
-            var cacheKey = CachePrefix + snippetType.ToString();
+            var cacheKey = SnippetCachePrefix + snippetType.ToString();
 
             if (_memoryCache.TryGetValue(cacheKey, out ContentSnippetDisplayModel snippet))
             {
@@ -57,12 +58,5 @@ namespace IntoTravel.Web.Helpers
                 return model;
             }
         }
-    }
-    
-    public interface IContentSnippetHelper
-    {
-        ContentSnippetDisplayModel GetSnippet(SnippetType snippetType);
-
-        void ClearCache(SnippetType snippetType);
     }
 }

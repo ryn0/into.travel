@@ -4,7 +4,7 @@ using IntoTravel.Data.Repositories.Interfaces;
 using IntoTravel.Web.Models;
 using IntoTravel.Data.Models.Db;
 using System.Linq;
-using IntoTravel.Web.Helpers;
+using IntoTravel.Web.Services.Interfaces;
 
 namespace IntoTravel.Web.Controllers
 {
@@ -12,11 +12,11 @@ namespace IntoTravel.Web.Controllers
     public class ContentSnippetManagementController : Controller
     {
         private readonly IContentSnippetRepository _contentSnippetRepository;
-        private readonly IContentSnippetHelper _contentSnippetHelper;
+        private readonly ICacheService _contentSnippetHelper;
 
         public ContentSnippetManagementController(
             IContentSnippetRepository contentSnippetRepository, 
-            IContentSnippetHelper contentSnippetHelper)
+            ICacheService contentSnippetHelper)
         {
             _contentSnippetRepository = contentSnippetRepository;
             _contentSnippetHelper = contentSnippetHelper;
@@ -81,7 +81,7 @@ namespace IntoTravel.Web.Controllers
 
             _contentSnippetRepository.Update(dbModel);
 
-            _contentSnippetHelper.ClearCache(model.SnippetType);
+            _contentSnippetHelper.ClearSnippetCache(model.SnippetType);
 
             return RedirectToAction("index");
         }

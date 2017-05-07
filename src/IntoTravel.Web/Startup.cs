@@ -10,6 +10,8 @@ using IntoTravel.Data.DbContextInfo;
 using IntoTravel.Data.Repositories.Implementations;
 using IntoTravel.Data.Repositories.Interfaces;
 using IntoTravel.Web.Helpers;
+using IntoTravel.Web.Services.Interfaces;
+using IntoTravel.Web.Services.Implementations;
 
 namespace IntoTravel.Web
 {
@@ -53,7 +55,7 @@ namespace IntoTravel.Web
             services.AddTransient<IApplicationDbContext, ApplicationDbContext>();
 
             // other
-            services.AddTransient<IContentSnippetHelper, ContentSnippetHelper>();
+            services.AddTransient<ICacheService, CacheService>();
 
             services.AddTransient<ISiteFilesRepository>(provider => 
                 new SiteFilesRepository(Configuration.GetConnectionString("AzureStorageConnection")));

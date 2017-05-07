@@ -1,20 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using IntoTravel.Data.Repositories.Interfaces;
 using IntoTravel.Data.Enums;
-using IntoTravel.Web.Helpers;
+using IntoTravel.Web.Services.Interfaces;
 
 namespace IntoTravel.Web.Controllers
 {
     public class ShopController : Controller
     {
-        private readonly IContentSnippetRepository _contentSnippetRepository;
-        private readonly IContentSnippetHelper _contentSnippetHelper;
+        private readonly ICacheService _contentSnippetHelper;
 
         public ShopController(
-            IContentSnippetRepository contentSnippetRepository,
-            IContentSnippetHelper contentSnippetHelper)
+            ICacheService contentSnippetHelper)
         {
-            _contentSnippetRepository = contentSnippetRepository;
             _contentSnippetHelper = contentSnippetHelper;
         }
 
