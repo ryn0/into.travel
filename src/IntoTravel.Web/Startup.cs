@@ -53,7 +53,7 @@ namespace IntoTravel.Web
             services.AddTransient<IApplicationDbContext, ApplicationDbContext>();
 
             // other
-            services.AddSingleton<IContentSnippetHelper, ContentSnippetHelper>();
+            services.AddTransient<IContentSnippetHelper, ContentSnippetHelper>();
 
             services.AddTransient<ISiteFilesRepository>(provider => 
                 new SiteFilesRepository(Configuration.GetConnectionString("AzureStorageConnection")));

@@ -89,13 +89,13 @@ namespace IntoTravel.Web.Controllers
         [HttpGet]
         public IActionResult Edit(int contentSnippetId)
         {
-            var linkDbModel = _contentSnippetRepository.Get(contentSnippetId);
+            var dbModel = _contentSnippetRepository.Get(contentSnippetId);
 
             var model = new ContentSnippetEditModel()
             {
-                Content = linkDbModel.Content,
-                ContentSnippetId = linkDbModel.ContentSnippetId,
-                SnippetType = linkDbModel.SnippetType,
+                Content = dbModel.Content,
+                ContentSnippetId = dbModel.ContentSnippetId,
+                SnippetType = dbModel.SnippetType,
                 
             };
 
