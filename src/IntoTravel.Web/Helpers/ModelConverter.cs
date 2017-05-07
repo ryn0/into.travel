@@ -11,7 +11,7 @@ namespace IntoTravel.Web.Helpers
         const string BlobPreix = "https://intotravel.blob.core.windows.net";
         const string CdnPrefix = "http://cdn.into.travel";
 
-        public static BlogEntryDisplayModel Convert(BlogEntry blogEntry)
+        public static BlogEntryDisplayModel ConvertToBlogDisplayModel(BlogEntry blogEntry)
         {
             var defaultPhotoUrl = blogEntry.Photos.FirstOrDefault(x => x.IsDefault == true);            
 
@@ -33,6 +33,8 @@ namespace IntoTravel.Web.Helpers
                 {
                     model.Tags.Add(blogEntryTag.Tag.Name);
                 }
+
+                model.Tags = model.Tags.OrderBy(x => x).ToList();
             }
 
             return model;
@@ -46,7 +48,7 @@ namespace IntoTravel.Web.Helpers
 
             foreach (var blog in blogEntries)
             {
-                model.Items.Add(ModelConverter.Convert(blog));
+                model.Items.Add(ConvertToBlogDisplayModel(blog));
             }
 
             return model;

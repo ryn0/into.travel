@@ -23,7 +23,7 @@ namespace IntoTravel.Web.Controllers
 
             ValidateRequest(year, month, day, model);
 
-            return View("DisplayBlog", ModelConverter.Convert(model));
+            return View("DisplayBlog", ModelConverter.ConvertToBlogDisplayModel(model));
         }
 
         [Route("blog/page/{pageNumber}")]
