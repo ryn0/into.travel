@@ -15,7 +15,7 @@ namespace IntoTravel.Data.Repositories.Interfaces
 
         Tag Get(int tagId);
 
-        Tag Get(string name);
+        Tag Get(string key);
 
         bool Delete(int tagId);
     }

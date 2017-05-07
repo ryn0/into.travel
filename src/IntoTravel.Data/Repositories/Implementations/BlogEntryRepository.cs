@@ -83,7 +83,7 @@ namespace IntoTravel.Data.Repositories.Implementations
         }
 
 
-        public List<BlogEntry> GetLivePageByTag(string tag, int pageNumber, int quantityPerPage, out int total)
+        public List<BlogEntry> GetLivePageByTag(string tagKey, int pageNumber, int quantityPerPage, out int total)
         {
             var now = DateTime.UtcNow;
             try
@@ -91,7 +91,7 @@ namespace IntoTravel.Data.Repositories.Implementations
                 var model = Context.BlogEntry
                                    .Where(x => x.IsLive == true && 
                                                x.BlogPublishDateTimeUtc < now && 
-                                               (x.BlogEntryTags.FirstOrDefault(y => y.Tag.Name == tag) != null))
+                                               (x.BlogEntryTags.FirstOrDefault(y => y.Tag.Key == tagKey) != null))
                                    .Include(x => x.Photos)
                                    .Include(x => x.BlogEntryTags)
                                    .Include("BlogEntryTags.Tag")
@@ -102,7 +102,7 @@ namespace IntoTravel.Data.Repositories.Implementations
 
                 total = Context.BlogEntry.Where(x => x.IsLive == true &&
                                                x.BlogPublishDateTimeUtc < now &&
-                                               (x.BlogEntryTags.FirstOrDefault(y => y.Tag.Name == tag) != null)).Count();
+                                               (x.BlogEntryTags.FirstOrDefault(y => y.Tag.Name == tagKey) != null)).Count();
 
                 return model;
             }

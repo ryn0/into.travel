@@ -50,11 +50,11 @@ namespace IntoTravel.Data.Repositories.Implementations
             }
         }
 
-        public Tag Get(string name)
+        public Tag Get(string key)
         {
             try
             {
-                return Context.Tag.FirstOrDefault(x => x.Name == name);
+                return Context.Tag.FirstOrDefault(x => x.Key == key);
             }
             catch (Exception ex)
             {

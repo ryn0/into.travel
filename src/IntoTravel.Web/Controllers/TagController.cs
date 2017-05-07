@@ -39,8 +39,6 @@ namespace IntoTravel.Web.Controllers
 
         private BlogEntryDisplayListModel SetModel(string keyword, int pageNumber)
         {
-            keyword = keyword.Replace("-", " ");
-
             int total;
 
             var model = ModelConverter.BlogPage(_blogEntryRepository.GetLivePageByTag(keyword, pageNumber, AmountPerPage, out total), 
@@ -48,7 +46,10 @@ namespace IntoTravel.Web.Controllers
                                                 AmountPerPage, 
                                                 total);
 
-            ViewBag.TagKeyword = _tagRepository.Get(keyword).Name;
+            if (model.Items != null && model.Items.Count > 0)
+            {
+                ViewBag.TagKeyword = _tagRepository.Get(keyword).Name;
+            }
 
             return model;
         }

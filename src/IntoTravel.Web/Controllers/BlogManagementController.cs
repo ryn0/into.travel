@@ -407,7 +407,9 @@ namespace IntoTravel.Web.Controllers
             {
                 model.BlogTags.Add(tagItem.Tag.Name);
             }
- 
+
+            model.BlogTags = model.BlogTags.OrderBy(x => x).ToList();
+
             model.Tags = string.Join(", ", model.BlogTags);
 
             return model;
@@ -429,39 +431,60 @@ namespace IntoTravel.Web.Controllers
 
             var currentTags = model.Tags.Split(',');
             var currentTagsFormatted = new ArrayList();
-            foreach(var tag in currentTags)
+            foreach (var tag in currentTags)
             {
-                currentTagsFormatted.Add(tag.Replace("-", " ").Trim().ToLower());
+                currentTagsFormatted.Add(tag.UrlKey());
             }
+
+            var currentTagsFormattedArray = currentTagsFormatted.ToArray();
 
             var previousTags = new ArrayList();
             foreach (var tag in dbModel.BlogEntryTags)
             {
-                previousTags.Add(tag.Tag.Name.ToLower());
+                previousTags.Add(tag.Tag.Key);
             }
 
-            var tagsToAdd = currentTags.Except(previousTags.ToArray());
             var tagsToRemove = previousTags.ToArray().Except(currentTagsFormatted.ToArray());
 
-            foreach (var tag in tagsToAdd)
-            {
-                var tagName = tag.ToString().Trim();
+            AddNewTags(model, dbModel, currentTags);
 
-                if (string.IsNullOrWhiteSpace(tagName))
+            RemoveDeletedTags(model, tagsToRemove);
+        }
+
+        private void RemoveDeletedTags(BlogManagementEditModel model, IEnumerable<object> tagsToRemove)
+        {
+            foreach (var tag in tagsToRemove)
+            {
+                var tagKey = tag.ToString().UrlKey();
+
+                var tagDb = _tagRepository.Get(tagKey);
+
+                _blogEntryTagRepository.Delete(tagDb.TagId, model.BlogEntryId);
+            }
+        }
+
+        private void AddNewTags(BlogManagementEditModel model, BlogEntry dbModel, string[] currentTags)
+        {
+            foreach (var tagName in currentTags)
+            {
+                var tagKey = tagName.UrlKey();
+
+                if (string.IsNullOrWhiteSpace(tagKey))
                     continue;
 
-                if (dbModel.BlogEntryTags.FirstOrDefault(x => x.Tag.Name.ToLower() == tagName.ToLower()) == null)
+                if (dbModel.BlogEntryTags.FirstOrDefault(x => x.Tag.Key == tagKey) == null)
                 {
-                    var tagDb = _tagRepository.Get(tagName);
+                    var tagDb = _tagRepository.Get(tagKey);
 
                     if (tagDb == null || tagDb.TagId == 0)
                     {
                         _tagRepository.Create(new Tag
                         {
-                            Name = tagName
+                            Name = tagName.Trim(),
+                            Key = tagKey
                         });
 
-                        tagDb = _tagRepository.Get(tagName);
+                        tagDb = _tagRepository.Get(tagKey);
                     }
 
                     _blogEntryTagRepository.Create(new BlogEntryTag()
@@ -470,15 +493,6 @@ namespace IntoTravel.Web.Controllers
                         TagId = tagDb.TagId,
                     });
                 }
-            }
-
-            foreach (var tag in tagsToRemove)
-            {
-                var tagName = tag.ToString().Trim();
-
-                var tagDb = _tagRepository.Get(tagName);
-
-                _blogEntryTagRepository.Delete(tagDb.TagId, model.BlogEntryId);
             }
         }
 
