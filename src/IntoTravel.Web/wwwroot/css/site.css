@@ -11,7 +11,9 @@
     font-size: 26px;
 }
 
-li a {text-decoration: underline;}
+li a, .blog-tags a{
+    text-decoration: underline;
+}
 
 a.nav-link {
     text-decoration: none;

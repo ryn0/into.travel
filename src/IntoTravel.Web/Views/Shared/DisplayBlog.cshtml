@@ -78,19 +78,25 @@
 
                 @Html.Raw(Model.Content)
                 <hr />
-                @if (Model.Tags.Count > 0)
-                {
-                    var current = 1;
-                <b>Tagged:</b>
-                @foreach (var tag in Model.Tags)
-                        {
-                <a href="~/tag/@tag.UrlKey()">@tag</a>if (current != Model.Tags.Count)
-                            {<text>, </text>
-                                current++;
-                            }
-                        }
+ 
+    @if (Model.Tags.Count > 0)
+    {
+        var current = 1;
 
+        <div class="blog-tags">
+         
+            <b>Tagged:</b>
+            @foreach (var tag in Model.Tags)
+                {
+                <a href="~/tag/@tag.UrlKey()">@tag</a>if (current != Model.Tags.Count)
+                    {<text>, </text>
+                    current++;
                 }
+            }
+
+        </div>
+    }
+
             </div>
         </div>
     </div>

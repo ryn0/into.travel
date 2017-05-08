@@ -79,21 +79,23 @@
                 {
                     <div style="clear:both"></div>
                     var current = 1;
-                    <b>Tagged:</b>
-                    @foreach (var tag in blog.Tags)
-                    {
-                        <a href="~/tag/@tag.UrlKey()">@tag</a>if (current != blog.Tags.Count)
-                        {<text>, </text>
-                            current++;
-                        }
-                    }
 
+                    <div class="blog-tags">
+                        <b>Tagged:</b>
+                        @foreach (var tag in blog.Tags)
+                    {
+                            <a href="~/tag/@tag.UrlKey()">@tag</a>if (current != blog.Tags.Count)
+                        {<text>, </text>
+                                current++;
+                            }
+                        }
+                    </div>
                 }
 
-                <div style="clear:both"></div>
-                <hr />
-            </div>
-        }
+                        <div style="clear:both"></div>
+                        <hr />
+                    </div>
+}
 
 
 
