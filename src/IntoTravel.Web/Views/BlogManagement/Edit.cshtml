@@ -33,9 +33,10 @@
     </div>
 
     <div class="form-group">
-        <label asp-for="IsLive" class="col-md-2 control-label"></label>
+        <label asp-for="BlogPublishDateTimeUtc" class="col-md-2 control-label"></label>
         <div class="col-md-10">
-            <input type="date" asp-for="@Model.BlogPublishDateTimeUtc" />
+ 
+            <input type="datetime" asp-for="@Model.BlogPublishDateTimeUtc" />
         </div>
     </div>
 
