@@ -1,6 +1,6 @@
 Into.Travel
 -----
-Into.Travel is a blogging site for travel photography.
+Into.Travel is a blogging site for travel photography. It was written in C# and runs on .NET Core.
 
 
 Deployment
