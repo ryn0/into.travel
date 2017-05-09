@@ -132,6 +132,14 @@ task -name Push -description "Pushes source" -action {
     }
 }
 
+task -name RenameFiles -description "Renames files in a directory" {
+
+    $path = "c:\temp"
+    $fileNamSubstringeToRemove = "-min"
+
+    Get-ChildItem  -Path $path | Rename-Item -NewName { $_.Name -replace $fileNamSubstringeToRemove, '' }
+}
+
 ################
 # Psake Helpers
 ################
