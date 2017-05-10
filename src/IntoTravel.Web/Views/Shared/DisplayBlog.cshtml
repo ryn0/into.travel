@@ -4,7 +4,7 @@
 
 @{
     ViewData["Title"] = Model.Title;
-    ViewData["HeaderPhotoUrl"] = Model.DefaultPhotoUrl;
+    ViewData["HeaderPhotoUrl"] = Model.DefaultPhotoCdnUrl;
     ViewData["MetaDescription"] = Model.MetaDescription;
     ViewData["SiteHeading"] = Model.Title;
     ViewData["SiteSubHeading"] = string.Empty;
@@ -24,7 +24,7 @@
 
 @section ScriptsFooter{
 
-    <script src="https://intotravel.blob.core.windows.net/sitecontent/scripts/baguetteBox.min.js"></script>
+    <script src="http://cdn.into.travel/sitecontent/scripts/baguetteBox.min.js"></script>
     <script>
         baguetteBox.run('.gallery');
     </script>
