@@ -124,6 +124,7 @@ namespace IntoTravel.Data.BaseClasses
                     blockBlob.Properties.ContentType = "application/vnd.ms-fontobject";
                     break;
                 case "woff":
+                case "woff2":
                     blockBlob.Properties.ContentType = "application/x-font-woff";
                     break;
             }
