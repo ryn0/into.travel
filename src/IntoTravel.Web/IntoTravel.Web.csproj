@@ -33,6 +33,7 @@
     <Content Include="wwwroot\favicon.ico">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+    <Content Include="wwwroot\img\home-bg-min.jpg" />
  
     <Content Include="wwwroot\js\clean-blog.js">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
