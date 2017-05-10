@@ -10,22 +10,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="@ViewData["MetaDescription"]" />
     <meta name="author" content="">
+ 
     <title>@ViewData["Title"] | Into Travel</title>
-    <meta name="google-site-verification" content="BTng1dzUfO3khRtRgKqN7K8Ugw0Muo0z3xbZcnVI1Y8" />
+    <!-- FB -->
+    <meta property="og:title" content="@ViewData["Title"] | Into Travel" />
+    <meta property="og:image" content="@ViewData["HeaderPhotoUrl"]" />
+    <meta property="og:description" content="@ViewData["MetaDescription"]" />
+
     @{ await Html.RenderPartialAsync("_VerificationHeaderPartial"); }
 
     <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
 
-    <!-- FB -->
-    <meta property="og:title" content="@ViewData["Title"] | Into Travel" />
-    <meta property="og:image" content="@ViewData["HeaderPhotoUrl"]" />
-    <meta property="og:description" content="@ViewData["MetaDescription"]" />
     
 
-        <environment names="Development">
-            <!-- Bootstrap core CSS -->
+        @*<environment names="Development">
+
             <link href="~/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.1.1/ekko-lightbox.min.css" />
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.1.1/ekko-lightbox.min.css.map" />
 
             <!-- Custom fonts for this template -->
             <link href="~/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -33,14 +37,24 @@
             <!-- Custom styles for this template -->
             <link href="~/css/clean-blog.min.css" rel="stylesheet">
             <link href="~/css/site.css" rel="stylesheet">
-            <link rel="stylesheet" href="~/css/baguetteBox.css" />
 
         </environment>
-    <environment names="Staging,Production">
-        <link rel="stylesheet" href="http://cdn.into.travel/sitecontent/css/styles.css" />
+        <environment names="Staging,Production">
+            <link rel="stylesheet" href="http://cdn.into.travel/sitecontent/css/styles1.css" />
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.1.1/ekko-lightbox.min.css.map" />
+        </environment>*@
 
-    </environment>
+    <link href="~/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
+    @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.1.1/ekko-lightbox.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.1.1/ekko-lightbox.min.css.map" />*@
+
+    <!-- Custom fonts for this template -->
+    <link href="~/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Custom styles for this template -->
+    <link href="~/css/clean-blog.min.css" rel="stylesheet">
+    <link href="~/css/site.css" rel="stylesheet">
 
 
     <!-- Temporary navbar container fix -->
@@ -191,25 +205,35 @@
         </div>
     </footer>
 
-    <environment names="Development">
-
+    @*<environment names="Development">
       
-            <!-- Bootstrap core JavaScript -->
-            <script src="~/vendor/jquery/jquery.min.js"></script>
-            <script src="~/vendor/tether/tether.min.js"></script>
-            <script src="~/vendor/bootstrap/js/bootstrap.min.js"></script>
-            <!-- Custom scripts for this template -->
-            <script src="~/js/clean-blog.min.js"></script>
+        <!-- Bootstrap core JavaScript -->
+        <script src="~/vendor/jquery/jquery.min.js"></script>
+        <script src="~/vendor/tether/tether.min.js"></script>
+        <script src="~/vendor/bootstrap/js/bootstrap.min.js"></script>
+        <!-- Custom scripts for this template -->
+        <script src="~/js/clean-blog.min.js"></script>
 
-
-
-        </environment>
-    <environment names="Staging,Production">
-
-        <script src="http://cdn.into.travel/sitecontent/scripts/javascript.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.1.1/ekko-lightbox.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.1.1/ekko-lightbox.min.js.map"></script>
 
     </environment>
+    <environment names="Staging,Production">
 
+        <script src="http://cdn.into.travel/sitecontent/scripts/scripts1.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.1.1/ekko-lightbox.min.js.map"></script>
+
+    </environment>*@
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="~/vendor/jquery/jquery.min.js"></script>
+    <script src="~/vendor/tether/tether.min.js"></script>
+    <script src="~/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Custom scripts for this template -->
+    <script src="~/js/clean-blog.min.js"></script>
+
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.1.1/ekko-lightbox.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.1.1/ekko-lightbox.min.js.map"></script>*@
 
 
     @{ await Html.RenderPartialAsync("_GoogleAnalyticsPartial"); }
