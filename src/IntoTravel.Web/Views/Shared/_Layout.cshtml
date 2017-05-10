@@ -1,4 +1,5 @@
 ﻿@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
+@using IntoTravel.Web.Helpers
 @{ if (ViewData["HeaderPhotoUrl"] == null) {
         ViewData["HeaderPhotoUrl"] = "http://cdn.into.travel/sitecontent/images/home-bg-min.jpg"; // Url.Content("~/img/home-bg.jpg");
     }
@@ -21,9 +22,8 @@
 
     <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
-
-    
-
+ 
+   
         @*<environment names="Development">
 
             <link href="~/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -44,10 +44,14 @@
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.1.1/ekko-lightbox.min.css.map" />
         </environment>*@
 
-    <link href="~/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-    @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.1.1/ekko-lightbox.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.1.1/ekko-lightbox.min.css.map" />*@
+    @if (!Context.Request.IsMobileBrowser())
+    {
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.1.1/ekko-lightbox.min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.1.1/ekko-lightbox.min.css.map" />
+    }
+
+    <link href="~/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom fonts for this template -->
     <link href="~/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -232,9 +236,19 @@
     <!-- Custom scripts for this template -->
     <script src="~/js/clean-blog.min.js"></script>
 
-    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.1.1/ekko-lightbox.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.1.1/ekko-lightbox.min.js.map"></script>*@
+    @if (!Context.Request.IsMobileBrowser())
+    {
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.1.1/ekko-lightbox.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.1.1/ekko-lightbox.min.js.map"></script>
 
+
+        <script>
+                    $(document).on('click', '[data-toggle="lightbox"]', function (event) {
+                        event.preventDefault();
+                        $(this).ekkoLightbox();
+                    });
+            </script>
+    }
 
     @{ await Html.RenderPartialAsync("_GoogleAnalyticsPartial"); }
 
