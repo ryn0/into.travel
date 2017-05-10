@@ -59,11 +59,11 @@
 
                 </a>
 
-                @if (!string.IsNullOrWhiteSpace(blog.DefaultPhotoUrl))
+                @if (!string.IsNullOrWhiteSpace(blog.DefaultPhotoCdnUrl))
                 {
                     <a href="~/@blogUrlPath">
                         <img class="img-responsive"
-                             style="width:40%;float:left;margin:10px;" src="@blog.DefaultPhotoUrl" />
+                             style="width:40%;float:left;margin:10px;" src="@blog.DefaultPhotoCdnUrl" />
                     </a>
                 }
 

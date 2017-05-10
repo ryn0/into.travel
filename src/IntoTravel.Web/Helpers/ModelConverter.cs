@@ -24,6 +24,7 @@ namespace IntoTravel.Web.Helpers
                 UrlPath = UrlBuilder.BlogUrlPath(blogEntry.Key, blogEntry.BlogPublishDateTimeUtc),
                 Photos = AddBlogPhotos(blogEntry.Photos),
                 DefaultPhotoUrl = (defaultPhotoUrl != null) ? defaultPhotoUrl.PhotoUrl : null,
+                DefaultPhotoCdnUrl = (defaultPhotoUrl != null) ? defaultPhotoUrl.PhotoUrl.Replace(BlobPreix, CdnPrefix) : null,
                 MetaDescription = blogEntry.MetaDescription
             };
 

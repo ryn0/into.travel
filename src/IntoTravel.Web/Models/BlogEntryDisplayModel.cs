@@ -51,6 +51,8 @@ namespace IntoTravel.Web.Models
 
         public string DefaultPhotoUrl { get; set; }
 
+        public string DefaultPhotoCdnUrl { get; set; }
+
         public List<string> Tags { get; set; } = new List<string>();
 
         public List<BlogPhotoModel> Photos { get; set; } = new List<BlogPhotoModel>();

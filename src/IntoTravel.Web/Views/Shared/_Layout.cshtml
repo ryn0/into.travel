@@ -11,18 +11,31 @@
     <meta name="description" content="@ViewData["MetaDescription"] " />
     <meta name="author" content="">
     <title>@ViewData["Title"] | Into Travel</title>
-    <!-- Bootstrap core CSS -->
-    <link href="~/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://intotravel.blob.core.windows.net/sitecontent/css/bootstrap.min.css" />
+   
 
-    <!-- Custom fonts for this template -->
-    <link href="~/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
-    <!-- Custom styles for this template -->
-    <link href="~/css/clean-blog.min.css" rel="stylesheet">
-    <link href="~/css/site.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://intotravel.blob.core.windows.net/sitecontent/css/baguetteBox.css" />
+
+    
+        <environment names="Development">
+            <!-- Bootstrap core CSS -->
+            <link href="~/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+            <!-- Custom fonts for this template -->
+            <link href="~/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+            <!-- Custom styles for this template -->
+            <link href="~/css/clean-blog.min.css" rel="stylesheet">
+            <link href="~/css/site.css" rel="stylesheet">
+            <link rel="stylesheet" href="~/css/baguetteBox.css" />
+
+        </environment>
+    <environment names="Staging,Production">
+        <link rel="stylesheet" href="http://cdn.into.travel/sitecontent/css/styles.css" />
+
+    </environment>
+
+
 
     <!-- Temporary navbar container fix -->
     <style>
@@ -172,12 +185,29 @@
         </div>
     </footer>
 
-    <!-- Bootstrap core JavaScript -->
-    <script src="~/vendor/jquery/jquery.min.js"></script>
-    <script src="~/vendor/tether/tether.min.js"></script>
-    <script src="~/vendor/bootstrap/js/bootstrap.min.js"></script>
-    <!-- Custom scripts for this template -->
-    <script src="~/js/clean-blog.min.js"></script>
+    <environment names="Development">
+
+      
+            <!-- Bootstrap core JavaScript -->
+            <script src="~/vendor/jquery/jquery.min.js"></script>
+            <script src="~/vendor/tether/tether.min.js"></script>
+            <script src="~/vendor/bootstrap/js/bootstrap.min.js"></script>
+            <!-- Custom scripts for this template -->
+            <script src="~/js/clean-blog.min.js"></script>
+
+
+
+        </environment>
+    <environment names="Staging,Production">
+
+        <script src="http://cdn.into.travel/sitecontent/scripts/javascript.js"></script>
+
+    </environment>
+
+
+
+
+    
 
     @RenderSection("ScriptsFooter", required: false)
 </body>
