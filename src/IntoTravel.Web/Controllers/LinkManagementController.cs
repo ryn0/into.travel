@@ -4,6 +4,7 @@ using IntoTravel.Data.Repositories.Interfaces;
 using IntoTravel.Web.Models;
 using IntoTravel.Core.Utilities;
 using IntoTravel.Data.Models.Db;
+using System.Linq;
 
 namespace IntoTravel.Web.Controllers
 {
@@ -22,7 +23,9 @@ namespace IntoTravel.Web.Controllers
             var allLinks = _linkRedirectionRepository.GetAll();
             var model = new LinkListModel();
 
-            foreach(var link in allLinks)
+            allLinks = allLinks.OrderByDescending(x => x.CreateDate).ToList();
+
+            foreach (var link in allLinks)
             {
                 model.Items.Add(new LinkEditModel()
                 {
