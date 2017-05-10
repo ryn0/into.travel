@@ -224,7 +224,6 @@ namespace IntoTravel.Data.Repositories.Implementations
                 var container = blobClient.GetContainerReference(ContainerName);
                 var blockBlob = container.GetBlockBlobReference(filePath);
 
-
                 stream.Seek(0, SeekOrigin.Begin);
 
                 await blockBlob.UploadFromStreamAsync(stream);
@@ -251,11 +250,11 @@ namespace IntoTravel.Data.Repositories.Implementations
             memoryStream.Seek(0, SeekOrigin.Begin);
 
             var tw = new StreamWriter(memoryStream);
- 
+
             try
             {
                 folderPath = folderPath.Replace("/", string.Empty);
-              
+
                 tw.WriteLine(folderPath);
 
                 var blobClient = _storageAccount.CreateCloudBlobClient();
@@ -284,7 +283,6 @@ namespace IntoTravel.Data.Repositories.Implementations
             finally
             {
                 memoryStream.Dispose();
-                tw.Dispose();
             }
         }
 

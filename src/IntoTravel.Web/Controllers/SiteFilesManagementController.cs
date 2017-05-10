@@ -3,6 +3,7 @@ using IntoTravel.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -42,9 +43,9 @@ namespace IntoTravel.Web.Controllers
 
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception ex)
             {
-                return RedirectToAction("Upload");
+                return RedirectToAction("Index");
             }
         }
 
@@ -62,9 +63,9 @@ namespace IntoTravel.Web.Controllers
 
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception ex)
             {
-                return RedirectToAction("Upload");
+                return RedirectToAction("Index");
             }
         }
 
