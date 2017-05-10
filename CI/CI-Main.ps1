@@ -69,7 +69,7 @@ task -name DeployWebApp -depends RestorePackages, BuildProject, MigrateDB -actio
         Write-Host "done."
          
         $url = "http://$webAppHost"
-        Write-Host "Deployment completed, requesting page '$url'...." -NoNewline 
+        Write-Host "Deployment completed, requesting page '$url'..." -NoNewline 
         Invoke-WebRequest -Uri $url | out-null
         Write-Host "done." -NoNewline
         Write-Host
