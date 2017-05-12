@@ -253,8 +253,8 @@ namespace IntoTravel.Web.Controllers
         public async Task<IActionResult> Rotate90DegreesAsync(int blogEntryPhotoId)
         {
             var entry = _blogEntryPhotoRepository.Get(blogEntryPhotoId);
-            await RorateImage(entry.BlogEntryId, entry.PhotoUrl);
-            await RorateImage(entry.BlogEntryId, entry.PhotoThumbUrl);
+            await RotateImage(entry.BlogEntryId, entry.PhotoUrl);
+            await RotateImage(entry.BlogEntryId, entry.PhotoThumbUrl);
 
             return RedirectToAction("Edit", new { blogEntryId = entry.BlogEntryId });
         }
@@ -476,7 +476,7 @@ namespace IntoTravel.Web.Controllers
         }
 
 
-        private async Task RorateImage(int blogEntryId, string photoUrl)
+        private async Task RotateImage(int blogEntryId, string photoUrl)
         {
             var folderPath = GetBlogPhotoFolder(blogEntryId);
             var stream = await ToStreamAsync(photoUrl);
