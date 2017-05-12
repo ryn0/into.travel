@@ -253,24 +253,8 @@ namespace IntoTravel.Web.Controllers
         public async Task<IActionResult> Rotate90DegreesAsync(int blogEntryPhotoId)
         {
             var entry = _blogEntryPhotoRepository.Get(blogEntryPhotoId);
-            var folderPath = GetBlogPhotoFolder(entry.BlogEntryId);
-            var stream = await ToStreamAsync(entry.PhotoUrl);
-            var imageHelper = new ImageUtilities();
-            const float angle = 90;
-            var rotatedBitmap = imageHelper.RotateImage(Image.FromStream(stream), angle);
- 
-            Image fullPhoto = rotatedBitmap;
-
-            var streamRotated = ToAStream(fullPhoto, SetImageFormat(entry.PhotoUrl));
-
-            await _siteFilesRepository.UploadAsync(
-                                        streamRotated, 
-                                        entry.PhotoUrl.GetFileNameFromUrl(), 
-                                        folderPath);
-
-            fullPhoto.Dispose();
-            streamRotated.Dispose();
-            rotatedBitmap.Dispose();
+            await RorateImage(entry.BlogEntryId, entry.PhotoUrl);
+            await RorateImage(entry.BlogEntryId, entry.PhotoThumbUrl);
 
             return RedirectToAction("Edit", new { blogEntryId = entry.BlogEntryId });
         }
@@ -490,6 +474,30 @@ namespace IntoTravel.Web.Controllers
         {
             return string.Format("/blogphotos/{0}/", blogEntryId);
         }
+
+
+        private async Task RorateImage(int blogEntryId, string photoUrl)
+        {
+            var folderPath = GetBlogPhotoFolder(blogEntryId);
+            var stream = await ToStreamAsync(photoUrl);
+            var imageHelper = new ImageUtilities();
+            const float angle = 90;
+            var rotatedBitmap = imageHelper.RotateImage(Image.FromStream(stream), angle);
+
+            Image fullPhoto = rotatedBitmap;
+
+            var streamRotated = ToAStream(fullPhoto, SetImageFormat(photoUrl));
+
+            await _siteFilesRepository.UploadAsync(
+                                        streamRotated,
+                                        photoUrl.GetFileNameFromUrl(),
+                                        folderPath);
+
+            fullPhoto.Dispose();
+            streamRotated.Dispose();
+            rotatedBitmap.Dispose();
+        }
+
 
         private void AddNewTags(BlogManagementEditModel model, BlogEntry dbModel, string[] currentTags)
         {
