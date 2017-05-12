@@ -3,14 +3,12 @@ using IntoTravel.Web.Models;
 using System.Linq;
 using System.Collections.Generic;
 using System;
+using IntoTravel.Core.Constants;
 
 namespace IntoTravel.Web.Helpers
 {
     public class ModelConverter
     {
-        const string BlobPreix = "https://intotravel.blob.core.windows.net";
-        const string CdnPrefix = "http://cdn.into.travel";
-
         public static BlogEntryDisplayModel ConvertToBlogDisplayModel(BlogEntry blogEntry)
         {
             var defaultPhotoUrl = blogEntry.Photos.FirstOrDefault(x => x.IsDefault == true);            
@@ -23,8 +21,10 @@ namespace IntoTravel.Web.Helpers
                 Title = blogEntry.Title,
                 UrlPath = UrlBuilder.BlogUrlPath(blogEntry.Key, blogEntry.BlogPublishDateTimeUtc),
                 Photos = AddBlogPhotos(blogEntry.Photos),
+                DefaultPhotoThumbUrl = (defaultPhotoUrl != null) ? defaultPhotoUrl.PhotoThumbUrl : null,
+                DefaultPhotoThumbCdnUrl = (defaultPhotoUrl != null) ? defaultPhotoUrl.PhotoThumbUrl.Replace(StringConstants.BlobPreix, StringConstants.CdnPrefix) : null,
                 DefaultPhotoUrl = (defaultPhotoUrl != null) ? defaultPhotoUrl.PhotoUrl : null,
-                DefaultPhotoCdnUrl = (defaultPhotoUrl != null) ? defaultPhotoUrl.PhotoUrl.Replace(BlobPreix, CdnPrefix) : null,
+                DefaultPhotoCdnUrl = (defaultPhotoUrl != null) ? defaultPhotoUrl.PhotoUrl.Replace(StringConstants.BlobPreix, StringConstants.CdnPrefix) : null,
                 MetaDescription = blogEntry.MetaDescription
             };
 
@@ -40,7 +40,6 @@ namespace IntoTravel.Web.Helpers
 
             return model;
         }
-
 
 
         private static BlogEntryDisplayListModel ConvertToListModel(List<BlogEntry> blogEntries)
@@ -69,9 +68,11 @@ namespace IntoTravel.Web.Helpers
                     BlogEntryPhotoId = photo.BlogEntryPhotoId,
                     Description = photo.Description,
                     IsDefault = photo.IsDefault,
-                    PhotoUrl = photo.PhotoUrl,
                     Title = photo.Title,
-                    PhotoCdnUrl = photo.PhotoUrl.Replace(BlobPreix, CdnPrefix) // todo: replace in a better way
+                    PhotoUrl = photo.PhotoUrl,
+                    PhotoCdnUrl = photo.PhotoUrl.Replace(StringConstants.BlobPreix, StringConstants.CdnPrefix),
+                    PhotoThumbUrl = photo.PhotoThumbUrl,
+                    PhotoThumbCdnUrl = photo.PhotoThumbUrl.Replace(StringConstants.BlobPreix, StringConstants.CdnPrefix)
                 });
             }
 
@@ -93,3 +94,4 @@ namespace IntoTravel.Web.Helpers
 
     }
 }
+

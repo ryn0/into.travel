@@ -227,7 +227,7 @@ namespace IntoTravel.Data.Repositories.Implementations
                 stream.Seek(0, SeekOrigin.Begin);
 
                 await blockBlob.UploadFromStreamAsync(stream);
-                var extension = fileName.GetFileExtension();
+                var extension = fileName.GetFileExtensionLower();
 
                 await SetPropertiesAsync(blockBlob, extension);
 

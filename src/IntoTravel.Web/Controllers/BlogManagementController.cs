@@ -191,14 +191,18 @@ namespace IntoTravel.Web.Controllers
                 {
                     if (file != null && file.Length > 0)
                     {
-                        var photoUrl = await _siteFilesRepository.UploadAsync(file, folderPath);
+                        var fullsizePhotoUrl = await _siteFilesRepository.UploadAsync(file, folderPath);
+                        var thumbnailPhotoUrl = await UploadThumbNailImage(folderPath, fullsizePhotoUrl);
 
-                        if (allBlogPhotos.FirstOrDefault(x => x.PhotoUrl == photoUrl.ToString()) == null)
+                        var existingPhoto = allBlogPhotos.FirstOrDefault(x => x.PhotoUrl == fullsizePhotoUrl.ToString());
+
+                        if (existingPhoto == null)
                         {
                             _blogEntryPhotoRepository.Create(new BlogEntryPhoto()
                             {
                                 BlogEntryId = blogEntryId,
-                                PhotoUrl = photoUrl.ToString(),
+                                PhotoUrl = fullsizePhotoUrl.ToString(),
+                                PhotoThumbUrl = thumbnailPhotoUrl.ToString(),
                                 Rank = currentRank + 1
                             });
 
@@ -215,10 +219,6 @@ namespace IntoTravel.Web.Controllers
             }
         }
 
-        private string GetBlogPhotoFolder(int blogEntryId)
-        {
-            return string.Format("/blogphotos/{0}/", blogEntryId);
-        }
 
         [HttpGet]
         public IActionResult Edit(int blogEntryId)
@@ -463,6 +463,34 @@ namespace IntoTravel.Web.Controllers
             }
         }
 
+
+        private async Task<Uri> UploadThumbNailImage(string folderPath, Uri fullsizePhotoUrl)
+        {
+            var stream = await ToStreamAsync(fullsizePhotoUrl.ToString());
+            var imageHelper = new ImageUtilities();
+            int maxWidth = 800, maxHeight = 600;
+            var extension = fullsizePhotoUrl.ToString().GetFileExtension();
+            var resizedImage = imageHelper.ScaleImage(Image.FromStream(stream), maxWidth, maxHeight);
+            var lowerQualityImageUrl = fullsizePhotoUrl.ToString().Replace(string.Format(".{0}", extension), string.Format("_thumb.{0}", extension));
+
+            var streamRotated = ToAStream(resizedImage, SetImageFormat(lowerQualityImageUrl));
+
+            await _siteFilesRepository.UploadAsync(
+                                        streamRotated,
+                                        lowerQualityImageUrl.GetFileNameFromUrl(),
+                                        folderPath);
+
+            stream.Dispose();
+            resizedImage.Dispose();
+
+            return new Uri(lowerQualityImageUrl);
+        }
+
+        private string GetBlogPhotoFolder(int blogEntryId)
+        {
+            return string.Format("/blogphotos/{0}/", blogEntryId);
+        }
+
         private void AddNewTags(BlogManagementEditModel model, BlogEntry dbModel, string[] currentTags)
         {
             foreach (var tagName in currentTags)
@@ -498,7 +526,7 @@ namespace IntoTravel.Web.Controllers
 
         private ImageFormat SetImageFormat(string photoUrl)
         {
-            var extension = photoUrl.GetFileExtension();
+            var extension = photoUrl.GetFileExtensionLower();
 
             switch(extension)
             {

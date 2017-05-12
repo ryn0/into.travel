@@ -64,11 +64,11 @@
 
                 </a>
 
-                @if (!string.IsNullOrWhiteSpace(blog.DefaultPhotoCdnUrl))
+                @if (!string.IsNullOrWhiteSpace(blog.DefaultPhotoThumbCdnUrl))
                 {
                     <a href="~/@blogUrlPath">
                         <img class="img-responsive"
-                             style="width:40%;float:left;margin:10px;" src="@blog.DefaultPhotoCdnUrl" />
+                             style="width:40%;float:left;margin:10px;" src="@blog.DefaultPhotoThumbCdnUrl" />
                     </a>
                 }
 

@@ -27,10 +27,14 @@ namespace IntoTravel.Core.Utilities
         }
 
 
-        public static string GetFileExtension(this string fileName)
+        public static string GetFileExtensionLower(this string fileName)
         {
             return Path.GetExtension(fileName).ToLower().Replace(".", string.Empty);
         }
 
+        public static string GetFileExtension(this string fileName)
+        {
+            return Path.GetExtension(fileName).Replace(".", string.Empty);
+        }
     }
 }

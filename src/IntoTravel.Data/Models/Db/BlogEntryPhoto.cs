@@ -13,6 +13,10 @@ namespace IntoTravel.Data.Models
         [StringLength(255)]
         public string PhotoUrl { get; set; }
 
+        [Required]
+        [StringLength(255)]
+        public string PhotoThumbUrl { get; set; }
+
         public bool IsDefault { get; set; }
 
         public int Rank { get; set; }
