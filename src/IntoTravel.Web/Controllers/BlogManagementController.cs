@@ -317,6 +317,8 @@ namespace IntoTravel.Web.Controllers
             var entry = _blogEntryPhotoRepository.Get(blogEntryPhotoId);
 
             await _siteFilesRepository.DeleteFileAsync(entry.PhotoUrl);
+            await _siteFilesRepository.DeleteFileAsync(entry.PhotoThumbUrl);
+
             _blogEntryPhotoRepository.Delete(blogEntryPhotoId);
 
             return entry;
