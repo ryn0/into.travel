@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using IntoTravel.Web.Models;
 using IntoTravel.Data.Repositories.Interfaces;
+using System.Text;
 
 namespace IntoTravel.Web.Controllers
 {
@@ -15,10 +16,10 @@ namespace IntoTravel.Web.Controllers
 
         public IActionResult Index()
         {
-            var allEmail = _emailSubscriptionRepository.GetAll();
+            var allEmails = _emailSubscriptionRepository.GetAll();
             var model = new EmailSubscribeEditListModel();
 
-            foreach (var sub in allEmail)
+            foreach (var sub in allEmails)
             {
                 model.Items.Add(new EmailSubscribeEditModel()
                 {
@@ -27,6 +28,24 @@ namespace IntoTravel.Web.Controllers
                     EmailSubscriptionId = sub.EmailSubscriptionId
                 });
             }
+
+            if (allEmails != null && allEmails.Count > 0)
+            {
+                var sb = new StringBuilder();
+                foreach (var sub in allEmails)
+                {
+                    if (!sub.IsSubscribed)
+                        continue;
+
+                    sb.AppendFormat("{0}, ", sub.Email);
+                }
+
+                model.Emails = sb.ToString();
+                model.Emails = model.Emails.Trim().TrimEnd(',');
+            }
+
+            var link = string.Format("{0}://{1}/EmailSubscription/Unsubscribe", HttpContext.Request.Scheme, HttpContext.Request.Host);
+            model.UnsubscribeLink = link;
 
             return View(model);
         }

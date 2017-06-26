@@ -11,6 +11,13 @@
 
 @if (Model != null && Model.Items.Count() > 0)
 {
+    <b>Subscribers:</b>
+    <span>@Model.Emails</span>
+
+    <br />
+    <b>Unsubscribe:</b>
+    <span>@Model.UnsubscribeLink</span>
+
 <table class="table">
     <thead>
         <tr>
@@ -27,7 +34,7 @@
             <td>
                @item.Email
             </td>
-          
+          <td>@item.IsSubscribed</td>
             <td>
                 <a class="btn btn-sm btn-info" href="~/EmailSubscriptionManagement/edit?EmailSubscriptionId=@item.EmailSubscriptionId">Edit</a>
             </td>

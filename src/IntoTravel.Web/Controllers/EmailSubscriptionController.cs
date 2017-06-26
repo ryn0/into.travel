@@ -33,5 +33,33 @@ namespace IntoTravel.Web.Controllers
 
             return View();
         }
+
+        [HttpGet]
+        public IActionResult UnSubscribe( )
+        {
+           
+            return View();
+        }
+
+
+        [HttpPost]
+        public IActionResult UnSubscribe(EmailSubscribeModel model)
+        {
+            if (!ModelState.IsValid)
+                throw new Exception("invalid email submission");
+
+            var emailDbModel = _emailSubscriptionRepository.Get(model.Email);
+
+            if (emailDbModel != null)
+            {
+                emailDbModel.IsSubscribed = false;
+
+                _emailSubscriptionRepository.Update(emailDbModel);
+
+                ViewBag.Success = true;
+            }
+
+            return View();
+        }
     }
 }
