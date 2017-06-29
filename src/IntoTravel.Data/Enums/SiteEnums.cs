@@ -12,6 +12,7 @@ namespace IntoTravel.Data.Enums
         Shop = 3,
         DisplayHeader = 4,
         SourceHeader = 5,
-        SourceFooter = 6
+        SourceFooter = 6,
+        Gear = 7
     }
 }

@@ -1,0 +1,12 @@
+﻿@model  IntoTravel.Web.Models.ContentSnippetDisplayModel
+@{
+    ViewData["Title"] = "Gear";
+
+}
+<div class="row">
+    <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1">
+        <h1>@ViewData["Title"]</h1>
+        <hr />
+        @Html.Raw(Model.Content)
+    </div>
+</div>
