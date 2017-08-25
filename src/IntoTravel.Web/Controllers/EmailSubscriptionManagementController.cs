@@ -63,6 +63,7 @@ namespace IntoTravel.Web.Controllers
             foreach(var email in emails)
             {
                 _emailSender.SendEmailAsync(email.Trim(), model.EmailTitle, model.EmailMessage);
+                System.Threading.Thread.Sleep(300); // todo: use queue
             }
 
             return RedirectToAction("index");
