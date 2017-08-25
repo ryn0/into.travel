@@ -15,7 +15,7 @@
     <PackageReference Include="microsoft.extensions.configuration" Version="1.1.2" />
     <PackageReference Include="microsoft.extensions.configuration.fileextensions" Version="1.1.2" />
     <PackageReference Include="microsoft.extensions.configuration.json" Version="1.1.2" />
-    <PackageReference Include="WindowsAzure.Storage" Version="8.1.4" />
+    <PackageReference Include="WindowsAzure.Storage" Version="8.4.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IntoTravel.Core\IntoTravel.Core.csproj" />

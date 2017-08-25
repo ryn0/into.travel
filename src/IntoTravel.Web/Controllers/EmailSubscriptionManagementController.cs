@@ -2,16 +2,21 @@
 using IntoTravel.Web.Models;
 using IntoTravel.Data.Repositories.Interfaces;
 using System.Text;
+using IntoTravel.Web.Services.Interfaces;
 
 namespace IntoTravel.Web.Controllers
 {
     public class EmailSubscriptionManagementController : Controller
     {
         private readonly IEmailSubscriptionRepository _emailSubscriptionRepository;
+        private readonly IEmailSender _emailSender;
 
-        public EmailSubscriptionManagementController(IEmailSubscriptionRepository emailSubscriptionRepository)
+        public EmailSubscriptionManagementController(
+            IEmailSubscriptionRepository emailSubscriptionRepository,
+            IEmailSender emailSender)
         {
             _emailSubscriptionRepository = emailSubscriptionRepository;
+            _emailSender = emailSender;
         }
 
         public IActionResult Index()
@@ -48,6 +53,19 @@ namespace IntoTravel.Web.Controllers
             model.UnsubscribeLink = link;
 
             return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult SendMail(EmailSendModel model)
+        {
+            var emails = model.SendToEmails.Split(',');
+
+            foreach(var email in emails)
+            {
+                _emailSender.SendEmailAsync(email.Trim(), model.EmailTitle, model.EmailMessage);
+            }
+
+            return RedirectToAction("index");
         }
 
 

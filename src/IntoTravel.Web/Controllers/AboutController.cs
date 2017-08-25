@@ -12,6 +12,7 @@ namespace IntoTravel.Web.Controllers
             ICacheService contentSnippetHelper)
         {
             _contentSnippetHelper = contentSnippetHelper;
+           
         }
 
         public IActionResult Index()

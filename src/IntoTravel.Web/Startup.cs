@@ -57,6 +57,11 @@ namespace IntoTravel.Web
             // other
             services.AddTransient<ICacheService, CacheService>();
 
+            services.AddTransient<IEmailSender>(x => new AmazonMailService(
+                Configuration.GetSection("AmazonEmailCredentials:AccessKey").Value, 
+                Configuration.GetSection("AmazonEmailCredentials:SecretKey").Value,
+                Configuration.GetSection("AmazonEmailCredentials:EmailFrom").Value));
+
             services.AddTransient<ISiteFilesRepository>(provider => 
                 new SiteFilesRepository(Configuration.GetConnectionString("AzureStorageConnection")));
              
