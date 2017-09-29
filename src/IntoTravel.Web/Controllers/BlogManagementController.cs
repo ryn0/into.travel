@@ -393,6 +393,7 @@ namespace IntoTravel.Web.Controllers
                     BlogEntryPhotoId = photo.BlogEntryPhotoId,
                     IsDefault = photo.IsDefault,
                     PhotoUrl = photo.PhotoUrl,
+                    PhotoThumbUrl = photo.PhotoThumbUrl,
                     Title = photo.Title,
                     Description = photo.Description
                 });
