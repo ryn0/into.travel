@@ -21,6 +21,9 @@ namespace IntoTravel.Web.Controllers
 
             var model = ModelConverter.BlogPage(_blogEntryRepository.GetLivePage(pageNumber, AmountPerPage, out total), pageNumber, AmountPerPage, total);
 
+            ViewData["Title"] = "Travel Photography by Ryan";
+            ViewData["MetaDescription"] = "A travel photography blog created by Ryan.";
+
             return View("BlogList", model);
         }
 
