@@ -34,6 +34,9 @@ namespace IntoTravel.Web.Controllers
 
             var model = ModelConverter.BlogPage(_blogEntryRepository.GetLivePage(pageNumber, AmountPerPage, out total), pageNumber, AmountPerPage, total);
 
+            ViewData["Title"] = Data.Constants.StringConstants.DefaultPageTitle;
+            ViewData["MetaDescription"] = Data.Constants.StringConstants.DefaultPageDescription;
+
             return View("BlogList", model);
         }
 
