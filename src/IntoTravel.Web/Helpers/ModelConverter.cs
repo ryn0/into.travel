@@ -24,7 +24,7 @@ namespace IntoTravel.Web.Helpers
                 DefaultPhotoThumbUrl = (defaultPhotoUrl != null) ? defaultPhotoUrl.PhotoThumbUrl : null,
                 DefaultPhotoThumbCdnUrl = (defaultPhotoUrl != null) ? defaultPhotoUrl.PhotoThumbUrl.Replace(StringConstants.BlobPrefix, StringConstants.CdnPrefix) : null,
                 DefaultPhotoUrl = (defaultPhotoUrl != null) ? defaultPhotoUrl.PhotoUrl : null,
-                DefaultPhotoCdnUrl = (defaultPhotoUrl != null) ? defaultPhotoUrl.PhotoThumbUrl.Replace(StringConstants.BlobPrefix, StringConstants.CdnPrefix) : null,
+                DefaultPhotoCdnUrl = (defaultPhotoUrl != null) ? defaultPhotoUrl.PhotoFullScreenUrl.Replace(StringConstants.BlobPrefix, StringConstants.CdnPrefix) : null,
                 MetaDescription = blogEntry.MetaDescription
             };
 
