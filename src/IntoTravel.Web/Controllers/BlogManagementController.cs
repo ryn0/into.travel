@@ -192,7 +192,8 @@ namespace IntoTravel.Web.Controllers
                     if (file != null && file.Length > 0)
                     {
                         var fullsizePhotoUrl = await _siteFilesRepository.UploadAsync(file, folderPath);
-                        var thumbnailPhotoUrl = await UploadThumbNailImage(folderPath, fullsizePhotoUrl);
+                        var thumbnailPhotoUrl = await UploadReducedQualityImage(folderPath, fullsizePhotoUrl);
+                        var fullScreenPhotoUrl = await UploadReducedQualityImage(folderPath, fullsizePhotoUrl, 1600, 1200, "_fullscreen");
 
                         var existingPhoto = allBlogPhotos.FirstOrDefault(x => x.PhotoUrl == fullsizePhotoUrl.ToString());
 
@@ -203,10 +204,18 @@ namespace IntoTravel.Web.Controllers
                                 BlogEntryId = blogEntryId,
                                 PhotoUrl = fullsizePhotoUrl.ToString(),
                                 PhotoThumbUrl = thumbnailPhotoUrl.ToString(),
+                                PhotoFullScreenUrl = fullScreenPhotoUrl.ToString(),
                                 Rank = currentRank + 1
                             });
 
                             currentRank++;
+                        }
+                        else
+                        {
+                            existingPhoto.PhotoUrl = fullsizePhotoUrl.ToString();
+                            existingPhoto.PhotoThumbUrl = thumbnailPhotoUrl.ToString();
+                            existingPhoto.PhotoFullScreenUrl = fullScreenPhotoUrl.ToString();
+                            _blogEntryPhotoRepository.Update(existingPhoto);
                         }
                     }
                 }
@@ -450,14 +459,13 @@ namespace IntoTravel.Web.Controllers
         }
 
 
-        private async Task<Uri> UploadThumbNailImage(string folderPath, Uri fullsizePhotoUrl)
+        private async Task<Uri> UploadReducedQualityImage(string folderPath, Uri fullsizePhotoUrl, int maxWidthPx = 800, int maxHeightPx = 600, string suffix = "_thumb")
         {
             var stream = await ToStreamAsync(fullsizePhotoUrl.ToString());
             var imageHelper = new ImageUtilities();
-            int maxWidth = 800, maxHeight = 600;
             var extension = fullsizePhotoUrl.ToString().GetFileExtension();
-            var resizedImage = imageHelper.ScaleImage(Image.FromStream(stream), maxWidth, maxHeight);
-            var lowerQualityImageUrl = fullsizePhotoUrl.ToString().Replace(string.Format(".{0}", extension), string.Format("_thumb.{0}", extension));
+            var resizedImage = imageHelper.ScaleImage(Image.FromStream(stream), maxWidthPx, maxHeightPx);
+            var lowerQualityImageUrl = fullsizePhotoUrl.ToString().Replace(string.Format(".{0}", extension), string.Format("{0}.{1}", suffix, extension));
 
             var streamRotated = ToAStream(resizedImage, SetImageFormat(lowerQualityImageUrl));
 

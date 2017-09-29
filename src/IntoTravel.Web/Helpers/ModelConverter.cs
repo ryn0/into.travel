@@ -22,9 +22,9 @@ namespace IntoTravel.Web.Helpers
                 UrlPath = UrlBuilder.BlogUrlPath(blogEntry.Key, blogEntry.BlogPublishDateTimeUtc),
                 Photos = AddBlogPhotos(blogEntry.Photos),
                 DefaultPhotoThumbUrl = (defaultPhotoUrl != null) ? defaultPhotoUrl.PhotoThumbUrl : null,
-                DefaultPhotoThumbCdnUrl = (defaultPhotoUrl != null) ? defaultPhotoUrl.PhotoThumbUrl.Replace(StringConstants.BlobPreix, StringConstants.CdnPrefix) : null,
+                DefaultPhotoThumbCdnUrl = (defaultPhotoUrl != null) ? defaultPhotoUrl.PhotoThumbUrl.Replace(StringConstants.BlobPrefix, StringConstants.CdnPrefix) : null,
                 DefaultPhotoUrl = (defaultPhotoUrl != null) ? defaultPhotoUrl.PhotoUrl : null,
-                DefaultPhotoCdnUrl = (defaultPhotoUrl != null) ? defaultPhotoUrl.PhotoThumbUrl.Replace(StringConstants.BlobPreix, StringConstants.CdnPrefix) : null,
+                DefaultPhotoCdnUrl = (defaultPhotoUrl != null) ? defaultPhotoUrl.PhotoThumbUrl.Replace(StringConstants.BlobPrefix, StringConstants.CdnPrefix) : null,
                 MetaDescription = blogEntry.MetaDescription
             };
 
@@ -70,9 +70,9 @@ namespace IntoTravel.Web.Helpers
                     IsDefault = photo.IsDefault,
                     Title = photo.Title,
                     PhotoUrl = photo.PhotoUrl,
-                    PhotoCdnUrl = photo.PhotoUrl.Replace(StringConstants.BlobPreix, StringConstants.CdnPrefix),
+                    PhotoCdnUrl = photo.PhotoFullScreenUrl.Replace(StringConstants.BlobPrefix, StringConstants.CdnPrefix),
                     PhotoThumbUrl = photo.PhotoThumbUrl,
-                    PhotoThumbCdnUrl = photo.PhotoThumbUrl.Replace(StringConstants.BlobPreix, StringConstants.CdnPrefix)
+                    PhotoThumbCdnUrl = photo.PhotoThumbUrl.Replace(StringConstants.BlobPrefix, StringConstants.CdnPrefix)
                 });
             }
 
