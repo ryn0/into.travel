@@ -116,6 +116,9 @@ namespace IntoTravel.Data.Repositories.Implementations
 
         public async Task DeleteFileAsync(string blobPath)
         {
+            if (string.IsNullOrWhiteSpace(blobPath))
+                return;
+
             try
             {
                 var blobClient = _storageAccount.CreateCloudBlobClient();
@@ -136,6 +139,13 @@ namespace IntoTravel.Data.Repositories.Implementations
                 var blockBlob = await container.GetBlobReferenceFromServerAsync(path);
 
                 await blockBlob.DeleteAsync();
+            }
+            catch (StorageException storEx)
+            {
+                if (storEx.ToString().Contains("The specified blob does not exist"))
+                    return;
+                else
+                    throw new Exception(storEx.Message, storEx);
             }
             catch (Exception ex)
             {

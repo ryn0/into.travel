@@ -1,18 +1,20 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.7
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntoTravel.Data", "IntoTravel.Data\IntoTravel.Data.csproj", "{E35A8B6D-000A-49CF-BA01-B0A4A5A8E611}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntoTravel.Core", "IntoTravel.Core\IntoTravel.Core.csproj", "{4271A4BE-976B-438B-9C04-82D8574940FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntoTravel.Web", "IntoTravel.Web\IntoTravel.Web.csproj", "{0BF30938-2368-42D6-9EF1-33745CA81BA4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntoTravel.Web", "IntoTravel.Web\IntoTravel.Web.csproj", "{0BF30938-2368-42D6-9EF1-33745CA81BA4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Info", "Info", "{B12E401E-E123-42BB-97BB-C18C93C561E7}"
 	ProjectSection(SolutionItems) = preProject
 		..\ReadMe.txt = ..\ReadMe.txt
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntoTravel.Services", "IntoTravel.Services\IntoTravel.Services.csproj", "{2D6058AF-5AFC-4599-91D4-9C25A26404D6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,8 +34,15 @@ Global
 		{0BF30938-2368-42D6-9EF1-33745CA81BA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0BF30938-2368-42D6-9EF1-33745CA81BA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0BF30938-2368-42D6-9EF1-33745CA81BA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D6058AF-5AFC-4599-91D4-9C25A26404D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D6058AF-5AFC-4599-91D4-9C25A26404D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D6058AF-5AFC-4599-91D4-9C25A26404D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D6058AF-5AFC-4599-91D4-9C25A26404D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0F0FFF7F-D598-4DF8-A676-74D603CF86B0}
 	EndGlobalSection
 EndGlobal

@@ -19,6 +19,10 @@ namespace IntoTravel.Data.Models
 
         [Required]
         [StringLength(255)]
+        public string PhotoPreviewUrl { get; set; }
+
+        [Required]
+        [StringLength(255)]
         public string PhotoFullScreenUrl { get; set; }
 
         public bool IsDefault { get; set; }

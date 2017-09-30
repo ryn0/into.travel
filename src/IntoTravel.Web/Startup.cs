@@ -1,7 +1,6 @@
 ﻿using IntoTravel.Data.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -9,10 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using IntoTravel.Data.DbContextInfo;
 using IntoTravel.Data.Repositories.Implementations;
 using IntoTravel.Data.Repositories.Interfaces;
-using IntoTravel.Web.Helpers;
 using IntoTravel.Web.Services.Interfaces;
 using IntoTravel.Web.Services.Implementations;
 using Microsoft.AspNetCore.Identity;
+using IntoTravel.Services.Interfaces;
+using IntoTravel.Services.Implementations;
 
 namespace IntoTravel.Web
 {
@@ -65,7 +65,9 @@ namespace IntoTravel.Web
 
             services.AddTransient<ISiteFilesRepository>(provider => 
                 new SiteFilesRepository(Configuration.GetConnectionString("AzureStorageConnection")));
-             
+
+            services.AddTransient<IImageUploaderService, ImageUploaderService>();
+
             // Add framework services.
             services.AddMvc();
         }

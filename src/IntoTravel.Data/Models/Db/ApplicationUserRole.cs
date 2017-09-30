@@ -8,8 +8,7 @@ namespace IntoTravel.Data.Models
     public class ApplicationUserRole : IdentityUserRole<string>
     {
         [Key, Column(Order = 0)]
-        //[DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [StringLength(36)]
         public override string UserId
         {
@@ -25,7 +24,7 @@ namespace IntoTravel.Data.Models
         }
 
         [Key, Column(Order = 1)]
-        //[DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public override string RoleId
         {
             get

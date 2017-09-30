@@ -18,5 +18,7 @@
         public string Description { get; set; }
 
         public bool IsDefault { get; set; }
+        public string PhotoPreviewUrl { get; internal set; }
+        public string PhotoPreviewCdnUrl { get; internal set; }
     }
 }

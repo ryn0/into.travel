@@ -13,9 +13,10 @@ using System;
 namespace IntoTravel.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170930230955_PreviewImageUrl")]
+    partial class PreviewImageUrl
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -135,7 +136,6 @@ namespace IntoTravel.Data.Migrations
                         .HasMaxLength(255);
 
                     b.Property<string>("PhotoPreviewUrl")
-                        .IsRequired()
                         .HasMaxLength(255);
 
                     b.Property<string>("PhotoThumbUrl")

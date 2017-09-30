@@ -12,7 +12,7 @@ namespace IntoTravel.Web.Helpers
         public static BlogEntryDisplayModel ConvertToBlogDisplayModel(BlogEntry current, BlogEntry previous, BlogEntry next)
         {
             var defaultPhotoUrl = current.Photos.FirstOrDefault(x => x.IsDefault == true);            
-
+            
             var model = new BlogEntryDisplayModel()
             {
                 BlogPublishDateTimeUtc = current.BlogPublishDateTimeUtc,
@@ -25,10 +25,13 @@ namespace IntoTravel.Web.Helpers
                 NextName = (next != null) ? next.Title : null,
                 NextUrlPath = (next != null) ? UrlBuilder.BlogUrlPath(next.Key, next.BlogPublishDateTimeUtc) : null,
                 Photos = AddBlogPhotos(current.Photos),
+
                 DefaultPhotoThumbUrl = (defaultPhotoUrl != null) ? defaultPhotoUrl.PhotoThumbUrl : null,
                 DefaultPhotoThumbCdnUrl = (defaultPhotoUrl != null) ? defaultPhotoUrl.PhotoThumbUrl.Replace(StringConstants.BlobPrefix, StringConstants.CdnPrefix) : null,
+
                 DefaultPhotoUrl = (defaultPhotoUrl != null) ? defaultPhotoUrl.PhotoUrl : null,
                 DefaultPhotoCdnUrl = (defaultPhotoUrl != null) ? defaultPhotoUrl.PhotoFullScreenUrl.Replace(StringConstants.BlobPrefix, StringConstants.CdnPrefix) : null,
+
                 MetaDescription = current.MetaDescription
             };
 
@@ -73,10 +76,15 @@ namespace IntoTravel.Web.Helpers
                     Description = photo.Description,
                     IsDefault = photo.IsDefault,
                     Title = photo.Title,
+
                     PhotoUrl = photo.PhotoUrl,
                     PhotoCdnUrl = photo.PhotoFullScreenUrl.Replace(StringConstants.BlobPrefix, StringConstants.CdnPrefix),
+
                     PhotoThumbUrl = photo.PhotoThumbUrl,
-                    PhotoThumbCdnUrl = photo.PhotoThumbUrl.Replace(StringConstants.BlobPrefix, StringConstants.CdnPrefix)
+                    PhotoThumbCdnUrl = photo.PhotoThumbUrl.Replace(StringConstants.BlobPrefix, StringConstants.CdnPrefix),
+
+                    PhotoPreviewUrl = photo.PhotoPreviewUrl,
+                    PhotoPreviewCdnUrl = photo.PhotoPreviewUrl.Replace(StringConstants.BlobPrefix, StringConstants.CdnPrefix),
                 });
             }
 
