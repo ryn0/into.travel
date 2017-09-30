@@ -303,7 +303,7 @@ namespace IntoTravel.Web.Controllers
         {
             var model = _blogEntryRepository.Get(key);
 
-            return View("DisplayBlog", ModelConverter.ConvertToBlogDisplayModel(model));
+            return View("DisplayBlog", ModelConverter.ConvertToBlogDisplayModel(model, null, null));
         }
 
 

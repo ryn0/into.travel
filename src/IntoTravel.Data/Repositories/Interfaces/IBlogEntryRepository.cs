@@ -19,6 +19,10 @@ namespace IntoTravel.Data.Repositories.Interfaces
 
         BlogEntry Get(string key);
 
+        BlogEntry GetPreviousEntry(DateTime currentBlogEntryPublishDateTimeUtc);
+
+        BlogEntry GetNextEntry(DateTime currentBlogEntryPublishDateTimeUtc);
+
         List<BlogEntry> GetPage(int pageNumber , int quantityPerPage, out int total);
 
         List<BlogEntry> GetLivePage(int pageNumber, int quantityPerPage, out int total);

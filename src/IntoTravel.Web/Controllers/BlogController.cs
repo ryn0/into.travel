@@ -23,7 +23,10 @@ namespace IntoTravel.Web.Controllers
 
             ValidateRequest(year, month, day, model);
 
-            return View("DisplayBlog", ModelConverter.ConvertToBlogDisplayModel(model));
+            var previous = _blogEntryRepository.GetPreviousEntry(model.BlogPublishDateTimeUtc);
+            var next = _blogEntryRepository.GetNextEntry(model.BlogPublishDateTimeUtc);
+
+            return View("DisplayBlog", ModelConverter.ConvertToBlogDisplayModel(model, previous, next));
         }
 
         [Route("blog/page/{pageNumber}")]

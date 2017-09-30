@@ -60,6 +60,10 @@ namespace IntoTravel.Web.Models
         public string DefaultPhotoThumbUrl { get;  set; }
 
         public string DefaultPhotoThumbCdnUrl { get; set; }
+        public string PreviousUrlPath { get;  set; }
+        public string NextUrlPath { get;  set; }
+        public string PreviousName { get; internal set; }
+        public string NextName { get; internal set; }
     }
 
     public class BlogEntryDisplayListModel

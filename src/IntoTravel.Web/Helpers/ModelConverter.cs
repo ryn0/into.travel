@@ -9,28 +9,32 @@ namespace IntoTravel.Web.Helpers
 {
     public class ModelConverter
     {
-        public static BlogEntryDisplayModel ConvertToBlogDisplayModel(BlogEntry blogEntry)
+        public static BlogEntryDisplayModel ConvertToBlogDisplayModel(BlogEntry current, BlogEntry previous, BlogEntry next)
         {
-            var defaultPhotoUrl = blogEntry.Photos.FirstOrDefault(x => x.IsDefault == true);            
+            var defaultPhotoUrl = current.Photos.FirstOrDefault(x => x.IsDefault == true);            
 
             var model = new BlogEntryDisplayModel()
             {
-                BlogPublishDateTimeUtc = blogEntry.BlogPublishDateTimeUtc,
-                Content = blogEntry.Content,
-                Key = blogEntry.Key,
-                Title = blogEntry.Title,
-                UrlPath = UrlBuilder.BlogUrlPath(blogEntry.Key, blogEntry.BlogPublishDateTimeUtc),
-                Photos = AddBlogPhotos(blogEntry.Photos),
+                BlogPublishDateTimeUtc = current.BlogPublishDateTimeUtc,
+                Content = current.Content,
+                Key = current.Key,
+                Title = current.Title,
+                UrlPath = UrlBuilder.BlogUrlPath(current.Key, current.BlogPublishDateTimeUtc),
+                PreviousName = (next != null) ? previous.Title : null,
+                PreviousUrlPath = (next != null) ? UrlBuilder.BlogUrlPath(current.Key, previous.BlogPublishDateTimeUtc) : null,
+                NextName = (next != null) ? next.Title : null,
+                NextUrlPath = (previous != null) ? UrlBuilder.BlogUrlPath(current.Key, next.BlogPublishDateTimeUtc) : null,
+                Photos = AddBlogPhotos(current.Photos),
                 DefaultPhotoThumbUrl = (defaultPhotoUrl != null) ? defaultPhotoUrl.PhotoThumbUrl : null,
                 DefaultPhotoThumbCdnUrl = (defaultPhotoUrl != null) ? defaultPhotoUrl.PhotoThumbUrl.Replace(StringConstants.BlobPrefix, StringConstants.CdnPrefix) : null,
                 DefaultPhotoUrl = (defaultPhotoUrl != null) ? defaultPhotoUrl.PhotoUrl : null,
                 DefaultPhotoCdnUrl = (defaultPhotoUrl != null) ? defaultPhotoUrl.PhotoFullScreenUrl.Replace(StringConstants.BlobPrefix, StringConstants.CdnPrefix) : null,
-                MetaDescription = blogEntry.MetaDescription
+                MetaDescription = current.MetaDescription
             };
 
-            if (blogEntry.BlogEntryTags != null)
+            if (current.BlogEntryTags != null)
             {
-                foreach (var blogEntryTag in blogEntry.BlogEntryTags)
+                foreach (var blogEntryTag in current.BlogEntryTags)
                 {
                     model.Tags.Add(blogEntryTag.Tag.Name);
                 }
@@ -48,7 +52,7 @@ namespace IntoTravel.Web.Helpers
 
             foreach (var blog in blogEntries)
             {
-                model.Items.Add(ConvertToBlogDisplayModel(blog));
+                model.Items.Add(ConvertToBlogDisplayModel(blog, null, null));
             }
 
             return model;

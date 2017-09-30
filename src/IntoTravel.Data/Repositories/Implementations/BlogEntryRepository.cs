@@ -34,7 +34,7 @@ namespace IntoTravel.Data.Repositories.Implementations
             }
         }
 
-        public List<BlogEntry> GetPage(int pageNumber , int quantityPerPage, out int total)
+        public List<BlogEntry> GetPage(int pageNumber, int quantityPerPage, out int total)
         {
             try
             {
@@ -58,6 +58,7 @@ namespace IntoTravel.Data.Repositories.Implementations
         public List<BlogEntry> GetLivePage(int pageNumber, int quantityPerPage, out int total)
         {
             var now = DateTime.UtcNow;
+
             try
             {
                 var model = Context.BlogEntry
@@ -79,7 +80,42 @@ namespace IntoTravel.Data.Repositories.Implementations
                 //Log.Error(ex);
                 throw new Exception("DB error", ex.InnerException);
             }
+        }
 
+        public BlogEntry GetPreviousEntry(DateTime currentBlogEntryPublishDateTimeUtc)
+        {
+            try
+            {
+                var model = Context.BlogEntry
+                                   .Where(x => x.BlogPublishDateTimeUtc < currentBlogEntryPublishDateTimeUtc && x.IsLive == true)
+                                   .OrderByDescending(x => x.BlogPublishDateTimeUtc)
+                                   .FirstOrDefault();
+
+                return model;
+            }
+            catch (Exception ex)
+            {
+                //Log.Error(ex);
+                throw new Exception("DB error", ex.InnerException);
+            }
+        }
+
+        public BlogEntry GetNextEntry(DateTime currentBlogEntryPublishDateTimeUtc)
+        {
+            try
+            {
+                var model = Context.BlogEntry
+                                   .Where(x => x.BlogPublishDateTimeUtc > currentBlogEntryPublishDateTimeUtc && x.IsLive == true)
+                                   .OrderBy(x => x.BlogPublishDateTimeUtc)
+                                   .FirstOrDefault();
+
+                return model;
+            }
+            catch (Exception ex)
+            {
+                //Log.Error(ex);
+                throw new Exception("DB error", ex.InnerException);
+            }
         }
 
 
