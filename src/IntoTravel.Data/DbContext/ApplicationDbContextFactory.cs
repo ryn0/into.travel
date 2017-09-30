@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using System.IO;
@@ -6,15 +7,15 @@ using System.IO;
 
 namespace IntoTravel.Data.DbContextInfo
 {
-    public class ApplicationDbContextFactory : IDbContextFactory<ApplicationDbContext>
+    public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
     {
         public IConfigurationRoot Configuration { get; set; }
 
-
-        public ApplicationDbContext Create(DbContextFactoryOptions options)
+ 
+        public ApplicationDbContext CreateDbContext(string[] args)
         {
             var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
-             
+
             var builderConfigs = new ConfigurationBuilder()
                          .SetBasePath(Directory.GetCurrentDirectory())
                         .AddJsonFile("appsettings.json");

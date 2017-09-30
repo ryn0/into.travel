@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -7,7 +8,7 @@ namespace IntoTravel.Data.Models
     public class ApplicationUserRole : IdentityUserRole<string>
     {
         [Key, Column(Order = 0)]
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        //[DatabaseGenerated(DatabaseGeneratedOption.Computed)]
 
         [StringLength(36)]
         public override string UserId
@@ -24,7 +25,7 @@ namespace IntoTravel.Data.Models
         }
 
         [Key, Column(Order = 1)]
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        //[DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public override string RoleId
         {
             get

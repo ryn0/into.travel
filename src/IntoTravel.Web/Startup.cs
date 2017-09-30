@@ -12,6 +12,7 @@ using IntoTravel.Data.Repositories.Interfaces;
 using IntoTravel.Web.Helpers;
 using IntoTravel.Web.Services.Interfaces;
 using IntoTravel.Web.Services.Implementations;
+using Microsoft.AspNetCore.Identity;
 
 namespace IntoTravel.Web
 {
