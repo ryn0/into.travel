@@ -101,18 +101,20 @@
             <div class="col-lg-2">
             </div>
             <div class="col-lg-3 gauche">
-                @if (!string.IsNullOrWhiteSpace(Model.NextName))
-                {
-                    <b>Next:</b> <a href="@Model.NextUrlPath">@Model.NextName</a>
-                }
-                
-            </div>
 
-            <div class="col-lg-5 corps">
-             
                 @if (!string.IsNullOrWhiteSpace(Model.PreviousName))
                 {
                     <b>Previous:</b> <a href="@Model.PreviousUrlPath">@Model.PreviousName</a>
+                }
+
+            </div>
+
+            <div class="col-lg-5 corps">
+          
+
+                @if (!string.IsNullOrWhiteSpace(Model.NextName))
+                {
+                    <b>Next:</b> <a href="@Model.NextUrlPath">@Model.NextName</a>
                 }
             </div>
             <div class="col-lg-2">
