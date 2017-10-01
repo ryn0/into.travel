@@ -31,8 +31,6 @@ task default -depends RestorePackages # required task
 
 task -name CreatePackage {
 
-
-
     exec {
 
         if (!(Test-Path -Path ("$CIRoot\$compileSourcePath")))
@@ -60,16 +58,6 @@ task -name CreatePackage {
 task -name DeployWebApp -depends RestorePackages, BuildProject, MigrateDB, CreatePackage -action {
 
     exec {
-
-       # $webconfigPath = $contentPathDes + "web.config"
-       # $deployIisAppPath = $webAppHost
-        
-       # Write-Host "Deleting config..."
-       # & $msDeploy `
-       #     -verb:delete `
-       #     -allowUntrusted:true `
-       #     -dest:contentPath=$webconfigPath,computername=$MsDeployLocation/MsDeploy.axd?site=$deployIisAppPath,username=$msDeployUserName,password=$msDeployPassword,authtype=basic
-       # Write-Host "done."
 
         $compileSourcePath = Resolve-Path -Path ("$CIRoot\$compileSourcePath")
 
