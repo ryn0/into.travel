@@ -2,6 +2,7 @@
 using IntoTravel.Web.Helpers;
 using IntoTravel.Data.Repositories.Interfaces;
 using IntoTravel.Core.Constants;
+using log4net.Repository.Hierarchy;
 
 namespace IntoTravel.Web.Controllers
 {
@@ -9,15 +10,17 @@ namespace IntoTravel.Web.Controllers
     {
         const int AmountPerPage = 10;
         private readonly IBlogEntryRepository _blogEntryRepository;
-
-        public HomeController(IBlogEntryRepository blogEntryRepository)
+ 
+        public HomeController(IBlogEntryRepository blogEntryRepository )
         {
             _blogEntryRepository = blogEntryRepository;
+           
         }
 
         [HttpGet]
         public IActionResult Index(int pageNumber = 1)
         {
+            
             int total;
 
             var model = ModelConverter.BlogPage(_blogEntryRepository.GetLivePage(pageNumber, AmountPerPage, out total), pageNumber, AmountPerPage, total);
