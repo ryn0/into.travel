@@ -25,6 +25,9 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Views\Shared\Page404.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\IntoTravel.Core\IntoTravel.Core.csproj" />
     <ProjectReference Include="..\IntoTravel.Data\IntoTravel.Data.csproj" />
     <ProjectReference Include="..\IntoTravel.Services\IntoTravel.Services.csproj" />

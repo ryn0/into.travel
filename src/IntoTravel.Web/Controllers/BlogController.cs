@@ -21,6 +21,13 @@ namespace IntoTravel.Web.Controllers
         {
             var model = _blogEntryRepository.Get(key);
 
+            if (model == null)
+            {
+                Response.StatusCode = 404;
+
+                return View("Page404");
+            }
+
             ValidateRequest(year, month, day, model);
 
             var previous = _blogEntryRepository.GetPreviousEntry(model.BlogPublishDateTimeUtc);
