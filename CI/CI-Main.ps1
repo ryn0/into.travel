@@ -137,7 +137,9 @@ task -name RestorePackages -description "Restore Packages"  -action {
 
         cd $webProjectPath
 
-        dotnet build
+        
+        dotnet msbuild /t:Restore /p:Configuration=$BuildConfiguration
+
     }
 }
 
