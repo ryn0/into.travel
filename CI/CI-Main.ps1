@@ -29,7 +29,9 @@ task default -depends RestorePackages # required task
 # User Tasks
 ##############
 
-task -name DeployWebApp -depends RestorePackages, BuildProject, MigrateDB -action {
+task -name CreatePackage {
+
+
 
     exec {
 
@@ -43,24 +45,36 @@ task -name DeployWebApp -depends RestorePackages, BuildProject, MigrateDB -actio
         $webProjectPath = Resolve-Path -Path ("$CIRoot\$webProjectSourcePath")
 
         cd $webProjectPath
+
+        Write-Host "Packaging..."
     
         & dotnet publish `
                     --framework $DotNetFramework `
                     --output $compileSourcePath `
                     --configuration $BuildConfiguration `
                     --runtime $DotNetRunTime
- 
-        $webconfigPath = $contentPathDes + "web.config"
-        $deployIisAppPath = $webAppHost
+    }
+
+}
+
+task -name DeployWebApp -depends RestorePackages, BuildProject, MigrateDB, CreatePackage -action {
+
+    exec {
+
+       # $webconfigPath = $contentPathDes + "web.config"
+       # $deployIisAppPath = $webAppHost
         
-        Write-Host "Deleting config..."
-        & $msDeploy `
-            -verb:delete `
-            -allowUntrusted:true `
-            -dest:contentPath=$webconfigPath,computername=$MsDeployLocation/MsDeploy.axd?site=$deployIisAppPath,username=$msDeployUserName,password=$msDeployPassword,authtype=basic
-        Write-Host "done."
-       
+       # Write-Host "Deleting config..."
+       # & $msDeploy `
+       #     -verb:delete `
+       #     -allowUntrusted:true `
+       #     -dest:contentPath=$webconfigPath,computername=$MsDeployLocation/MsDeploy.axd?site=$deployIisAppPath,username=$msDeployUserName,password=$msDeployPassword,authtype=basic
+       # Write-Host "done."
+
+        $compileSourcePath = Resolve-Path -Path ("$CIRoot\$compileSourcePath")
+
         Write-Host "Deploying..."
+
         & $msDeploy `
             -verb:sync `
             -source:contentPath=$compileSourcePath `
