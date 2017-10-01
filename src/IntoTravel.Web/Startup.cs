@@ -13,6 +13,8 @@ using IntoTravel.Web.Services.Implementations;
 using Microsoft.AspNetCore.Identity;
 using IntoTravel.Services.Interfaces;
 using IntoTravel.Services.Implementations;
+using Microsoft.AspNetCore.Rewrite;
+using IntoTravel.Web.AppRules;
 
 namespace IntoTravel.Web
 {
@@ -89,8 +91,12 @@ namespace IntoTravel.Web
             }
 
             app.UseStaticFiles();
+            app.UseAuthentication();
 
-            app.UseIdentity();
+            var options = new RewriteOptions();
+            options.Rules.Add(new NonWwwRule());
+
+            app.UseRewriter(options); 
 
             app.UseMvc(routes =>
             {
