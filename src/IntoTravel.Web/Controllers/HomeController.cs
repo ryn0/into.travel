@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using IntoTravel.Web.Helpers;
 using IntoTravel.Data.Repositories.Interfaces;
-using IntoTravel.Core.Constants;
-using log4net.Repository.Hierarchy;
 
 namespace IntoTravel.Web.Controllers
 {

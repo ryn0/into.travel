@@ -1,6 +1,6 @@
 ﻿using IntoTravel.Data.Repositories.Interfaces;
 using IntoTravel.Web.Models;
-using log4net;
+// using log4net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,7 +15,7 @@ namespace IntoTravel.Web.Controllers
     [Authorize(Roles = IntoTravel.Data.Constants.StringConstants.AdminRole)]
     public class SiteFilesManagementController : Controller
     {
-        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        // private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         private readonly ISiteFilesRepository _siteFilesRepository;
 
@@ -49,7 +49,7 @@ namespace IntoTravel.Web.Controllers
             }
             catch (Exception ex)
             {
-                log.Fatal(ex);
+                // log.Fatal(ex);
                 return RedirectToAction("Index");
             }
         }
@@ -70,7 +70,7 @@ namespace IntoTravel.Web.Controllers
             }
             catch (Exception ex)
             {
-                log.Fatal(ex);
+                // log.Fatal(ex);
                 return RedirectToAction("Index");
             }
         }
