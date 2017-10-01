@@ -48,10 +48,11 @@ namespace IntoTravel.Web.Controllers
 
             if (model.Items != null && model.Items.Count > 0)
             {
-                var tagName = _tagRepository.Get(keyword).Name;
-                ViewBag.TagKeyword = tagName;
-                ViewData["Title"] = tagName;
-                ViewData["MetaDescription"] = string.Format("Travel photography by Ryan tagged with: {0}.", tagName);
+                var tag = _tagRepository.Get(keyword);
+                ViewBag.TagKeyword = tag.Name;
+                ViewBag.TagKey = tag.Key.ToLower();
+                ViewData["Title"] = tag.Name;
+                ViewData["MetaDescription"] = string.Format("Travel photography by Ryan tagged with: {0}.", tag.Name);
             }
 
             return model;
