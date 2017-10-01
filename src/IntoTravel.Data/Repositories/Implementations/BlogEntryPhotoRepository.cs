@@ -4,11 +4,15 @@ using System.Collections.Generic;
 using IntoTravel.Data.DbContextInfo;
 using IntoTravel.Data.Models;
 using System.Linq;
+using log4net;
+using System.Reflection;
 
 namespace IntoTravel.Data.Repositories.Implementations
 {
     public class BlogEntryPhotoRepository : IBlogEntryPhotoRepository
     {
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         public IApplicationDbContext Context { get; set; }
 
         public BlogEntryPhotoRepository(IApplicationDbContext context)
@@ -27,7 +31,7 @@ namespace IntoTravel.Data.Repositories.Implementations
             }
             catch (Exception ex)
             {
-                // Log.Fatal(LogCodes.SqlError, ex);
+                log.Fatal(ex);
                 throw new Exception("DB error", ex.InnerException);
 
             }
@@ -55,7 +59,7 @@ namespace IntoTravel.Data.Repositories.Implementations
             }
             catch (Exception ex)
             {
-                // Log.Fatal(LogCodes.SqlError, ex);
+                log.Fatal(ex);
                 throw new Exception("DB error", ex.InnerException);
             }
         }
@@ -74,7 +78,7 @@ namespace IntoTravel.Data.Repositories.Implementations
             }
             catch (Exception ex)
             {
-                // Log.Fatal(LogCodes.SqlError, ex);
+                log.Fatal(ex);
 
                 return false;
             }
@@ -89,6 +93,7 @@ namespace IntoTravel.Data.Repositories.Implementations
             }
             catch (Exception ex)
             {
+                log.Fatal(ex);
                 throw new Exception("DB error", ex.InnerException);
             }
         }
@@ -103,6 +108,7 @@ namespace IntoTravel.Data.Repositories.Implementations
             }
             catch (Exception ex)
             {
+                log.Fatal(ex);
                 throw new Exception("DB error", ex.InnerException);
             }
         }
@@ -118,7 +124,7 @@ namespace IntoTravel.Data.Repositories.Implementations
             }
             catch (Exception ex)
             {
-                // Log.Fatal(LogCodes.SqlError, ex);
+                log.Fatal(ex);
                 throw new Exception("DB error", ex.InnerException);
 
             }
@@ -128,7 +134,5 @@ namespace IntoTravel.Data.Repositories.Implementations
         {
             Context.Dispose();
         }
-  
-        
     }
 }

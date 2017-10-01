@@ -4,11 +4,15 @@ using IntoTravel.Data.DbContextInfo;
 using System.Linq;
 using IntoTravel.Data.Models.Db;
 using System.Collections.Generic;
+using log4net;
+using System.Reflection;
 
 namespace IntoTravel.Data.Repositories.Implementations
 {
     public class EmailSubscriptionRepository : IEmailSubscriptionRepository
     {
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         public EmailSubscriptionRepository(IApplicationDbContext context)
         {
             Context = context;
@@ -27,7 +31,7 @@ namespace IntoTravel.Data.Repositories.Implementations
             }
             catch (Exception ex)
             {
-                // Log.Fatal(LogCodes.SqlError, ex);
+                log.Fatal(ex);
                 throw new Exception("DB error", ex.InnerException);
 
             }
@@ -59,7 +63,7 @@ namespace IntoTravel.Data.Repositories.Implementations
             }
             catch (Exception ex)
             {
-                // Log.Fatal(LogCodes.SqlError, ex);
+                log.Fatal(ex);
                 throw new Exception("DB error", ex.InnerException);
             }
         }
@@ -76,7 +80,7 @@ namespace IntoTravel.Data.Repositories.Implementations
 
             catch (Exception ex)
             {
-                // Log.Fatal(LogCodes.SqlError, ex);
+                log.Fatal(ex);
                 throw new Exception("DB error", ex.InnerException);
 
             }
@@ -95,7 +99,7 @@ namespace IntoTravel.Data.Repositories.Implementations
             }
             catch (Exception ex)
             {
-                // Log.Fatal(LogCodes.SqlError, ex);
+                log.Fatal(ex);
 
                 return false;
             }
@@ -109,7 +113,7 @@ namespace IntoTravel.Data.Repositories.Implementations
             }
             catch (Exception ex)
             {
-                // Log.Fatal(LogCodes.SqlError, ex);
+                log.Fatal(ex);
                 throw new Exception("DB error", ex.InnerException);
             }
         }
