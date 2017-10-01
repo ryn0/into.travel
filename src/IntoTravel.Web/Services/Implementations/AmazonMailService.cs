@@ -2,7 +2,7 @@
 using Amazon.SimpleEmail;
 using Amazon.SimpleEmail.Model;
 using IntoTravel.Web.Services.Interfaces;
-// using log4net;
+using log4net;
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -11,7 +11,7 @@ namespace IntoTravel.Web.Services.Implementations
 {
     public class AmazonMailService : IEmailSender
     {
-        // private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         readonly string _amazonAccessKey;
         readonly string _amazonSecretKey;
@@ -79,7 +79,7 @@ namespace IntoTravel.Web.Services.Implementations
             }
             catch (Exception ex)
             {
-                // log.Fatal(ex);
+                log.Fatal(ex);
                 return false;
             }
         }

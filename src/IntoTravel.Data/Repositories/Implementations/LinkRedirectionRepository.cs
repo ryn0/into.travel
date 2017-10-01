@@ -4,14 +4,14 @@ using IntoTravel.Data.DbContextInfo;
 using System.Linq;
 using IntoTravel.Data.Models.Db;
 using System.Collections.Generic;
-// using log4net;
+using log4net;
 using System.Reflection;
 
 namespace IntoTravel.Data.Repositories.Implementations
 {
     public class LinkRedirectionRepository : ILinkRedirectionRepository
     {
-        // private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         public LinkRedirectionRepository(IApplicationDbContext context)
         {
@@ -31,7 +31,7 @@ namespace IntoTravel.Data.Repositories.Implementations
             }
             catch (Exception ex)
             {
-                // log.Fatal(ex);
+                log.Fatal(ex);
                 throw new Exception("DB error", ex.InnerException);
 
             }
@@ -63,7 +63,7 @@ namespace IntoTravel.Data.Repositories.Implementations
             }
             catch (Exception ex)
             {
-                // log.Fatal(ex);
+                log.Fatal(ex);
                 throw new Exception("DB error", ex.InnerException);
 
             }
@@ -81,7 +81,7 @@ namespace IntoTravel.Data.Repositories.Implementations
 
             catch (Exception ex)
             {
-                // log.Fatal(ex);
+                log.Fatal(ex);
                 throw new Exception("DB error", ex.InnerException);
 
             }
@@ -100,7 +100,7 @@ namespace IntoTravel.Data.Repositories.Implementations
             }
             catch (Exception ex)
             {
-                // log.Fatal(ex);
+                log.Fatal(ex);
 
                 return false;
             }
@@ -114,7 +114,7 @@ namespace IntoTravel.Data.Repositories.Implementations
             }
             catch (Exception ex)
             {
-                // log.Fatal(ex);
+                log.Fatal(ex);
                 throw new Exception("DB error", ex.InnerException);
             }
         }
