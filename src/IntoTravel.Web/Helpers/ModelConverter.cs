@@ -11,8 +11,10 @@ namespace IntoTravel.Web.Helpers
     {
         public static BlogEntryDisplayModel ConvertToBlogDisplayModel(BlogEntry current, BlogEntry previous, BlogEntry next)
         {
-            var defaultPhotoUrl = current.Photos.FirstOrDefault(x => x.IsDefault == true);            
-            
+            var defaultPhotoUrl = current?.Photos.FirstOrDefault(x => x.IsDefault == true);
+            var previousPhotoUrl = previous?.Photos.FirstOrDefault(x => x.IsDefault == true);
+            var nextPhotoUrl = next?.Photos.FirstOrDefault(x => x.IsDefault == true);
+
             var model = new BlogEntryDisplayModel()
             {
                 BlogPublishDateTimeUtc = current.BlogPublishDateTimeUtc,
@@ -20,17 +22,22 @@ namespace IntoTravel.Web.Helpers
                 Key = current.Key,
                 Title = current.Title,
                 UrlPath = UrlBuilder.BlogUrlPath(current.Key, current.BlogPublishDateTimeUtc),
-                PreviousName = (previous != null) ? previous.Title : null,
+
+                PreviousName = previous?.Title,
                 PreviousUrlPath = (previous != null) ? UrlBuilder.BlogUrlPath(previous.Key, previous.BlogPublishDateTimeUtc) : null,
-                NextName = (next != null) ? next.Title : null,
+                DefaultPreviousPhotoThumbCdnUrl = previousPhotoUrl?.PhotoThumbUrl.Replace(StringConstants.BlobPrefix, StringConstants.CdnPrefix),
+
+                NextName = next?.Title,
                 NextUrlPath = (next != null) ? UrlBuilder.BlogUrlPath(next.Key, next.BlogPublishDateTimeUtc) : null,
+                DefaultNextPhotoThumbCdnUrl = nextPhotoUrl?.PhotoThumbUrl.Replace(StringConstants.BlobPrefix, StringConstants.CdnPrefix),
+
                 Photos = AddBlogPhotos(current.Photos),
 
-                DefaultPhotoThumbUrl = (defaultPhotoUrl != null) ? defaultPhotoUrl.PhotoThumbUrl : null,
-                DefaultPhotoThumbCdnUrl = (defaultPhotoUrl != null) ? defaultPhotoUrl.PhotoThumbUrl.Replace(StringConstants.BlobPrefix, StringConstants.CdnPrefix) : null,
+                DefaultPhotoThumbUrl = defaultPhotoUrl?.PhotoThumbUrl,
+                DefaultPhotoThumbCdnUrl = defaultPhotoUrl?.PhotoThumbUrl.Replace(StringConstants.BlobPrefix, StringConstants.CdnPrefix),
 
-                DefaultPhotoUrl = (defaultPhotoUrl != null) ? defaultPhotoUrl.PhotoUrl : null,
-                DefaultPhotoCdnUrl = (defaultPhotoUrl != null) ? defaultPhotoUrl.PhotoFullScreenUrl.Replace(StringConstants.BlobPrefix, StringConstants.CdnPrefix) : null,
+                DefaultPhotoUrl = defaultPhotoUrl?.PhotoFullScreenUrl,
+                DefaultPhotoCdnUrl = defaultPhotoUrl?.PhotoFullScreenUrl.Replace(StringConstants.BlobPrefix, StringConstants.CdnPrefix),
 
                 MetaDescription = current.MetaDescription
             };

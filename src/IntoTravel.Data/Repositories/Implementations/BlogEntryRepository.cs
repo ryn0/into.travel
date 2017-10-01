@@ -87,8 +87,12 @@ namespace IntoTravel.Data.Repositories.Implementations
             try
             {
                 var model = Context.BlogEntry
+                                 
                                    .Where(x => x.BlogPublishDateTimeUtc < currentBlogEntryPublishDateTimeUtc && x.IsLive == true)
                                    .OrderByDescending(x => x.BlogPublishDateTimeUtc)
+                                     .Include(x => x.Photos)
+                                   .Include(x => x.BlogEntryTags)
+                                   .Include("BlogEntryTags.Tag")
                                    .FirstOrDefault();
 
                 return model;
@@ -105,8 +109,12 @@ namespace IntoTravel.Data.Repositories.Implementations
             try
             {
                 var model = Context.BlogEntry
+                                
                                    .Where(x => x.BlogPublishDateTimeUtc > currentBlogEntryPublishDateTimeUtc && x.IsLive == true)
                                    .OrderBy(x => x.BlogPublishDateTimeUtc)
+                                      .Include(x => x.Photos)
+                                   .Include(x => x.BlogEntryTags)
+                                   .Include("BlogEntryTags.Tag")
                                    .FirstOrDefault();
 
                 return model;
