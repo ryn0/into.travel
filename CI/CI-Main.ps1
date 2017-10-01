@@ -52,15 +52,26 @@ task -name CreatePackage {
                     --configuration $BuildConfiguration `
                     --runtime $DotNetRunTime
     }
-
 }
 
-task -name DeployWebApp -depends RestorePackages, BuildProject, MigrateDB, CreatePackage -action {
+task -name SyncWebFiles {
 
     exec {
 
+        $webconfigPath = $contentPathDes + "web.config"
+        $deployIisAppPath = $webAppHost
+        
+        Write-Host "Deleting config..."
+        
+        & $msDeploy `
+            -verb:delete `
+            -allowUntrusted:true `
+            -dest:contentPath=$webconfigPath,computername=$MsDeployLocation/MsDeploy.axd?site=$deployIisAppPath,username=$msDeployUserName,password=$msDeployPassword,authtype=basic
+        Write-Host "done."
+
         $compileSourcePath = Resolve-Path -Path ("$CIRoot\$compileSourcePath")
 
+        Write-Host "-------------"
         Write-Host "Deploying..."
 
         & $msDeploy `
@@ -69,14 +80,29 @@ task -name DeployWebApp -depends RestorePackages, BuildProject, MigrateDB, Creat
             -allowUntrusted:true `
             -dest:contentPath=$contentPathDes,computername=$MsDeployLocation/MsDeploy.axd?site=$deployIisAppPath,username=$msDeployUserName,password=$msDeployPassword,authtype=basic
         Write-Host "done."
-         
+    }
+}
+
+task -name DeployWebApp -depends RestorePackages, BuildProject, MigrateDB, CreatePackage, SyncWebFiles -action {
+
+    exec {
+
         $url = "http://$webAppHost"
         Write-Host "Deployment completed, requesting page '$url'..." -NoNewline 
-        Invoke-WebRequest -Uri $url | out-null
-        Write-Host "done." -NoNewline
-        Write-Host
-            
-        Write-Host "COMPLETE!"
+        
+        $response = Invoke-WebRequest -Uri $url
+
+        if ($response.StatusCode -eq 200)
+        {
+            Write-Host "done." -NoNewline
+            Write-Host
+                
+            Write-Host "COMPLETE!"
+        }
+        else 
+        {
+            Write-Error "Status code was: " + $response.StatusCode
+        }
     }
 }
 
