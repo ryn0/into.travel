@@ -3,7 +3,7 @@ using IntoTravel.Web.Models;
 using System.Linq;
 using System.Collections.Generic;
 using System;
-using IntoTravel.Core.Constants;
+using IntoTravel.Data.Constants;
 
 namespace IntoTravel.Web.Helpers
 {
@@ -25,19 +25,19 @@ namespace IntoTravel.Web.Helpers
 
                 PreviousName = previous?.Title,
                 PreviousUrlPath = (previous != null) ? UrlBuilder.BlogUrlPath(previous.Key, previous.BlogPublishDateTimeUtc) : null,
-                DefaultPreviousPhotoThumbCdnUrl = previousPhotoUrl?.PhotoThumbUrl.Replace(StringConstants.BlobPrefix, StringConstants.CdnPrefix),
+                DefaultPreviousPhotoThumbCdnUrl = ConvertBlobToCdnUrl(previousPhotoUrl?.PhotoThumbUrl),
 
                 NextName = next?.Title,
                 NextUrlPath = (next != null) ? UrlBuilder.BlogUrlPath(next.Key, next.BlogPublishDateTimeUtc) : null,
-                DefaultNextPhotoThumbCdnUrl = nextPhotoUrl?.PhotoThumbUrl.Replace(StringConstants.BlobPrefix, StringConstants.CdnPrefix),
+                DefaultNextPhotoThumbCdnUrl = ConvertBlobToCdnUrl(nextPhotoUrl?.PhotoThumbUrl),
 
                 Photos = AddBlogPhotos(current.Photos),
 
                 DefaultPhotoThumbUrl = defaultPhotoUrl?.PhotoThumbUrl,
-                DefaultPhotoThumbCdnUrl = defaultPhotoUrl?.PhotoThumbUrl.Replace(StringConstants.BlobPrefix, StringConstants.CdnPrefix),
+                DefaultPhotoThumbCdnUrl = ConvertBlobToCdnUrl(defaultPhotoUrl?.PhotoThumbUrl),
 
                 DefaultPhotoUrl = defaultPhotoUrl?.PhotoFullScreenUrl,
-                DefaultPhotoCdnUrl = defaultPhotoUrl?.PhotoFullScreenUrl.Replace(StringConstants.BlobPrefix, StringConstants.CdnPrefix),
+                DefaultPhotoCdnUrl = ConvertBlobToCdnUrl(defaultPhotoUrl?.PhotoFullScreenUrl),
 
                 MetaDescription = current.MetaDescription
             };
@@ -68,7 +68,6 @@ namespace IntoTravel.Web.Helpers
             return model;
         }
 
-
         private static List<BlogPhotoModel> AddBlogPhotos(List<BlogEntryPhoto> photos)
         {
             photos = photos.OrderBy(x => x.Rank).ToList();
@@ -85,17 +84,26 @@ namespace IntoTravel.Web.Helpers
                     Title = photo.Title,
 
                     PhotoUrl = photo.PhotoUrl,
-                    PhotoCdnUrl = photo.PhotoFullScreenUrl.Replace(StringConstants.BlobPrefix, StringConstants.CdnPrefix),
+                    PhotoCdnUrl = ConvertBlobToCdnUrl(photo?.PhotoFullScreenUrl),
 
                     PhotoThumbUrl = photo.PhotoThumbUrl,
-                    PhotoThumbCdnUrl = photo.PhotoThumbUrl.Replace(StringConstants.BlobPrefix, StringConstants.CdnPrefix),
+                    PhotoThumbCdnUrl = ConvertBlobToCdnUrl(photo?.PhotoThumbUrl),
 
                     PhotoPreviewUrl = photo.PhotoPreviewUrl,
-                    PhotoPreviewCdnUrl = photo.PhotoPreviewUrl.Replace(StringConstants.BlobPrefix, StringConstants.CdnPrefix),
+                    PhotoPreviewCdnUrl = ConvertBlobToCdnUrl(photo?.PhotoPreviewUrl),
                 });
             }
 
             return photoList;
+        }
+
+
+        private static string ConvertBlobToCdnUrl(string blobUrl)
+        {
+            if (string.IsNullOrWhiteSpace(blobUrl))
+                return null;
+
+            return blobUrl.Replace(StringConstants.BlobPrefix, StringConstants.CdnPrefix);
         }
 
 

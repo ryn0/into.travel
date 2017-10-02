@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace IntoTravel.Core.Utilities
@@ -13,15 +11,13 @@ namespace IntoTravel.Core.Utilities
             var pname = Regex.Replace(p, @"[\W_-[#]]+", " ");
 
             return pname.Trim().Replace("  ", " ").Replace(" ", "-").Replace("%", string.Empty).ToLower();
-
         }
-
 
         public static string GetFileNameFromUrl(this string url)
         {
             Uri uri = new Uri(url);
 
-            string filename = System.IO.Path.GetFileName(uri.LocalPath);
+            string filename = Path.GetFileName(uri.LocalPath);
 
             return filename;
         }
