@@ -53,18 +53,18 @@
 
     <link href="http://cdn.into.travel/sitecontent/css/intotravel_2017-09-17.min.css" rel="stylesheet" type="text/css" />
 
-    <noscript id="deferred-styles">
+    
         <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
         <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
-       
-        @if (!Context.Request.IsMobileBrowser())
-        {
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.1.1/ekko-lightbox.min.css" />
+     
+   
+
+
+    @if (!Context.Request.IsMobileBrowser())
+    {
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.1.1/ekko-lightbox.min.css" />
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.1.1/ekko-lightbox.min.css.map" />
-        }
-    </noscript>
-
-
+    }
 
     <!-- Temporary navbar container fix -->
     <style>
@@ -82,7 +82,7 @@
 
     @RenderSection("StylesHeader", required: false)
 
-    <script>
+    @*<script>
            var loadDeferredStyles = function () {
                var addStylesNode = document.getElementById("deferred-styles");
                var replacement = document.createElement("div");
@@ -94,7 +94,7 @@
                webkitRequestAnimationFrame || msRequestAnimationFrame;
            if (raf) raf(function () { window.setTimeout(loadDeferredStyles, 0); });
            else window.addEventListener('load', loadDeferredStyles);
-    </script>
+    </script>*@
 
 
     @RenderSection("ScriptsHeader", required: false)
