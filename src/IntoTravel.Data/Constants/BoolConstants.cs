@@ -2,6 +2,6 @@
 {
     public class BoolConstants
     {
-        public static bool EnableSsl = false;
+        public static bool EnableSsl = true;
     }
 }
