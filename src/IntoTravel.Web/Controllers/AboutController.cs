@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using IntoTravel.Data.Enums;
-using IntoTravel.Web.Services.Interfaces;
+using IntoTravel.Services.Interfaces;
+using IntoTravel.Web.Models;
 
 namespace IntoTravel.Web.Controllers
 {
@@ -12,14 +13,17 @@ namespace IntoTravel.Web.Controllers
             ICacheService contentSnippetHelper)
         {
             _contentSnippetHelper = contentSnippetHelper;
-           
         }
 
         public IActionResult Index()
         {
             var model = _contentSnippetHelper.GetSnippet(SnippetType.About);
 
-            return View(model);
+            return View(new ContentSnippetDisplayModel()
+            {
+                 Content = model.Content,
+                 SnippetType = model.SnippetType
+            });
         }
     }
 }

@@ -1,10 +1,10 @@
 ﻿using IntoTravel.Data.Enums;
 using IntoTravel.Data.Repositories.Interfaces;
-using IntoTravel.Web.Models;
-using IntoTravel.Web.Services.Interfaces;
+using IntoTravel.Services.Interfaces;
+using IntoTravel.Services.Models;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace IntoTravel.Web.Services.Implementations
+namespace IntoTravel.Services.Implementations
 {
     public class CacheService : ICacheService
     {
@@ -28,13 +28,13 @@ namespace IntoTravel.Web.Services.Implementations
             _memoryCache.Remove(cacheKey);
         }
 
-        public ContentSnippetDisplayModel GetSnippet(SnippetType snippetType)
+        public ContentSnippetModel GetSnippet(SnippetType snippetType)
         {
             var cacheKey = SnippetCachePrefix + snippetType.ToString();
 
-            if (_memoryCache.TryGetValue(cacheKey, out ContentSnippetDisplayModel snippet))
+            if (_memoryCache.TryGetValue(cacheKey, out ContentSnippetModel snippet))
             {
-                return new ContentSnippetDisplayModel()
+                return new ContentSnippetModel()
                 {
                     Content = snippet.Content,
                     SnippetType = snippet.SnippetType
@@ -45,9 +45,9 @@ namespace IntoTravel.Web.Services.Implementations
                 var dbModel = _contentSnippetRepository.Get(snippetType);
 
                 if (dbModel == null)
-                    return new ContentSnippetDisplayModel();
+                    return new ContentSnippetModel();
 
-                var model = new ContentSnippetDisplayModel()
+                var model = new ContentSnippetModel()
                 {
                     Content = dbModel.Content,
                     SnippetType = dbModel.SnippetType

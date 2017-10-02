@@ -4,7 +4,7 @@ using IntoTravel.Data.Repositories.Interfaces;
 using IntoTravel.Web.Models;
 using IntoTravel.Data.Models.Db;
 using System.Linq;
-using IntoTravel.Web.Services.Interfaces;
+using IntoTravel.Services.Interfaces;
 
 namespace IntoTravel.Web.Controllers
 {

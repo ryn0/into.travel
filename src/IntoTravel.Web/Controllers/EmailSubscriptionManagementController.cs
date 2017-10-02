@@ -2,7 +2,7 @@
 using IntoTravel.Web.Models;
 using IntoTravel.Data.Repositories.Interfaces;
 using System.Text;
-using IntoTravel.Web.Services.Interfaces;
+using IntoTravel.Services.Interfaces;
 
 namespace IntoTravel.Web.Controllers
 {

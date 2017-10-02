@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using IntoTravel.Data.Enums;
-using IntoTravel.Web.Services.Interfaces;
+using IntoTravel.Services.Interfaces;
 
 namespace IntoTravel.Web.Controllers
 {

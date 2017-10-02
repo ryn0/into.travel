@@ -8,11 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using IntoTravel.Data.DbContextInfo;
 using IntoTravel.Data.Repositories.Implementations;
 using IntoTravel.Data.Repositories.Interfaces;
-using IntoTravel.Web.Services.Interfaces;
-using IntoTravel.Web.Services.Implementations;
-using Microsoft.AspNetCore.Identity;
 using IntoTravel.Services.Interfaces;
 using IntoTravel.Services.Implementations;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Rewrite;
 using IntoTravel.Web.AppRules;
 

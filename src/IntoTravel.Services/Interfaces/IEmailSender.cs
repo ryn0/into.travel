@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace IntoTravel.Web.Services.Interfaces
+namespace IntoTravel.Services.Interfaces
 {
     public interface IEmailSender
     {

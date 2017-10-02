@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using IntoTravel.Data.Enums;
-using IntoTravel.Web.Services.Interfaces;
+using IntoTravel.Services.Interfaces;
+using IntoTravel.Web.Models;
 
 namespace IntoTravel.Web.Controllers
 {
@@ -18,7 +19,11 @@ namespace IntoTravel.Web.Controllers
         {
             var model = _contentSnippetHelper.GetSnippet(SnippetType.Gear);
 
-            return View(model);
+            return View(new ContentSnippetDisplayModel()
+            {
+                Content = model.Content,
+                SnippetType = model.SnippetType
+            });
         }
     }
 }

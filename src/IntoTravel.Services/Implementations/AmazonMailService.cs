@@ -1,13 +1,13 @@
 ﻿using Amazon;
 using Amazon.SimpleEmail;
 using Amazon.SimpleEmail.Model;
-using IntoTravel.Web.Services.Interfaces;
+using IntoTravel.Services.Interfaces;
 using log4net;
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace IntoTravel.Web.Services.Implementations
+namespace IntoTravel.Services.Implementations
 {
     public class AmazonMailService : IEmailSender
     {
