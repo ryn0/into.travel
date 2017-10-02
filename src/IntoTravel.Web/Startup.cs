@@ -79,6 +79,8 @@ namespace IntoTravel.Web
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
+            var options = new RewriteOptions();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -86,16 +88,17 @@ namespace IntoTravel.Web
             }
             else
             {
+                options.AddRedirectToHttps();
+
                 app.UseExceptionHandler("/Home/Error");
             }
 
             app.UseStaticFiles();
             app.UseAuthentication();
 
-            var options = new RewriteOptions();
             options.Rules.Add(new NonWwwRule());
 
-            app.UseRewriter(options); 
+            app.UseRewriter(options);
 
             app.UseMvc(routes =>
             {
