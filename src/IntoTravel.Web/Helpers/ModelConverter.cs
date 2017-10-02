@@ -36,8 +36,8 @@ namespace IntoTravel.Web.Helpers
                 DefaultPhotoThumbUrl = defaultPhotoUrl?.PhotoThumbUrl,
                 DefaultPhotoThumbCdnUrl = ConvertBlobToCdnUrl(defaultPhotoUrl?.PhotoThumbUrl),
 
-                DefaultPhotoUrl = defaultPhotoUrl?.PhotoFullScreenUrl,
-                DefaultPhotoCdnUrl = ConvertBlobToCdnUrl(defaultPhotoUrl?.PhotoFullScreenUrl),
+                DefaultPhotoUrl = defaultPhotoUrl?.PhotoPreviewUrl,
+                DefaultPhotoCdnUrl = ConvertBlobToCdnUrl(defaultPhotoUrl?.PhotoPreviewUrl),
 
                 MetaDescription = current.MetaDescription
             };
