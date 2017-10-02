@@ -103,7 +103,14 @@ namespace IntoTravel.Web.Helpers
             if (string.IsNullOrWhiteSpace(blobUrl))
                 return null;
 
-            return blobUrl.Replace(StringConstants.BlobPrefix, StringConstants.CdnPrefix);
+            if (BoolConstants.EnableSsl)
+            {
+                return blobUrl.Replace(StringConstants.BlobPrefix, StringConstants.CdnHttpsPrefix);
+            }
+            else
+            {
+                return blobUrl.Replace(StringConstants.BlobPrefix, StringConstants.CdnHttpPrefix);
+            }
         }
 
 

@@ -13,6 +13,7 @@ using IntoTravel.Services.Implementations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Rewrite;
 using IntoTravel.Web.AppRules;
+using IntoTravel.Data.Constants;
 
 namespace IntoTravel.Web
 {
@@ -88,7 +89,10 @@ namespace IntoTravel.Web
             }
             else
             {
-                options.AddRedirectToHttps();
+                if (BoolConstants.EnableSsl)
+                {
+                    options.AddRedirectToHttps();
+                }
 
                 app.UseExceptionHandler("/Home/Error");
             }
