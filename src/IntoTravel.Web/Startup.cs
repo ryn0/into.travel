@@ -91,7 +91,7 @@ namespace IntoTravel.Web
             {
                 if (BoolConstants.EnableSsl)
                 {
-                    options.AddRedirectToHttps();
+                    options.AddRedirectToHttps(301);
                 }
 
                 app.UseExceptionHandler("/Home/Error");
