@@ -1,7 +1,7 @@
 ﻿@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
 @using IntoTravel.Web.Helpers
 @{ if (ViewData["HeaderPhotoUrl"] == null) {
-        ViewData["HeaderPhotoUrl"] = "https://cdn.into.travel/sitecontent/images/home-bg-min.jpg"; // Url.Content("~/img/home-bg.jpg");
+        ViewData["HeaderPhotoUrl"] = "//cdn.into.travel/sitecontent/images/home-bg-min.jpg"; // Url.Content("~/img/home-bg.jpg");
     }
 }
 <!DOCTYPE html>
@@ -51,19 +51,19 @@
      <link href="~/css/clean-blog.min.css" rel="stylesheet">
     <link href="~/css/site.css" rel="stylesheet">*@
 
-    <link href="https://cdn.into.travel/sitecontent/css/intotravel_2017-10-02.min.css" rel="stylesheet" type="text/css" />
+    <link href="//cdn.into.travel/sitecontent/css/intotravel_2017-10-02.min.css" rel="stylesheet" type="text/css" />
 
     
-        <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-        <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+        <link href='//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+        <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
      
    
 
 
     @if (!Context.Request.IsMobileBrowser())
     {
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.1.1/ekko-lightbox.min.css" />
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.1.1/ekko-lightbox.min.css.map" />
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.1.1/ekko-lightbox.min.css" />
+            <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.1.1/ekko-lightbox.min.css.map" />
     }
 
     <!-- Temporary navbar container fix -->
@@ -261,12 +261,12 @@
     
     <script src="~/js/clean-blog.min.js"></script>*@
 
-    <script src="https://cdn.into.travel/sitecontent/scripts/intotravel_2017-10-02.min.js"></script>
+    <script src="//cdn.into.travel/sitecontent/scripts/intotravel_2017-10-02.min.js"></script>
 
     @if (!Context.Request.IsMobileBrowser())
     {
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.1.1/ekko-lightbox.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.1.1/ekko-lightbox.min.js.map"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.1.1/ekko-lightbox.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.1.1/ekko-lightbox.min.js.map"></script>
 
 
         <script>

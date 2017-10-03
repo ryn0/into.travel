@@ -8,7 +8,6 @@
                             DefaultPageDescription = "A travel photography blog created by Ryan.";
 
         public const string BlobPrefix = "https://intotravel.blob.core.windows.net";
-        public const string CdnHttpPrefix = "http://cdn.into.travel",
-                            CdnHttpsPrefix = "https://cdn.into.travel";
+        public const string CdnPrefix = "//cdn.into.travel";
     }
 }

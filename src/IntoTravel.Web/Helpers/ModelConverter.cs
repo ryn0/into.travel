@@ -103,16 +103,8 @@ namespace IntoTravel.Web.Helpers
             if (string.IsNullOrWhiteSpace(blobUrl))
                 return null;
 
-            if (BoolConstants.EnableSsl)
-            {
-                return blobUrl.Replace(StringConstants.BlobPrefix, StringConstants.CdnHttpsPrefix);
-            }
-            else
-            {
-                return blobUrl.Replace(StringConstants.BlobPrefix, StringConstants.CdnHttpPrefix);
-            }
+            return blobUrl.Replace(StringConstants.BlobPrefix, StringConstants.CdnPrefix);
         }
-
 
         public static BlogEntryDisplayListModel BlogPage(List<BlogEntry> blogEntries, int pageNumber, int amountPerPage, int total)
         {
