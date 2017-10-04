@@ -136,7 +136,7 @@
                     }
 
                   
-                    @if (Model.PageCount > 1 && Model.PageCount == Model.CurrentPageNumber)
+                    @if (Model.PageCount > 1 && Model.PageCount == Model.CurrentPageNumber && Model.CurrentPageNumber != 2)
                     {
 
 
@@ -152,6 +152,26 @@
  
                                 <a class="btn btn-secondary float-left" href="~/@pagePathPrefix/@(Model.CurrentPageNumber - 1)">&larr; Newer Posts</a>
                              
+                        }
+                    }
+
+
+                    @if (Model.PageCount > 1 && Model.PageCount == Model.CurrentPageNumber && Model.CurrentPageNumber == 2)
+                    {
+
+
+                        if (ViewBag.TagKeyword != null)
+                        {
+
+
+                            <a class="btn btn-secondary float-left" href="~/tag/@ViewBag.TagKey">&larr; Newer Posts about: @ViewBag.TagKeyword</a>
+
+                        }
+                        else
+                        {
+
+                            <a class="btn btn-secondary float-left " href="~/">&larr; Newer Posts</a>
+
                         }
                     }
 
