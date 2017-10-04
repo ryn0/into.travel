@@ -32,6 +32,9 @@ namespace IntoTravel.Web.Controllers
         [HttpGet]
         public IActionResult Page(string keyword, int pageNumber = 1)
         {
+            if (pageNumber == 1)
+                return RedirectPermanent(string.Format("/tag/{0}", keyword));
+
             var model = SetModel(keyword, pageNumber);
 
             return View("BlogList", model);

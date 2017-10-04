@@ -117,34 +117,87 @@
                     pagePathPrefix = "tag/" + ViewBag.TagKey + "/page";
                 }
 
-                if (Model.PageCount > 1 && Model.CurrentPageNumber == 1)
-                {
-                    <div class="clearfix">
-                        <a class="btn btn-secondary float-right" href="~/@pagePathPrefix/@(Model.CurrentPageNumber + 1)">Older Posts &rarr;</a>
-                    </div>
-
-                }
-                else if (Model.PageCount > 1 && Model.PageCount == Model.CurrentPageNumber)
-                {
-                    <div class="clearfix">
-                        <a class="btn btn-secondary float-left" href="~/@pagePathPrefix/@(Model.CurrentPageNumber - 1)">&larr; Newer Posts</a>
-                    </div>
-                }
-                else if (Model.PageCount > 1 && Model.CurrentPageNumber > 1 && Model.CurrentPageNumber < Model.PageCount)
-                {
-                    <div class="clearfix">
-                        @if (Model.CurrentPageNumber == 2)
+                <div class="clearfix">
+                    @if (Model.PageCount > 1 && Model.CurrentPageNumber != Model.PageCount)
+                    {
+                        if (ViewBag.TagKeyword != null)
                         {
-                            <a class="btn btn-secondary float-left " href="~/">&larr; Newer Posts</a>
+
+                            <a class="btn btn-secondary float-right" href="~/@pagePathPrefix/@(Model.CurrentPageNumber + 1)">Older Posts about: @ViewBag.TagKeyword &rarr;</a>
+
                         }
                         else
                         {
-                            <a class="btn btn-secondary float-left" href="~/@pagePathPrefix/@(Model.CurrentPageNumber - 1)">&larr; Newer Posts</a>
+
+                            <a class="btn btn-secondary float-right" href="~/@pagePathPrefix/@(Model.CurrentPageNumber + 1)">Older Posts    &rarr;</a>
+
                         }
 
-                        <a class="btn btn-secondary float-right" href="~/@pagePathPrefix/@(Model.CurrentPageNumber + 1)">Older Posts &rarr;</a>
-                    </div>
-                }
+                    }
+
+                  
+                    @if (Model.PageCount > 1 && Model.PageCount == Model.CurrentPageNumber)
+                    {
+
+
+                        if (ViewBag.TagKeyword != null)
+                        {
+                           
+
+                                <a class="btn btn-secondary float-left" href="~/@pagePathPrefix/@(Model.CurrentPageNumber - 1)">&larr; Newer Posts about: @ViewBag.TagKeyword</a>
+                         
+                        }
+                        else
+                        {
+ 
+                                <a class="btn btn-secondary float-left" href="~/@pagePathPrefix/@(Model.CurrentPageNumber - 1)">&larr; Newer Posts</a>
+                             
+                        }
+                    }
+
+        
+                    @if (Model.PageCount > 1 && Model.CurrentPageNumber > 2 && Model.CurrentPageNumber != Model.PageCount)
+                    {
+
+
+                        if (ViewBag.TagKeyword != null)
+                        {
+                         
+                            <a class="btn btn-secondary float-left" href="~/@pagePathPrefix/@(Model.CurrentPageNumber - 1)">&larr; Newer Posts about: @ViewBag.TagKeyword</a>
+
+                        }
+                        else
+                        {
+
+                            <a class="btn btn-secondary float-left " href="~/@pagePathPrefix/@(Model.CurrentPageNumber - 1)">&larr; Newer Posts</a>
+                        }
+                    }
+
+
+
+@if (Model.PageCount > 1 && Model.CurrentPageNumber == 2 && Model.CurrentPageNumber != Model.PageCount)
+{
+
+
+    if (ViewBag.TagKeyword != null)
+    {
+        
+        <a class="btn btn-secondary float-left" href="~/tag/@ViewBag.TagKey">&larr; Newer Posts about: @ViewBag.TagKeyword</a>
+
+    }
+    else
+    {
+
+        <a class="btn btn-secondary float-left " href="~/">&larr; Newer Posts</a>
+    }
+}
+
+
+ 
+                
+
+                </div>
+
             }
         </div>
     </div>
