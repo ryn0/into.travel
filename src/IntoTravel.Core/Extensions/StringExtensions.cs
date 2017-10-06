@@ -8,9 +8,17 @@ namespace IntoTravel.Core.Utilities
     {
         public static string UrlKey(this string p)
         {
-            var pname = Regex.Replace(p, @"[\W_-[#]]+", " ");
+            var replaceRegex = Regex.Replace(p, @"[\W_-[#]]+", " ");
 
-            return pname.Trim().Replace("  ", " ").Replace(" ", "-").Replace("%", string.Empty).ToLower();
+            var beforeTrim = replaceRegex.Trim().Replace("  ", " ").Replace(" ", "-").Replace("%", string.Empty).ToLowerInvariant();
+
+            if (beforeTrim.EndsWith("#"))
+                beforeTrim = beforeTrim.TrimEnd('#');
+
+            if (beforeTrim.StartsWith("#"))
+                beforeTrim = beforeTrim.TrimStart('#');
+
+            return beforeTrim;
         }
 
         public static string GetFileNameFromUrl(this string url)

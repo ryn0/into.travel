@@ -13,6 +13,7 @@ properties {
    # Project paths
    $databaseProjectSourcePath   = "..\src\IntoTravel.Data"
    $webProjectSourcePath        = "..\src\IntoTravel.Web"
+   $testProjectSourcePath        = "..\IntoTravel.Core.UnitTests"
    $compileSourcePath           = "..\src\IntoTravel.Web\bin\output"
 
    # Credentials
@@ -54,6 +55,15 @@ task -name CreatePackage {
     }
 }
 
+task -name RunUnitTests {
+
+    exec {
+        $path = Resolve-Path -Path $testProjectSourcePath
+        Write-Host "Test project: $path"
+        dotnet test $path
+    }
+}
+
 task -name SyncWebFiles {
 
     exec {
@@ -83,7 +93,7 @@ task -name SyncWebFiles {
     }
 }
 
-task -name DeployWebApp -depends RestorePackages, BuildProject, MigrateDB, CreatePackage, SyncWebFiles -action {
+task -name DeployWebApp -depends RestorePackages, BuildProject, RunUnitTests, MigrateDB, CreatePackage, SyncWebFiles -action {
 
     exec {
 

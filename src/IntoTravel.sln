@@ -14,7 +14,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Info", "Info", "{B12E401E-E
 		..\ReadMe.txt = ..\ReadMe.txt
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntoTravel.Services", "IntoTravel.Services\IntoTravel.Services.csproj", "{2D6058AF-5AFC-4599-91D4-9C25A26404D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntoTravel.Services", "IntoTravel.Services\IntoTravel.Services.csproj", "{2D6058AF-5AFC-4599-91D4-9C25A26404D6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{D59CF966-1050-4FDE-92FF-15D79FC9FEA3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntoTravel.Core.UnitTests", "IntoTravel.Core.UnitTests\IntoTravel.Core.UnitTests.csproj", "{7D390706-6378-4ECA-BE07-368AC982A535}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,9 +42,16 @@ Global
 		{2D6058AF-5AFC-4599-91D4-9C25A26404D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D6058AF-5AFC-4599-91D4-9C25A26404D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D6058AF-5AFC-4599-91D4-9C25A26404D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D390706-6378-4ECA-BE07-368AC982A535}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D390706-6378-4ECA-BE07-368AC982A535}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D390706-6378-4ECA-BE07-368AC982A535}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D390706-6378-4ECA-BE07-368AC982A535}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7D390706-6378-4ECA-BE07-368AC982A535} = {D59CF966-1050-4FDE-92FF-15D79FC9FEA3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0F0FFF7F-D598-4DF8-A676-74D603CF86B0}
