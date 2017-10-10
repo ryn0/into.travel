@@ -326,6 +326,8 @@ namespace IntoTravel.Web.Controllers
 
             await _siteFilesRepository.DeleteFileAsync(entry.PhotoUrl);
             await _siteFilesRepository.DeleteFileAsync(entry.PhotoThumbUrl);
+            await _siteFilesRepository.DeleteFileAsync(entry.PhotoFullScreenUrl);
+            await _siteFilesRepository.DeleteFileAsync(entry.PhotoPreviewUrl);
 
             _blogEntryPhotoRepository.Delete(blogEntryPhotoId);
 
