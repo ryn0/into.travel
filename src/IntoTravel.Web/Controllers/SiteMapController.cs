@@ -24,6 +24,9 @@ namespace IntoTravel.Web.Controllers
 
             foreach (var blog in allBlogs)
             {
+                if (!blog.IsLive)
+                    continue;
+
                 var url = new Uri(HttpContext.Request.Scheme +
                                  "://" +
                                  HttpContext.Request.Host.ToUriComponent() +
