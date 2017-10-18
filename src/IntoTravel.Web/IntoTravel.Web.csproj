@@ -38,7 +38,6 @@
   <ItemGroup>
     <None Include="log4net.config" />
     <None Include="Views\Shared\Page404.cshtml" />
-    <None Include="wwwroot\robots.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IntoTravel.Core\IntoTravel.Core.csproj" />

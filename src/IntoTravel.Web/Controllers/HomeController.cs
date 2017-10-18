@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using IntoTravel.Web.Helpers;
 using IntoTravel.Data.Repositories.Interfaces;
+using System.Text;
 
 namespace IntoTravel.Web.Controllers
 {
@@ -27,6 +28,18 @@ namespace IntoTravel.Web.Controllers
             ViewData["MetaDescription"] = Data.Constants.StringConstants.DefaultPageDescription;
 
             return View("BlogList", model);
+        }
+
+        [Route("robots.txt")]
+        [HttpGet]
+        public ContentResult RobotsTxt()
+        {
+            var sb = new StringBuilder();
+
+            sb.AppendLine("User-agent: *");
+            sb.AppendLine("Disallow: ");
+
+            return Content(sb.ToString());
         }
 
     }
