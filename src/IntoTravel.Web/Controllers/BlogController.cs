@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using IntoTravel.Data.Repositories.Interfaces;
 using IntoTravel.Web.Helpers;
+using Microsoft.Extensions.Caching.Memory;
+using IntoTravel.Web.Models;
 
 namespace IntoTravel.Web.Controllers
 {
@@ -9,31 +11,49 @@ namespace IntoTravel.Web.Controllers
     {
         const int AmountPerPage = 10;
         private readonly IBlogEntryRepository _blogEntryRepository;
+        private readonly IMemoryCache _memoryCache;
 
-        public BlogController(IBlogEntryRepository blogEntryRepository)
+        public BlogController(
+            IBlogEntryRepository blogEntryRepository,
+            IMemoryCache memoryCache)
         {
             _blogEntryRepository = blogEntryRepository;
+            _memoryCache = memoryCache;
         }
 
         [Route("blog/{year}/{month}/{day}/{key}")]
         [HttpGet]
         public IActionResult Display(string year, string month, string day, string key)
         {
-            var model = _blogEntryRepository.Get(key);
+            var cacheKey = $"{year}/{month}/{day}/{key}";
+            BlogEntryDisplayModel model;
+            var cachedPage = _memoryCache.Get(cacheKey);
 
-            if (model == null)
+            if (cachedPage == null)
             {
-                Response.StatusCode = 404;
+                var dbModel = _blogEntryRepository.Get(key);
 
-                return View("Page404");
+                if (dbModel == null)
+                {
+                    Response.StatusCode = 404;
+
+                    return View("Page404");
+                }
+
+                ValidateRequest(year, month, day, dbModel);
+
+                var previous = _blogEntryRepository.GetPreviousEntry(dbModel.BlogPublishDateTimeUtc);
+                var next = _blogEntryRepository.GetNextEntry(dbModel.BlogPublishDateTimeUtc);
+                model = ModelConverter.ConvertToBlogDisplayModel(dbModel, previous, next);
+
+                _memoryCache.Set(cacheKey, model, DateTime.UtcNow.AddMinutes(10));
+            }
+            else
+            {
+                model = (BlogEntryDisplayModel)cachedPage;
             }
 
-            ValidateRequest(year, month, day, model);
-
-            var previous = _blogEntryRepository.GetPreviousEntry(model.BlogPublishDateTimeUtc);
-            var next = _blogEntryRepository.GetNextEntry(model.BlogPublishDateTimeUtc);
-
-            return View("DisplayBlog", ModelConverter.ConvertToBlogDisplayModel(model, previous, next));
+            return View("DisplayBlog", model);
         }
 
         [Route("blog/page/{pageNumber}")]

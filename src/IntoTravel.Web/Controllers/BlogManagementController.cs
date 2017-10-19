@@ -15,6 +15,7 @@ using System.Drawing.Imaging;
 using IntoTravel.Web.Helpers;
 using System.Collections;
 using IntoTravel.Services.Interfaces;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace IntoTravel.Web.Controllers
 {
@@ -28,7 +29,8 @@ namespace IntoTravel.Web.Controllers
         private readonly IBlogEntryRepository _blogEntryRepository;
         private readonly ISiteFilesRepository _siteFilesRepository;
         private readonly IImageUploaderService _imageUploaderService;
-        
+        private readonly IMemoryCache _memoryCache;
+
 
         public BlogManagementController(
             IBlogEntryPhotoRepository blogEntryPhotoRepository,
@@ -36,7 +38,8 @@ namespace IntoTravel.Web.Controllers
             ITagRepository tagRepository,
             IBlogEntryRepository blogEntryRepository, 
             ISiteFilesRepository siteFilesRepository,
-            IImageUploaderService imageUploaderService)
+            IImageUploaderService imageUploaderService,
+            IMemoryCache memoryCache)
         {
             _blogEntryPhotoRepository = blogEntryPhotoRepository;
             _blogEntryTagRepository = blogEntryTagRepository;
@@ -44,6 +47,7 @@ namespace IntoTravel.Web.Controllers
             _blogEntryRepository = blogEntryRepository;
             _siteFilesRepository = siteFilesRepository;
             _imageUploaderService = imageUploaderService;
+            _memoryCache = memoryCache;
         }
 
         public IActionResult Index(int pageNumber = 1)
@@ -302,6 +306,8 @@ namespace IntoTravel.Web.Controllers
                 }
 
                 SetBlogTags(model, dbModel);
+
+                _memoryCache.Remove($"{dbModel.BlogPublishDateTimeUtc.Year}/{dbModel.BlogPublishDateTimeUtc.Month}/{dbModel.BlogPublishDateTimeUtc.Day}/{dbModel.Key}");
 
                 return RedirectToAction("Index");
             }
