@@ -59,6 +59,10 @@ namespace IntoTravel.Data.DbContextInfo
                 .WithMany(c => c.BlogEntryTags)
                 .HasForeignKey(bc => bc.TagId);
 
+            builder.Entity<Tag>()
+                .HasIndex(p => p.Key)
+                .IsUnique();
+
             base.OnModelCreating(builder);
         }
 
