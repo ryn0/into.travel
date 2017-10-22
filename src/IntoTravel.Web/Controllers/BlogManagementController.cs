@@ -117,13 +117,13 @@ namespace IntoTravel.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> DeleteBlogPhotoAsync(int blogEntryPhotoId)
         {
-            var entry = _blogEntryPhotoRepository.Get(blogEntryPhotoId);
+            var entry = _blogEntryPhotoRepository.Get(blogEntryPhotoId);           
+            await DeleteBlogPhoto(blogEntryPhotoId);
 
             var allBlogPhotos = _blogEntryPhotoRepository.GetBlogPhotos(entry.BlogEntryId)
-                                                         .Where(x => x.BlogEntryPhotoId != blogEntryPhotoId)
-                                                         .OrderBy(x => x.Rank);
+                                                        .Where(x => x.BlogEntryPhotoId != blogEntryPhotoId)
+                                                        .OrderBy(x => x.Rank);
 
-            await DeleteBlogPhoto(blogEntryPhotoId);
             int newRank = 1;
 
             foreach(var photo in allBlogPhotos)
