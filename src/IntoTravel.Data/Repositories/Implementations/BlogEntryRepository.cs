@@ -155,7 +155,7 @@ namespace IntoTravel.Data.Repositories.Implementations
 
                 total = Context.BlogEntry.Where(x => x.IsLive == true &&
                                                x.BlogPublishDateTimeUtc < now &&
-                                               (x.BlogEntryTags.FirstOrDefault(y => y.Tag.Name == tagKey) != null)).Count();
+                                               (x.BlogEntryTags.FirstOrDefault(y => y.Tag.Key == tagKey) != null)).Count();
 
                 return model;
             }
