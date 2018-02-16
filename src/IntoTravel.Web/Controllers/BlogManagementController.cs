@@ -280,7 +280,9 @@ namespace IntoTravel.Web.Controllers
         {
             var entry = _blogEntryPhotoRepository.Get(blogEntryPhotoId);
             await RotateImage(entry.BlogEntryId, entry.PhotoUrl);
+            await RotateImage(entry.BlogEntryId, entry.PhotoPreviewUrl);
             await RotateImage(entry.BlogEntryId, entry.PhotoThumbUrl);
+            await RotateImage(entry.BlogEntryId, entry.PhotoFullScreenUrl);
 
             return RedirectToAction("Edit", new { blogEntryId = entry.BlogEntryId });
         }
